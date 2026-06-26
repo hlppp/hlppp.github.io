@@ -88,7 +88,9 @@ body {
   padding: 14px 24px;
   cursor: pointer;
   position: relative;
-  transition: color 0.25s ease, padding 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transition:
+    color 0.25s ease,
+    padding 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   user-select: none;
   white-space: nowrap;
   display: flex;
@@ -130,7 +132,9 @@ body {
   font-size: 15px;
   font-weight: 400;
   color: rgba(255, 255, 255, 0.55);
-  transition: color 0.25s ease, opacity 0.2s ease;
+  transition:
+    color 0.25s ease,
+    opacity 0.2s ease;
 }
 .sidebar.collapsed .nav-title {
   opacity: 0;
@@ -157,12 +161,14 @@ body {
   position: absolute;
   inset: 0;
   opacity: 0;
+  pointer-events: none;
   transition: opacity 0.7s ease;
   display: flex;
   align-items: flex-end;
 }
 .slide.visible {
   opacity: 1;
+  pointer-events: auto;
 }
 
 /* ── SLIDE 1 — GAME DEV ───────────────────────────────────────── */
@@ -182,7 +188,11 @@ body {
   width: 300px;
   height: 300px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(80, 40, 255, 0.25) 0%, transparent 70%);
+  background: radial-gradient(
+    circle,
+    rgba(80, 40, 255, 0.25) 0%,
+    transparent 70%
+  );
   top: -80px;
   right: 80px;
 }
@@ -380,7 +390,11 @@ body {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.03) 0%, transparent 60%);
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.03) 0%,
+    transparent 60%
+  );
 }
 .play-icon {
   position: absolute;
@@ -472,7 +486,10 @@ body {
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.2);
   width: 5px;
-  transition: width 0.3s ease, border-radius 0.3s ease, background 0.3s ease;
+  transition:
+    width 0.3s ease,
+    border-radius 0.3s ease,
+    background 0.3s ease;
 }
 .dot.active::after {
   background: rgba(255, 255, 255, 0.8);
@@ -512,7 +529,9 @@ body {
   gap: 6px;
   cursor: pointer;
   opacity: 0;
-  transition: opacity 0.3s, color 0.2s;
+  transition:
+    opacity 0.3s,
+    color 0.2s;
 }
 .enter-arrow.show {
   opacity: 1;
@@ -630,7 +649,9 @@ body {
 .project-photo img {
   width: 100%;
   display: block;
-  transition: transform 0.35s ease, opacity 0.2s ease;
+  transition:
+    transform 0.35s ease,
+    opacity 0.2s ease;
 }
 .project-photo:hover img {
   opacity: 0.82;
@@ -672,8 +693,12 @@ body {
   font-family: "Space Grotesk", sans-serif;
   user-select: none;
 }
-.lb-btn:hover { color: rgba(255, 255, 255, 0.8); }
-.lb-btn:focus { outline: none; }
+.lb-btn:hover {
+  color: rgba(255, 255, 255, 0.8);
+}
+.lb-btn:focus {
+  outline: none;
+}
 
 .lb-close {
   top: 22px;

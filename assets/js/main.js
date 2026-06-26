@@ -43,11 +43,15 @@ function next() {
 setInterval(next, 4000);
 
 // ── SIDEBAR NAV ───────────────────────────────────────────────────
+let expandedByHover = false;
+let holding = false;       // true for 3s after hover-expand, slide stays put
+let holdTimeout = null;
+
 navItems.forEach((item) => {
   const idx = parseInt(item.dataset.index);
 
   item.addEventListener("mouseenter", () => {
-    if (locked) return;
+    if (locked || holding) return;
     paused = true;
     pausedLabel.classList.add("show");
     enterArrow.classList.add("show");
@@ -55,7 +59,7 @@ navItems.forEach((item) => {
   });
 
   item.addEventListener("mouseleave", () => {
-    if (locked) return;
+    if (locked || holding) return;
     paused = false;
     pausedLabel.classList.remove("show");
     enterArrow.classList.remove("show");
@@ -63,6 +67,9 @@ navItems.forEach((item) => {
 
   // Click → enter section, collapse sidebar
   item.addEventListener("click", () => {
+    expandedByHover = false;
+    holding = false;
+    clearTimeout(holdTimeout);
     goTo(idx);
     locked = true;
     paused = false;
@@ -72,11 +79,27 @@ navItems.forEach((item) => {
   });
 });
 
-// Click site-name header to expand sidebar
-sidebarToggle.addEventListener("click", () => {
-  if (!sidebar.classList.contains("collapsed")) return;
+// Hover collapsed sidebar → expand; hold current slide for 3s before
+// allowing hover-previews so the user isn't disoriented by a quick change
+sidebar.addEventListener("mouseenter", () => {
+  if (!locked) return;
   sidebar.classList.remove("collapsed");
   locked = false;
+  expandedByHover = true;
+  holding = true;
+  holdTimeout = setTimeout(() => { holding = false; }, 3000);
+});
+
+sidebar.addEventListener("mouseleave", () => {
+  if (!expandedByHover) return;
+  expandedByHover = false;
+  holding = false;
+  clearTimeout(holdTimeout);
+  sidebar.classList.add("collapsed");
+  locked = true;
+  paused = false;
+  pausedLabel.classList.remove("show");
+  enterArrow.classList.remove("show");
 });
 
 // ── PROGRESS DOTS ─────────────────────────────────────────────────
