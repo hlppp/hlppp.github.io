@@ -61,23 +61,58 @@
     ============================================================ */
       .sidebar {
         width: 200px;
-        flex-shrink: 0; /* don't shrink when window is small */
+        flex-shrink: 0;
         border-right: 0.5px solid rgba(255, 255, 255, 0.1);
         display: flex;
         flex-direction: column;
         padding: 32px 0;
         z-index: 10;
+        overflow: hidden;
+        transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .sidebar.collapsed {
+        width: 48px;
       }
 
       /* Your name / site title at the top of the sidebar */
       .site-name {
         font-size: 11px;
-        letter-spacing: 0.18em; /* wide tracking for a label feel */
+        letter-spacing: 0.18em;
         color: rgba(255, 255, 255, 0.3);
         text-transform: uppercase;
         padding: 0 24px 28px;
         border-bottom: 0.5px solid rgba(255, 255, 255, 0.07);
         margin-bottom: 24px;
+        position: relative;
+        white-space: nowrap;
+      }
+      .site-name-text {
+        transition: opacity 0.15s ease;
+      }
+      .sidebar.collapsed .site-name {
+        cursor: pointer;
+      }
+      .sidebar.collapsed .site-name:hover {
+        background: rgba(255, 255, 255, 0.03);
+      }
+      .sidebar.collapsed .site-name-text {
+        opacity: 0;
+      }
+      /* expand arrow shown when sidebar is collapsed */
+      .site-expand-hint {
+        position: absolute;
+        left: 50%;
+        top: 0;
+        transform: translateX(-50%);
+        font-size: 14px;
+        color: rgba(255, 255, 255, 0.25);
+        opacity: 0;
+        transition: opacity 0.15s ease 0.15s;
+        letter-spacing: 0;
+        pointer-events: none;
+      }
+      .sidebar.collapsed .site-expand-hint {
+        opacity: 1;
       }
 
       /* Wrapper that holds all 4 nav items */
@@ -93,11 +128,18 @@
         padding: 14px 24px;
         cursor: pointer;
         position: relative;
-        transition: color 0.25s ease;
+        transition: color 0.25s ease, padding 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         user-select: none;
+        white-space: nowrap;
+        display: flex;
+        flex-direction: column;
       }
       .nav-item:focus {
         outline: none;
+      }
+      .sidebar.collapsed .nav-item {
+        padding: 14px 0;
+        align-items: center;
       }
 
       /* The white left-edge indicator bar.
@@ -133,7 +175,11 @@
         font-size: 15px;
         font-weight: 400;
         color: rgba(255, 255, 255, 0.55);
-        transition: color 0.25s ease;
+        transition: color 0.25s ease, opacity 0.2s ease;
+      }
+      .sidebar.collapsed .nav-title {
+        opacity: 0;
+        pointer-events: none;
       }
 
       /* Brighten both label and title on hover / active state */
@@ -664,7 +710,10 @@
   ============================================================ -->
     <div class="site" id="site">
       <nav class="sidebar" id="sidebar">
-        <div class="site-name">Hanlin</div>
+        <div class="site-name" id="sidebarToggle">
+          <span class="site-name-text">Hanlin</span>
+          <span class="site-expand-hint">›</span>
+        </div>
         <div class="nav-items">
           <div class="nav-item" data-index="0">
             <div class="nav-label">01</div>
@@ -826,13 +875,15 @@
       // ELEMENT REFERENCES
       // Grab all the DOM elements we need to manipulate.
       // ============================================================
-      const slides = document.querySelectorAll(".slide"); // all 4 slide divs
-      const dots = document.querySelectorAll(".dot"); // 4 progress dots
-      const navItems = document.querySelectorAll(".nav-item"); // 4 sidebar items
-      const pausedLabel = document.getElementById("pausedLabel"); // "已暂停" text
-      const enterArrow = document.getElementById("enterArrow"); // "进入 →" link
-      const hoverMsg = document.getElementById("hoverMsg"); // top-right hint
-      const bottomBar = document.getElementById("bottomBar"); // bottom strip
+      const slides = document.querySelectorAll(".slide");
+      const dots = document.querySelectorAll(".dot");
+      const navItems = document.querySelectorAll(".nav-item");
+      const pausedLabel = document.getElementById("pausedLabel");
+      const enterArrow = document.getElementById("enterArrow");
+      const hoverMsg = document.getElementById("hoverMsg");
+      const bottomBar = document.getElementById("bottomBar");
+      const sidebar = document.getElementById("sidebar");
+      const sidebarToggle = document.getElementById("sidebarToggle");
 
       // ============================================================
       // STATE
@@ -846,6 +897,7 @@
       const lightSlides = [1, 2];
       let current = 0;
       let paused = false;
+      let locked = false; // true when sidebar is collapsed (in a section)
 
       // ============================================================
       // goTo(index)
@@ -883,7 +935,7 @@
       // To change the speed, edit the number in setInterval().
       // ============================================================
       function next() {
-        if (!paused) goTo((current + 1) % 4); // % 4 wraps back to 0 after slide 3
+        if (!paused && !locked) goTo((current + 1) % 4);
       }
       setInterval(next, 4000); // ← change this number to adjust autoplay speed (ms)
 
@@ -893,18 +945,35 @@
       // mouseleave → resume autoplay, hide the labels
       // ============================================================
       navItems.forEach((item) => {
-        const idx = parseInt(item.dataset.index); // reads data-index="0" etc.
+        const idx = parseInt(item.dataset.index);
         item.addEventListener("mouseenter", () => {
+          if (locked) return;
           paused = true;
           pausedLabel.classList.add("show");
           enterArrow.classList.add("show");
           goTo(idx);
         });
         item.addEventListener("mouseleave", () => {
+          if (locked) return;
           paused = false;
           pausedLabel.classList.remove("show");
           enterArrow.classList.remove("show");
         });
+        item.addEventListener("click", () => {
+          goTo(idx);
+          locked = true;
+          paused = false;
+          pausedLabel.classList.remove("show");
+          enterArrow.classList.remove("show");
+          sidebar.classList.add("collapsed");
+        });
+      });
+
+      // Click the site-name header to expand the sidebar again
+      sidebarToggle.addEventListener("click", () => {
+        if (!sidebar.classList.contains("collapsed")) return;
+        sidebar.classList.remove("collapsed");
+        locked = false;
       });
 
       // ============================================================
