@@ -173,8 +173,13 @@ body {
 
 /* ── SLIDE 1 — GAME DEV ───────────────────────────────────────── */
 @keyframes blink {
-  0%, 100% { opacity: 1; }
-  50%       { opacity: 0; }
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
 }
 /* Base: deep indigo matching the anime control-room background */
 .slide-game {
@@ -201,7 +206,11 @@ body {
   border-radius: 50%;
   top: -180px;
   right: -80px;
-  background: radial-gradient(circle, rgba(0, 60, 200, 0.08) 0%, transparent 65%);
+  background: radial-gradient(
+    circle,
+    rgba(0, 60, 200, 0.08) 0%,
+    transparent 65%
+  );
   pointer-events: none;
 }
 
@@ -256,10 +265,26 @@ body {
   border-color: rgba(0, 200, 120, 0.35);
   border-style: solid;
 }
-.slide-game .bracket.tl { top: 0; left: 0; border-width: 1px 0 0 1px; }
-.slide-game .bracket.tr { top: 0; right: 0; border-width: 1px 1px 0 0; }
-.slide-game .bracket.bl { bottom: 0; left: 0; border-width: 0 0 1px 1px; }
-.slide-game .bracket.br { bottom: 0; right: 0; border-width: 0 1px 1px 0; }
+.slide-game .bracket.tl {
+  top: 0;
+  left: 0;
+  border-width: 1px 0 0 1px;
+}
+.slide-game .bracket.tr {
+  top: 0;
+  right: 0;
+  border-width: 1px 1px 0 0;
+}
+.slide-game .bracket.bl {
+  bottom: 0;
+  left: 0;
+  border-width: 0 0 1px 1px;
+}
+.slide-game .bracket.br {
+  bottom: 0;
+  right: 0;
+  border-width: 0 1px 1px 0;
+}
 
 /* Main heading — pixel font, single line */
 .slide-game .pixel-text {
@@ -317,7 +342,9 @@ body {
   padding: 10px 22px;
   letter-spacing: 0.06em;
   background: rgba(0, 200, 120, 0.06);
-  transition: background 0.2s, color 0.2s;
+  transition:
+    background 0.2s,
+    color 0.2s;
   cursor: pointer;
 }
 .slide-game .pill:hover {
@@ -361,7 +388,8 @@ body {
   transition: opacity 0.25s ease;
 }
 .project-card:hover .project-card-img {
-  opacity: 0.8;
+  outline: 2px solid #1a1814;
+  outline-offset: 6px;
 }
 .project-card-label {
   font-family: "Bitter", serif;
@@ -400,53 +428,146 @@ body {
 .slide-research {
   background: #f9f7f4;
 }
-.slide-research .abstract-lines {
+
+.research-wrap {
   position: absolute;
-  top: 40px;
-  right: 60px;
+  inset: 0;
+  bottom: 44px;
+  overflow-y: auto;
+  padding: 36px 52px 40px 48px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.1) transparent;
+}
+
+.research-header {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 6px;
+  margin-bottom: 20px;
 }
-.abstract-line {
-  height: 1px;
-  background: #c8c4bc;
-}
-.slide-research .big-quote {
-  position: absolute;
-  top: 40px;
-  left: 40px;
+.rs-title-big {
   font-family: "Bitter", serif;
-  font-size: 80px;
-  color: rgba(0, 0, 0, 0.07);
+  font-size: 35px;
+  font-weight: 600;
+  color: #1a1814;
   line-height: 1;
 }
-.slide-research .research-content {
-  position: absolute;
-  top: 80px;
-  left: 40px;
-  right: 40px;
+.rs-subtitle {
+  font-family: "Bitter", serif;
+  font-style: italic;
+  font-size: 14px;
+  color: #7a7870;
+  padding-bottom: 14px;
+  border-bottom: 1px solid #1a1814;
 }
-.slide-research .research-eyebrow {
+
+.rs-section {
+  margin-bottom: 18px;
+}
+.rs-section-label {
   font-size: 10px;
+  font-weight: 700;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: #8a8680;
-  margin-bottom: 16px;
+  color: #b83232;
+  margin-bottom: 8px;
 }
-.slide-research .research-title {
+
+.rs-entry {
+  display: flex;
+  gap: 14px;
+  margin-bottom: 10px;
+}
+.rs-num {
+  font-size: 12px;
+  color: #c0bdb8;
+  letter-spacing: 0.06em;
+  flex-shrink: 0;
+  padding-top: 2px;
+  width: 20px;
+}
+.rs-body {
+  flex: 1;
+}
+.rs-title {
   font-family: "Bitter", serif;
-  font-size: 28px;
+  font-size: 16px;
+  font-weight: 500;
   color: #1a1814;
-  line-height: 1.3;
-  margin-bottom: 16px;
-  max-width: 380px;
+  line-height: 1.5;
+  margin-bottom: 4px;
 }
-.slide-research .research-desc {
-  font-size: 13px;
+.rs-me {
+  color: #1a1814;
+  font-weight: 500;
+}
+.rs-link {
+  color: inherit;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(26, 24, 20, 0.2);
+  transition:
+    border-color 0.2s,
+    color 0.2s;
+}
+.rs-link:hover {
+  color: #b83232;
+  border-bottom-color: #b83232;
+}
+.rs-venue {
+  font-family: "Bitter", serif;
+  font-style: italic;
+  font-size: 14px;
   color: #6b6760;
-  line-height: 1.7;
-  max-width: 340px;
+  margin-bottom: 4px;
+}
+.rs-authors {
+  font-size: 13px;
+  color: #b0ada8;
+  line-height: 1.6;
+  margin-bottom: 6px;
+}
+.rs-badge {
+  display: inline-block;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #d4622a;
+  border: 0.5px solid rgba(212, 98, 42, 0.38);
+  padding: 2px 8px;
+  background: rgba(139, 115, 85, 0.05);
+}
+
+.rs-award-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.rs-award-item {
+  display: flex;
+  gap: 20px;
+  align-items: baseline;
+}
+.rs-award-year {
+  font-size: 11px;
+  color: #c0bdb8;
+  letter-spacing: 0.04em;
+  flex-shrink: 0;
+  width: 72px;
+}
+.rs-award-name {
+  font-family: "Bitter", serif;
+  font-size: 15px;
+  color: #1a1814;
+  display: block;
+  margin-bottom: 2px;
+}
+.rs-award-org {
+  font-family: "Bitter", serif;
+  font-style: italic;
+  font-size: 13px;
+  color: #aaa8a4;
+  display: block;
 }
 
 /* ── SLIDE 4 — ABOUT ──────────────────────────────────────────── */
@@ -821,7 +942,9 @@ body {
   display: block;
   transition: opacity 0.2s ease;
 }
-#gcMainImg.switching { opacity: 0; }
+#gcMainImg.switching {
+  opacity: 0;
+}
 #gcVideoFrame {
   width: 100%;
   height: 100%;
@@ -837,7 +960,9 @@ body {
   overflow-x: auto;
   scrollbar-width: none;
 }
-.gc-thumbs::-webkit-scrollbar { display: none; }
+.gc-thumbs::-webkit-scrollbar {
+  display: none;
+}
 .gc-thumb {
   flex-shrink: 0;
   width: 72px;
@@ -846,10 +971,17 @@ body {
   cursor: pointer;
   opacity: 0.38;
   border: 1.5px solid transparent;
-  transition: opacity 0.2s, border-color 0.2s;
+  transition:
+    opacity 0.2s,
+    border-color 0.2s;
 }
-.gc-thumb.active { opacity: 1; border-color: rgba(255, 255, 255, 0.5); }
-.gc-thumb:hover { opacity: 0.7; }
+.gc-thumb.active {
+  opacity: 1;
+  border-color: rgba(255, 255, 255, 0.5);
+}
+.gc-thumb:hover {
+  opacity: 0.7;
+}
 
 .gc-right {
   flex: 1;
@@ -857,7 +989,9 @@ body {
   overflow-y: auto;
   scrollbar-width: none;
 }
-.gc-right::-webkit-scrollbar { display: none; }
+.gc-right::-webkit-scrollbar {
+  display: none;
+}
 
 .game-desc-title {
   font-size: 16px;
@@ -886,8 +1020,12 @@ body {
   color: rgba(255, 255, 255, 0.45);
   line-height: 1.85;
 }
-.game-desc-text p { margin-bottom: 16px; }
-.game-desc-text p:last-child { margin-bottom: 0; }
+.game-desc-text p {
+  margin-bottom: 16px;
+}
+.game-desc-text p:last-child {
+  margin-bottom: 0;
+}
 
 /* ── LIGHTBOX ─────────────────────────────────────────────────── */
 .lightbox {

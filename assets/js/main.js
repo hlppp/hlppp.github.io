@@ -319,6 +319,7 @@ const gameProjects = [
       { type: "image", src: "assets/images/game devs/ProjectBon/bon_1.jpg" },
       { type: "image", src: "assets/images/game devs/ProjectBon/bon_2.JPG" },
       { type: "image", src: "assets/images/game devs/ProjectBon/bon_3.jpg" },
+      { type: "video", id: "b5MKmaZf--8" },
     ],
     description: `
       <div class="game-desc-title">Project Bon</div>
