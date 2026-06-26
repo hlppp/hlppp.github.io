@@ -86,46 +86,79 @@ dots.forEach((dot) => {
 
 goTo(0);
 
-// ── PHOTOGRAPHY — TOKYO PROJECT ───────────────────────────────────
-const tokyoPhotos = [
-  "assets/images/photographs/tokyo/tokyo_0.jpg",
-  "assets/images/photographs/tokyo/tokyo_1.jpg",
-  "assets/images/photographs/tokyo/tokyo_2.jpg",
-  "assets/images/photographs/tokyo/tokyo_3.jpg",
-  "assets/images/photographs/tokyo/tokyo_4.JPG",
-  "assets/images/photographs/tokyo/tokyo_5.JPG",
-  "assets/images/photographs/tokyo/tokyo_6.JPG",
-  "assets/images/photographs/tokyo/tokyo_7.jpg",
-  "assets/images/photographs/tokyo/tokyo_8.jpg",
-  "assets/images/photographs/tokyo/tokyo_9.JPG",
-  "assets/images/photographs/tokyo/tokyo_10.JPG",
-  "assets/images/photographs/tokyo/tokyo_11.jpg",
-  "assets/images/photographs/tokyo/tokyo_12.jpg",
-  "assets/images/photographs/tokyo/tokyo_13.jpg",
-  "assets/images/photographs/tokyo/tokyo_14.jpg",
+// ── PHOTO PROJECTS ────────────────────────────────────────────────
+// Each entry = one photo series. Add new series here as you shoot.
+// cover: the thumbnail shown on the photography slide.
+// photos: full list shown inside the project page.
+const photoProjects = [
+  {
+    title: "Tokyo",
+    cover: "assets/images/photographs/tokyo/tokyo_0.jpg",
+    photos: [
+      "assets/images/photographs/tokyo/tokyo_0.jpg",
+      "assets/images/photographs/tokyo/tokyo_1.jpg",
+      "assets/images/photographs/tokyo/tokyo_2.jpg",
+      "assets/images/photographs/tokyo/tokyo_3.jpg",
+      "assets/images/photographs/tokyo/tokyo_4.JPG",
+      "assets/images/photographs/tokyo/tokyo_5.JPG",
+      "assets/images/photographs/tokyo/tokyo_6.JPG",
+      "assets/images/photographs/tokyo/tokyo_7.jpg",
+      "assets/images/photographs/tokyo/tokyo_8.jpg",
+      "assets/images/photographs/tokyo/tokyo_9.JPG",
+      "assets/images/photographs/tokyo/tokyo_10.JPG",
+      "assets/images/photographs/tokyo/tokyo_11.jpg",
+      "assets/images/photographs/tokyo/tokyo_12.jpg",
+      "assets/images/photographs/tokyo/tokyo_13.jpg",
+      "assets/images/photographs/tokyo/tokyo_14.jpg",
+    ],
+  },
+  // { title: "Kyoto", cover: "assets/images/photographs/kyoto/kyoto_0.jpg", photos: [...] },
 ];
 
-const projectOverlay = document.getElementById("projectOverlay");
-const projectClose   = document.getElementById("projectClose");
-const projectGrid    = document.getElementById("projectGrid");
-
-// Build masonry grid once on load
-tokyoPhotos.forEach((src, i) => {
-  const wrap = document.createElement("div");
-  wrap.className = "project-photo";
-  const img = document.createElement("img");
-  img.src = src;
-  img.loading = "lazy";
-  img.alt = "Tokyo " + i;
-  wrap.appendChild(img);
-  wrap.addEventListener("click", () => openLightbox(i));
-  projectGrid.appendChild(wrap);
+// Build one thumbnail card per project on the photography slide
+const photoProjectsGrid = document.getElementById("photoProjectsGrid");
+photoProjects.forEach((project) => {
+  const card = document.createElement("div");
+  card.className = "project-card";
+  card.innerHTML = `
+    <div class="project-card-img" style="background-image:url('${project.cover}')"></div>
+    <div class="project-card-label">${project.title}</div>
+  `;
+  card.addEventListener("click", () => openProject(project));
+  photoProjectsGrid.appendChild(card);
 });
 
-function openProject()  { projectOverlay.classList.add("open"); }
+// ── PROJECT OVERLAY ───────────────────────────────────────────────
+const projectOverlay = document.getElementById("projectOverlay");
+const projectTitle   = document.getElementById("projectTitle");
+const projectClose   = document.getElementById("projectClose");
+const projectGrid    = document.getElementById("projectGrid");
+let activeProjectPhotos = [];
+
+function openProject(project) {
+  // Update header title
+  projectTitle.textContent = project.title;
+
+  // Rebuild the masonry grid for this project
+  projectGrid.innerHTML = "";
+  project.photos.forEach((src, i) => {
+    const wrap = document.createElement("div");
+    wrap.className = "project-photo";
+    const img = document.createElement("img");
+    img.src = src;
+    img.loading = "lazy";
+    img.alt = project.title + " " + i;
+    wrap.appendChild(img);
+    wrap.addEventListener("click", () => openLightbox(i));
+    projectGrid.appendChild(wrap);
+  });
+
+  activeProjectPhotos = project.photos;
+  projectOverlay.classList.add("open");
+}
+
 function closeProject() { projectOverlay.classList.remove("open"); }
 
-document.getElementById("photoGridThumb").addEventListener("click", openProject);
 projectClose.addEventListener("click", closeProject);
 
 // ── LIGHTBOX ──────────────────────────────────────────────────────
@@ -136,15 +169,15 @@ let lbIndex = 0;
 
 function openLightbox(i) {
   lbIndex = i;
-  lightboxImg.src = tokyoPhotos[i];
-  lbCounter.textContent = (i + 1) + " / " + tokyoPhotos.length;
+  lightboxImg.src = activeProjectPhotos[i];
+  lbCounter.textContent = (i + 1) + " / " + activeProjectPhotos.length;
   lightbox.classList.add("open");
 }
 function closeLightbox() { lightbox.classList.remove("open"); }
 function lbStep(dir) {
-  lbIndex = (lbIndex + dir + tokyoPhotos.length) % tokyoPhotos.length;
-  lightboxImg.src = tokyoPhotos[lbIndex];
-  lbCounter.textContent = (lbIndex + 1) + " / " + tokyoPhotos.length;
+  lbIndex = (lbIndex + dir + activeProjectPhotos.length) % activeProjectPhotos.length;
+  lightboxImg.src = activeProjectPhotos[lbIndex];
+  lbCounter.textContent = (lbIndex + 1) + " / " + activeProjectPhotos.length;
 }
 
 document.getElementById("lbClose").addEventListener("click", closeLightbox);

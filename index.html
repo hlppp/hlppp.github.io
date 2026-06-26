@@ -59,15 +59,10 @@
 
         <!-- SLIDE 2: PHOTOGRAPHY -->
         <div class="slide slide-photo" id="slide1">
-          <div class="photo-grid photo-grid-clickable" id="photoGridThumb">
-            <div class="photo-cell" style="background-image:url('assets/images/photographs/tokyo/tokyo_0.jpg')"></div>
-            <div class="photo-cell" style="background-image:url('assets/images/photographs/tokyo/tokyo_1.jpg')"></div>
-            <div class="photo-cell" style="background-image:url('assets/images/photographs/tokyo/tokyo_2.jpg')"></div>
-            <div class="photo-cell" style="background-image:url('assets/images/photographs/tokyo/tokyo_3.jpg')"></div>
-            <div class="photo-cell" style="background-image:url('assets/images/photographs/tokyo/tokyo_4.JPG')"></div>
-          </div>
+          <!-- One card per photo series — filled by JS -->
+          <div class="photo-projects-grid" id="photoProjectsGrid"></div>
           <div class="overlay-text">
-            <div class="big-word">Tokyo</div>
+            <div class="big-word">摄影</div>
             <div class="sub">Photography</div>
           </div>
         </div>
@@ -131,7 +126,7 @@
     <div class="project-overlay" id="projectOverlay">
       <div class="project-header">
         <button class="project-back" id="projectClose">← Photography</button>
-        <div class="project-title">Tokyo</div>
+        <div class="project-title" id="projectTitle"></div>
         <div class="project-esc-hint">ESC</div>
       </div>
       <div class="project-grid" id="projectGrid"></div>
