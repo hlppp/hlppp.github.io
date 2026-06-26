@@ -17,7 +17,7 @@ body {
   display: flex;
   height: 100vh;
   background: #0a0a0a;
-  font-family: "Space Grotesk", sans-serif;
+  font-family: "Bitter", serif;
   overflow: hidden;
   position: relative;
 }
@@ -172,43 +172,40 @@ body {
 }
 
 /* ── SLIDE 1 — GAME DEV ───────────────────────────────────────── */
-.slide-game {
-  background: #0d0d1a;
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
 }
+/* Base: deep indigo matching the anime control-room background */
+.slide-game {
+  background: #0d0d0d;
+  font-family: "Press Start 2P", monospace;
+}
+
+/* Fine grid — cyan-green phosphor */
 .slide-game .grid-bg {
   position: absolute;
   inset: 0;
   background-image:
-    linear-gradient(rgba(100, 100, 255, 0.07) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(100, 100, 255, 0.07) 1px, transparent 1px);
+    linear-gradient(rgba(0, 200, 120, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 200, 120, 0.06) 1px, transparent 1px);
   background-size: 40px 40px;
+  pointer-events: none;
 }
+
+/* Single deep-blue ambient glow (like a CRT backlight) */
 .slide-game .glow {
   position: absolute;
-  width: 300px;
-  height: 300px;
+  width: 560px;
+  height: 560px;
   border-radius: 50%;
-  background: radial-gradient(
-    circle,
-    rgba(80, 40, 255, 0.25) 0%,
-    transparent 70%
-  );
-  top: -80px;
-  right: 80px;
+  top: -180px;
+  right: -80px;
+  background: radial-gradient(circle, rgba(0, 60, 200, 0.08) 0%, transparent 65%);
+  pointer-events: none;
 }
-.slide-game .pixel-text {
-  position: absolute;
-  top: 40px;
-  left: 40px;
-  font-size: 52px;
-  font-weight: 600;
-  color: #fff;
-  letter-spacing: -2px;
-  line-height: 1;
-}
-.slide-game .pixel-text span {
-  color: #7c5eff;
-}
+
+/* CRT scanlines */
 .slide-game .scanlines {
   position: absolute;
   inset: 0;
@@ -216,37 +213,122 @@ body {
     0deg,
     transparent,
     transparent 2px,
-    rgba(0, 0, 0, 0.08) 2px,
-    rgba(0, 0, 0, 0.08) 4px
+    rgba(0, 0, 0, 0.13) 2px,
+    rgba(0, 0, 0, 0.13) 4px
   );
   pointer-events: none;
 }
-.slide-game .tag {
+
+/* CRT static snow — animated via canvas in main.js */
+.slide-game .crt-snow {
   position: absolute;
-  top: 120px;
-  left: 40px;
-  font-size: 10px;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: #7c5eff;
-  border: 1px solid #7c5eff;
-  padding: 3px 8px;
-}
-.slide-game .project-pills {
-  position: absolute;
-  bottom: 80px;
-  left: 40px;
-  display: flex;
-  gap: 10px;
-}
-.slide-game .pill {
-  font-size: 11px;
-  color: rgba(255, 255, 255, 0.6);
-  border: 0.5px solid rgba(255, 255, 255, 0.2);
-  padding: 5px 12px;
-  letter-spacing: 0.05em;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 4;
+  opacity: 0.45;
+  mix-blend-mode: screen;
 }
 
+/* Film grain — SVG turbulence baked as a data URI */
+.slide-game .noise {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 3;
+  opacity: 0.055;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+}
+
+/* Corner targeting brackets — cyan-green */
+.slide-game .brackets {
+  position: absolute;
+  inset: 20px;
+  pointer-events: none;
+}
+.slide-game .bracket {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  border-color: rgba(0, 200, 120, 0.35);
+  border-style: solid;
+}
+.slide-game .bracket.tl { top: 0; left: 0; border-width: 1px 0 0 1px; }
+.slide-game .bracket.tr { top: 0; right: 0; border-width: 1px 1px 0 0; }
+.slide-game .bracket.bl { bottom: 0; left: 0; border-width: 0 0 1px 1px; }
+.slide-game .bracket.br { bottom: 0; right: 0; border-width: 0 1px 1px 0; }
+
+/* Main heading — pixel font, single line */
+.slide-game .pixel-text {
+  position: absolute;
+  top: 44px;
+  left: 40px;
+  font-size: 40px;
+  font-family: "Press Start 2P", monospace;
+  font-weight: 400;
+  color: #fff;
+  letter-spacing: 2px;
+  line-height: 1;
+  text-shadow:
+    0 0 20px rgba(255, 255, 255, 0.25),
+    0 0 55px rgba(0, 200, 120, 0.18);
+}
+.slide-game .pixel-text span {
+  color: #00ff9a;
+  text-shadow:
+    0 0 16px rgba(0, 255, 154, 0.85),
+    0 0 40px rgba(0, 200, 120, 0.55),
+    0 0 80px rgba(0, 200, 120, 0.25);
+}
+
+/* Hint line below title */
+.game-hint {
+  position: absolute;
+  bottom: 108px;
+  left: 40px;
+  font-size: 11px;
+  color: rgba(0, 200, 120, 0.6);
+  letter-spacing: 0.12em;
+  animation: blink 1.4s step-end infinite;
+  pointer-events: none;
+  transition: opacity 0.3s;
+}
+.game-hint.hidden {
+  opacity: 0;
+  animation: none;
+}
+
+/* Project pills */
+.slide-game .project-pills {
+  position: absolute;
+  bottom: 56px;
+  left: 40px;
+  display: flex;
+  gap: 8px;
+}
+.slide-game .pill {
+  font-family: "Press Start 2P", monospace;
+  font-size: 11px;
+  color: #00c878;
+  border: 0.5px solid rgba(0, 200, 120, 0.45);
+  padding: 10px 22px;
+  letter-spacing: 0.06em;
+  background: rgba(0, 200, 120, 0.06);
+  transition: background 0.2s, color 0.2s;
+  cursor: pointer;
+}
+.slide-game .pill:hover {
+  background: rgba(0, 200, 120, 0.2);
+  color: #fff;
+}
+.slide-game .pill.active-pill {
+  background: rgba(0, 200, 120, 0.18);
+  color: #fff;
+  border-color: rgba(0, 200, 120, 0.7);
+}
 /* ── SLIDE 2 — PHOTOGRAPHY ────────────────────────────────────── */
 .slide-photo {
   background: #f5f3ee;
@@ -282,7 +364,7 @@ body {
   opacity: 0.8;
 }
 .project-card-label {
-  font-family: "Playfair Display", serif;
+  font-family: "Bitter", serif;
   font-style: italic;
   font-size: 13px;
   color: #1a1814;
@@ -300,7 +382,7 @@ body {
   align-items: flex-end;
 }
 .slide-photo .big-word {
-  font-family: "Playfair Display", serif;
+  font-family: "Bitter", serif;
   font-size: 48px;
   font-weight: 400;
   font-style: italic;
@@ -334,7 +416,7 @@ body {
   position: absolute;
   top: 40px;
   left: 40px;
-  font-family: "Playfair Display", serif;
+  font-family: "Bitter", serif;
   font-size: 80px;
   color: rgba(0, 0, 0, 0.07);
   line-height: 1;
@@ -353,7 +435,7 @@ body {
   margin-bottom: 16px;
 }
 .slide-research .research-title {
-  font-family: "Playfair Display", serif;
+  font-family: "Bitter", serif;
   font-size: 28px;
   color: #1a1814;
   line-height: 1.3;
@@ -425,7 +507,7 @@ body {
   text-align: center;
 }
 .slide-about .name-big {
-  font-family: "Playfair Display", serif;
+  font-family: "Bitter", serif;
   font-size: 38px;
   color: #fff;
   font-weight: 400;
@@ -585,7 +667,7 @@ body {
 }
 
 .project-back {
-  font-family: "Space Grotesk", sans-serif;
+  font-family: "Bitter", serif;
   font-size: 10px;
   letter-spacing: 0.18em;
   text-transform: uppercase;
@@ -610,7 +692,7 @@ body {
 .project-title {
   flex: 1;
   text-align: center;
-  font-family: "Playfair Display", serif;
+  font-family: "Bitter", serif;
   font-size: 15px;
   font-style: italic;
   color: rgba(255, 255, 255, 0.55);
@@ -624,7 +706,7 @@ body {
   color: rgba(255, 255, 255, 0.12);
   border: 0.5px solid rgba(255, 255, 255, 0.1);
   padding: 3px 7px;
-  font-family: "Space Grotesk", sans-serif;
+  font-family: "Bitter", serif;
 }
 
 .project-grid {
@@ -637,6 +719,47 @@ body {
 }
 .project-grid::-webkit-scrollbar {
   display: none;
+}
+
+/* Sections-based layout (e.g. Comet Kiss) — overrides the masonry columns */
+.project-grid--sections {
+  columns: unset;
+  column-gap: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* A horizontal row of photos */
+.project-row {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 6px;
+}
+.project-row .project-photo {
+  flex: 1;
+  break-inside: unset;
+  margin-bottom: 0;
+  cursor: default;
+}
+.project-row .project-photo:hover img {
+  opacity: 1;
+  transform: none;
+}
+.project-row .project-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Description text between photo rows */
+.project-description {
+  padding: 28px 4px 24px;
+  font-family: "Bitter", serif;
+  font-style: italic;
+  font-size: 22px;
+  color: rgba(255, 255, 255, 0.38);
+  line-height: 1.85;
+  letter-spacing: 0.01em;
 }
 
 .project-photo {
@@ -657,6 +780,114 @@ body {
   opacity: 0.82;
   transform: scale(1.015);
 }
+
+/* ── GAME CONTENT PANEL (middle of the game slide) ────────────── */
+.game-content {
+  position: absolute;
+  top: 130px;
+  bottom: 96px;
+  left: 40px;
+  right: 40px;
+  display: flex;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+.game-content.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.gc-left {
+  flex: 0 0 56%;
+  display: flex;
+  flex-direction: column;
+  padding-right: 28px;
+  border-right: 0.5px solid rgba(255, 255, 255, 0.07);
+  min-height: 0;
+}
+.gc-img-wrap {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 0;
+  overflow: hidden;
+}
+#gcMainImg {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  display: block;
+  transition: opacity 0.2s ease;
+}
+#gcMainImg.switching { opacity: 0; }
+#gcVideoFrame {
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: none;
+}
+
+.gc-thumbs {
+  flex-shrink: 0;
+  display: flex;
+  gap: 8px;
+  padding-top: 12px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.gc-thumbs::-webkit-scrollbar { display: none; }
+.gc-thumb {
+  flex-shrink: 0;
+  width: 72px;
+  height: 48px;
+  object-fit: cover;
+  cursor: pointer;
+  opacity: 0.38;
+  border: 1.5px solid transparent;
+  transition: opacity 0.2s, border-color 0.2s;
+}
+.gc-thumb.active { opacity: 1; border-color: rgba(255, 255, 255, 0.5); }
+.gc-thumb:hover { opacity: 0.7; }
+
+.gc-right {
+  flex: 1;
+  padding-left: 28px;
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+.gc-right::-webkit-scrollbar { display: none; }
+
+.game-desc-title {
+  font-size: 16px;
+  font-weight: 500;
+  color: #fff;
+  margin-bottom: 14px;
+  line-height: 1.2;
+}
+.game-desc-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 28px;
+}
+.game-desc-tag {
+  font-family: monospace;
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(0, 200, 120, 0.8);
+  border: 0.5px solid rgba(0, 200, 120, 0.35);
+  padding: 3px 9px;
+}
+.game-desc-text {
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.45);
+  line-height: 1.85;
+}
+.game-desc-text p { margin-bottom: 16px; }
+.game-desc-text p:last-child { margin-bottom: 0; }
 
 /* ── LIGHTBOX ─────────────────────────────────────────────────── */
 .lightbox {
@@ -690,7 +921,7 @@ body {
   cursor: pointer;
   color: rgba(255, 255, 255, 0.3);
   transition: color 0.18s ease;
-  font-family: "Space Grotesk", sans-serif;
+  font-family: "Bitter", serif;
   user-select: none;
 }
 .lb-btn:hover {
@@ -729,6 +960,6 @@ body {
   font-size: 10px;
   letter-spacing: 0.18em;
   color: rgba(255, 255, 255, 0.2);
-  font-family: "Space Grotesk", sans-serif;
+  font-family: "Bitter", serif;
   user-select: none;
 }

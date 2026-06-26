@@ -6,7 +6,7 @@
     <title>Hanlin</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link
-      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;1,400&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Bitter:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Press+Start+2P&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="assets/css/style.css" />
@@ -22,19 +22,19 @@
         <div class="nav-items">
           <div class="nav-item" data-index="0">
             <div class="nav-label">01</div>
-            <div class="nav-title">游戏开发</div>
+            <div class="nav-title">Game Dev</div>
           </div>
           <div class="nav-item" data-index="1">
             <div class="nav-label">02</div>
-            <div class="nav-title">摄影</div>
+            <div class="nav-title">Photography</div>
           </div>
           <div class="nav-item" data-index="2">
             <div class="nav-label">03</div>
-            <div class="nav-title">研究</div>
+            <div class="nav-title">Research</div>
           </div>
           <div class="nav-item" data-index="3">
             <div class="nav-label">04</div>
-            <div class="nav-title">自我介绍</div>
+            <div class="nav-title">About Me</div>
           </div>
         </div>
       </nav>
@@ -46,12 +46,40 @@
           <div class="grid-bg"></div>
           <div class="glow"></div>
           <div class="scanlines"></div>
-          <div class="pixel-text">GAME<br /><span>DEV</span></div>
-          <div class="tag">Y2K / INTERACTIVE</div>
+          <div class="noise"></div>
+          <canvas class="crt-snow" aria-hidden="true"></canvas>
+
+          <!-- corner targeting brackets -->
+          <div class="brackets">
+            <div class="bracket tl"></div>
+            <div class="bracket tr"></div>
+            <div class="bracket bl"></div>
+            <div class="bracket br"></div>
+          </div>
+
+          <!-- main heading -->
+          <div class="pixel-text">GAME <span>DEV</span></div>
+          <div class="game-hint" id="gameHint">&gt; CLICK A PROJECT TO VIEW</div>
+
+          <!-- project pills -->
           <div class="project-pills">
-            <div class="pill">Project_01</div>
+            <div class="pill" data-game="bon">Project_01</div>
             <div class="pill">Project_02</div>
             <div class="pill">Project_03</div>
+          </div>
+
+          <!-- middle content panel — appears in the empty space when a pill is clicked -->
+          <div class="game-content" id="gameContent">
+            <div class="gc-left">
+              <div class="gc-img-wrap">
+                <img id="gcMainImg" src="" alt="" />
+                <iframe id="gcVideoFrame" src="" frameborder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowfullscreen></iframe>
+              </div>
+              <div class="gc-thumbs" id="gcThumbs"></div>
+            </div>
+            <div class="gc-right" id="gcRight"></div>
           </div>
         </div>
 
@@ -60,7 +88,7 @@
           <!-- One card per photo series — filled by JS -->
           <div class="photo-projects-grid" id="photoProjectsGrid"></div>
           <div class="overlay-text">
-            <div class="big-word">摄影</div>
+            <div class="big-word">Photography</div>
             <div class="sub">Photography</div>
           </div>
         </div>

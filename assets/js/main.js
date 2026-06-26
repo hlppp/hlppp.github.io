@@ -1,12 +1,43 @@
+// ── CRT SNOW ──────────────────────────────────────────────────────
+(function () {
+  const canvas = document.querySelector(".slide-game .crt-snow");
+  if (!canvas) return;
+  const ctx = canvas.getContext("2d");
+
+  function resize() {
+    canvas.width = canvas.offsetWidth;
+    canvas.height = canvas.offsetHeight;
+  }
+  resize();
+  window.addEventListener("resize", resize);
+
+  function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    // ~0.8 % of pixels lit per frame
+    const count = Math.floor(canvas.width * canvas.height * 0.008);
+    ctx.fillStyle = "#fff";
+    for (let i = 0; i < count; i++) {
+      ctx.fillRect(
+        (Math.random() * canvas.width) | 0,
+        (Math.random() * canvas.height) | 0,
+        1,
+        1,
+      );
+    }
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
 // ── ELEMENT REFERENCES ────────────────────────────────────────────
-const slides      = document.querySelectorAll(".slide");
-const dots        = document.querySelectorAll(".dot");
-const navItems    = document.querySelectorAll(".nav-item");
+const slides = document.querySelectorAll(".slide");
+const dots = document.querySelectorAll(".dot");
+const navItems = document.querySelectorAll(".nav-item");
 const pausedLabel = document.getElementById("pausedLabel");
-const enterArrow  = document.getElementById("enterArrow");
-const hoverMsg    = document.getElementById("hoverMsg");
-const bottomBar   = document.getElementById("bottomBar");
-const sidebar     = document.getElementById("sidebar");
+const enterArrow = document.getElementById("enterArrow");
+const hoverMsg = document.getElementById("hoverMsg");
+const bottomBar = document.getElementById("bottomBar");
+const sidebar = document.getElementById("sidebar");
 const sidebarToggle = document.getElementById("sidebarToggle");
 
 // ── STATE ─────────────────────────────────────────────────────────
@@ -14,8 +45,8 @@ const sidebarToggle = document.getElementById("sidebarToggle");
 // locked: true while the sidebar is collapsed (user is in a section).
 const lightSlides = [1, 2];
 let current = 0;
-let paused  = false;
-let locked  = false;
+let paused = false;
+let locked = false;
 
 // ── SLIDE SWITCHER ────────────────────────────────────────────────
 function goTo(index) {
@@ -44,7 +75,7 @@ setInterval(next, 4000);
 
 // ── SIDEBAR NAV ───────────────────────────────────────────────────
 let expandedByHover = false;
-let holding = false;       // true for 3s after hover-expand, slide stays put
+let holding = false; // true for 3s after hover-expand, slide stays put
 let holdTimeout = null;
 
 navItems.forEach((item) => {
@@ -87,7 +118,9 @@ sidebar.addEventListener("mouseenter", () => {
   locked = false;
   expandedByHover = true;
   holding = true;
-  holdTimeout = setTimeout(() => { holding = false; }, 3000);
+  holdTimeout = setTimeout(() => {
+    holding = false;
+  }, 3000);
 });
 
 sidebar.addEventListener("mouseleave", () => {
@@ -100,6 +133,35 @@ sidebar.addEventListener("mouseleave", () => {
   paused = false;
   pausedLabel.classList.remove("show");
   enterArrow.classList.remove("show");
+});
+
+// ── MAIN VISUAL HOVER / CLICK ─────────────────────────────────────
+// Hovering a clickable element in the slide area pauses autoplay
+const CLICKABLE = ".pill, .project-card, .gc-thumb, .dot, button";
+mainVisual.addEventListener("mouseover", (e) => {
+  if (!locked && e.target.closest(CLICKABLE)) paused = true;
+});
+mainVisual.addEventListener("mouseout", (e) => {
+  if (!locked && e.target.closest(CLICKABLE) && !e.relatedTarget?.closest(CLICKABLE)) {
+    paused = false;
+    pausedLabel.classList.remove("show");
+    enterArrow.classList.remove("show");
+  }
+});
+
+// Clicking anything interactive in the slides collapses the sidebar
+mainVisual.addEventListener("click", (e) => {
+  if (locked) return;
+  if (e.target.closest(".pill, .project-card, .gc-thumb, button")) {
+    expandedByHover = false;
+    holding = false;
+    clearTimeout(holdTimeout);
+    locked = true;
+    paused = false;
+    pausedLabel.classList.remove("show");
+    enterArrow.classList.remove("show");
+    sidebar.classList.add("collapsed");
+  }
 });
 
 // ── PROGRESS DOTS ─────────────────────────────────────────────────
@@ -135,7 +197,34 @@ const photoProjects = [
       "assets/images/photographs/tokyo/tokyo_14.jpg",
     ],
   },
-  // { title: "Kyoto", cover: "assets/images/photographs/kyoto/kyoto_0.jpg", photos: [...] },
+  {
+    title: "Comet Kiss",
+    cover: "assets/images/photographs/comet kiss/comet_0.jpeg",
+    sections: [
+      {
+        type: "row",
+        photos: [
+          "assets/images/photographs/comet kiss/comet_0.jpeg",
+          "assets/images/photographs/comet kiss/comet_00.jpeg",
+        ],
+      },
+      {
+        type: "text",
+        content: `In an astronomy lecture, the professor brought his collection of cometary sample.<br>
+                  I looked through the microscope,<br>
+                  and I saw  The Kiss by Gustav Klimt.<br>
+                  The Kiss written in stardust.`,
+      },
+      {
+        type: "row",
+        photos: [
+          "assets/images/photographs/comet kiss/comet_1.jpeg",
+          "assets/images/photographs/comet kiss/comet_2.jpeg",
+          "assets/images/photographs/comet kiss/comet_3.jpeg",
+        ],
+      },
+    ],
+  },
 ];
 
 // Build one thumbnail card per project on the photography slide
@@ -153,54 +242,188 @@ photoProjects.forEach((project) => {
 
 // ── PROJECT OVERLAY ───────────────────────────────────────────────
 const projectOverlay = document.getElementById("projectOverlay");
-const projectTitle   = document.getElementById("projectTitle");
-const projectClose   = document.getElementById("projectClose");
-const projectGrid    = document.getElementById("projectGrid");
+const projectTitle = document.getElementById("projectTitle");
+const projectClose = document.getElementById("projectClose");
+const projectGrid = document.getElementById("projectGrid");
 let activeProjectPhotos = [];
 
 function openProject(project) {
-  // Update header title
   projectTitle.textContent = project.title;
-
-  // Rebuild the masonry grid for this project
   projectGrid.innerHTML = "";
-  project.photos.forEach((src, i) => {
-    const wrap = document.createElement("div");
-    wrap.className = "project-photo";
-    const img = document.createElement("img");
-    img.src = src;
-    img.loading = "lazy";
-    img.alt = project.title + " " + i;
-    wrap.appendChild(img);
-    wrap.addEventListener("click", () => openLightbox(i));
-    projectGrid.appendChild(wrap);
-  });
 
-  activeProjectPhotos = project.photos;
+  if (project.sections) {
+    // Sections layout: rows of photos + text blocks
+    projectGrid.classList.add("project-grid--sections");
+
+    // Build the flat photo list for the lightbox
+    activeProjectPhotos = project.sections
+      .filter((s) => s.type === "row")
+      .flatMap((s) => s.photos);
+
+    let photoIndex = 0;
+    project.sections.forEach((section) => {
+      if (section.type === "row") {
+        const row = document.createElement("div");
+        row.className = "project-row";
+        section.photos.forEach((src) => {
+          const wrap = document.createElement("div");
+          wrap.className = "project-photo";
+          const img = document.createElement("img");
+          img.src = src;
+          img.loading = "lazy";
+          wrap.appendChild(img);
+          row.appendChild(wrap);
+        });
+        projectGrid.appendChild(row);
+      } else if (section.type === "text") {
+        const block = document.createElement("div");
+        block.className = "project-description";
+        block.innerHTML = section.content;
+        projectGrid.appendChild(block);
+      }
+    });
+  } else {
+    // Default masonry grid (Tokyo-style)
+    projectGrid.classList.remove("project-grid--sections");
+    activeProjectPhotos = project.photos;
+    project.photos.forEach((src, i) => {
+      const wrap = document.createElement("div");
+      wrap.className = "project-photo";
+      const img = document.createElement("img");
+      img.src = src;
+      img.loading = "lazy";
+      img.alt = project.title + " " + i;
+      wrap.appendChild(img);
+      wrap.addEventListener("click", () => openLightbox(i));
+      projectGrid.appendChild(wrap);
+    });
+  }
+
   projectOverlay.classList.add("open");
 }
 
-function closeProject() { projectOverlay.classList.remove("open"); }
+function closeProject() {
+  projectOverlay.classList.remove("open");
+  projectGrid.classList.remove("project-grid--sections");
+}
 
 projectClose.addEventListener("click", closeProject);
 
+// ── GAME PROJECTS ─────────────────────────────────────────────────
+const gameProjects = [
+  {
+    id: "bon",
+    title: "Project Bon",
+    images: [
+      { type: "video", id: "BfP5NVk123k" },
+      { type: "image", src: "assets/images/game devs/ProjectBon/bon_1.jpg" },
+      { type: "image", src: "assets/images/game devs/ProjectBon/bon_2.JPG" },
+      { type: "image", src: "assets/images/game devs/ProjectBon/bon_3.jpg" },
+    ],
+    description: `
+      <div class="game-desc-title">Project Bon</div>
+      <div class="game-desc-tags">
+        <span class="game-desc-tag">Unity</span>
+        <span class="game-desc-tag">2024</span>
+      </div>
+      <div class="game-desc-text">
+        <p>Write your project description here.</p>
+        <p>More details about gameplay, mechanics, or the story go here.</p>
+      </div>
+    `,
+  },
+];
+
+const gameContent  = document.getElementById("gameContent");
+const gcMainImg    = document.getElementById("gcMainImg");
+const gcVideoFrame = document.getElementById("gcVideoFrame");
+const gcThumbs     = document.getElementById("gcThumbs");
+const gcRight      = document.getElementById("gcRight");
+const gameHint     = document.getElementById("gameHint");
+
+function showGcImage(src) {
+  gcVideoFrame.src = "";
+  gcVideoFrame.style.display = "none";
+  gcMainImg.style.display = "block";
+  gcMainImg.classList.add("switching");
+  setTimeout(() => {
+    gcMainImg.src = src;
+    gcMainImg.classList.remove("switching");
+  }, 200);
+}
+
+function showGcVideo(id) {
+  gcMainImg.style.display = "none";
+  gcVideoFrame.style.display = "block";
+  gcVideoFrame.src = `https://www.youtube-nocookie.com/embed/${id}`;
+}
+
+function showGcEntry(entry) {
+  if (entry.type === "video") showGcVideo(entry.id);
+  else showGcImage(entry.src);
+}
+
+function openGameProject(project) {
+  gcRight.innerHTML = project.description;
+
+  gcThumbs.innerHTML = "";
+  project.images.forEach((entry, i) => {
+    const thumb = document.createElement("img");
+    thumb.className = "gc-thumb" + (i === 0 ? " active" : "");
+    thumb.src = entry.type === "video"
+      ? `https://img.youtube.com/vi/${entry.id}/mqdefault.jpg`
+      : entry.src;
+    thumb.alt = project.title + " " + (i + 1);
+    thumb.addEventListener("click", () => {
+      gcThumbs.querySelectorAll(".gc-thumb").forEach((t) => t.classList.remove("active"));
+      thumb.classList.add("active");
+      showGcEntry(entry);
+    });
+    gcThumbs.appendChild(thumb);
+  });
+
+  showGcEntry(project.images[0]);
+  gameContent.classList.add("open");
+  gameHint.classList.add("hidden");
+}
+
+// Wire pills — click to open, click active pill again to close
+document.querySelectorAll(".slide-game .pill[data-game]").forEach((pill) => {
+  const project = gameProjects.find((p) => p.id === pill.dataset.game);
+  if (!project) return;
+  pill.addEventListener("click", () => {
+    if (gameContent.classList.contains("open") && pill.classList.contains("active-pill")) {
+      gameContent.classList.remove("open");
+      pill.classList.remove("active-pill");
+      gameHint.classList.remove("hidden");
+    } else {
+      document.querySelectorAll(".slide-game .pill").forEach((p) => p.classList.remove("active-pill"));
+      pill.classList.add("active-pill");
+      openGameProject(project);
+    }
+  });
+});
+
 // ── LIGHTBOX ──────────────────────────────────────────────────────
-const lightbox    = document.getElementById("lightbox");
+const lightbox = document.getElementById("lightbox");
 const lightboxImg = document.getElementById("lightboxImg");
-const lbCounter   = document.getElementById("lbCounter");
+const lbCounter = document.getElementById("lbCounter");
 let lbIndex = 0;
 
 function openLightbox(i) {
   lbIndex = i;
   lightboxImg.src = activeProjectPhotos[i];
-  lbCounter.textContent = (i + 1) + " / " + activeProjectPhotos.length;
+  lbCounter.textContent = i + 1 + " / " + activeProjectPhotos.length;
   lightbox.classList.add("open");
 }
-function closeLightbox() { lightbox.classList.remove("open"); }
+function closeLightbox() {
+  lightbox.classList.remove("open");
+}
 function lbStep(dir) {
-  lbIndex = (lbIndex + dir + activeProjectPhotos.length) % activeProjectPhotos.length;
+  lbIndex =
+    (lbIndex + dir + activeProjectPhotos.length) % activeProjectPhotos.length;
   lightboxImg.src = activeProjectPhotos[lbIndex];
-  lbCounter.textContent = (lbIndex + 1) + " / " + activeProjectPhotos.length;
+  lbCounter.textContent = lbIndex + 1 + " / " + activeProjectPhotos.length;
 }
 
 document.getElementById("lbClose").addEventListener("click", closeLightbox);
@@ -213,9 +436,9 @@ lightbox.addEventListener("click", (e) => {
 
 document.addEventListener("keydown", (e) => {
   if (lightbox.classList.contains("open")) {
-    if (e.key === "Escape")     closeLightbox();
+    if (e.key === "Escape") closeLightbox();
     if (e.key === "ArrowRight") lbStep(1);
-    if (e.key === "ArrowLeft")  lbStep(-1);
+    if (e.key === "ArrowLeft") lbStep(-1);
   } else if (projectOverlay.classList.contains("open")) {
     if (e.key === "Escape") closeProject();
   }
