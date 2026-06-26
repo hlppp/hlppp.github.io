@@ -1,529 +1,922 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hanlin</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
-  <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    html, body { width: 100%; height: 100%; background: #0a0a0a; }
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hanlin</title>
 
-    .site {
-      display: flex;
-      height: 100vh;
-      background: #0a0a0a;
-      font-family: 'Space Grotesk', sans-serif;
-      overflow: hidden;
-      position: relative;
-    }
+    <!-- ============================================================
+    FONTS
+    Space Grotesk  → used for all UI text (nav labels, tags, pills)
+    Playfair Display → used for editorial/display text (big words,
+                       research title, your name in the About slide)
+    To swap fonts, replace the URL below and update font-family
+    references in the CSS.
+  ============================================================ -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;1,400&display=swap"
+      rel="stylesheet"
+    />
 
-    .sidebar {
-      width: 200px;
-      flex-shrink: 0;
-      border-right: 0.5px solid rgba(255,255,255,0.1);
-      display: flex;
-      flex-direction: column;
-      padding: 32px 0;
-      z-index: 10;
-    }
+    <style>
+      /* ============================================================
+      RESET & BASE
+      Removes all default browser spacing. Sets the page to fill
+      the full viewport with a dark background.
+    ============================================================ */
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html,
+      body {
+        width: 100%;
+        height: 100%;
+        background: #0a0a0a;
+        overflow: hidden;
+      }
 
-    .site-name {
-      font-size: 11px;
-      letter-spacing: 0.18em;
-      color: rgba(255,255,255,0.3);
-      text-transform: uppercase;
-      padding: 0 24px 28px;
-      border-bottom: 0.5px solid rgba(255,255,255,0.07);
-      margin-bottom: 24px;
-    }
+      /* ============================================================
+      LAYOUT — the outermost container
+      Uses flexbox to place the sidebar (left) and main visual
+      (right) side by side. height: 100vh makes it fill the screen.
+      overflow: hidden prevents any accidental scrollbars.
+    ============================================================ */
+      .site {
+        display: flex;
+        height: 100vh;
+        background: #0a0a0a;
+        font-family: "Space Grotesk", sans-serif;
+        overflow: hidden;
+        position: relative;
+      }
 
-    .nav-items {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      gap: 0;
-    }
+      /* ============================================================
+      SIDEBAR
+      Fixed width left panel. Contains your name + 4 nav items.
+      z-index: 10 keeps it visually above the slides.
+      Change width: 200px to make the sidebar wider or narrower.
+    ============================================================ */
+      .sidebar {
+        width: 200px;
+        flex-shrink: 0; /* don't shrink when window is small */
+        border-right: 0.5px solid rgba(255, 255, 255, 0.1);
+        display: flex;
+        flex-direction: column;
+        padding: 32px 0;
+        z-index: 10;
+      }
 
-    .nav-item {
-      padding: 14px 24px;
-      cursor: pointer;
-      position: relative;
-      transition: all 0.25s ease;
-    }
+      /* Your name / site title at the top of the sidebar */
+      .site-name {
+        font-size: 11px;
+        letter-spacing: 0.18em; /* wide tracking for a label feel */
+        color: rgba(255, 255, 255, 0.3);
+        text-transform: uppercase;
+        padding: 0 24px 28px;
+        border-bottom: 0.5px solid rgba(255, 255, 255, 0.07);
+        margin-bottom: 24px;
+      }
 
-    .nav-item::before {
-      content: '';
-      position: absolute;
-      left: 0; top: 0; bottom: 0;
-      width: 2px;
-      background: transparent;
-      transition: background 0.25s ease;
-    }
+      /* Wrapper that holds all 4 nav items */
+      .nav-items {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+      }
 
-    .nav-item:hover::before,
-    .nav-item.active::before {
-      background: #fff;
-    }
+      /* Each individual nav item (01 游戏开发, 02 摄影, etc.) */
+      .nav-item {
+        padding: 14px 24px;
+        cursor: pointer;
+        position: relative;
+        transition: color 0.25s ease;
+        user-select: none;
+      }
+      .nav-item:focus {
+        outline: none;
+      }
 
-    .nav-label {
-      font-size: 11px;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: rgba(255,255,255,0.35);
-      margin-bottom: 4px;
-      transition: color 0.25s ease;
-    }
+      /* The white left-edge indicator bar.
+       It's invisible by default (transparent) and becomes white
+       on hover or when the slide is active. */
+      .nav-item::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 2px;
+        background: transparent;
+        transition: background 0.25s ease;
+      }
+      .nav-item:hover::before,
+      .nav-item.active::before {
+        background: #fff;
+      }
 
-    .nav-title {
-      font-size: 15px;
-      font-weight: 400;
-      color: rgba(255,255,255,0.55);
-      transition: color 0.25s ease;
-    }
+      /* The small "01", "02"... number above each nav title */
+      .nav-label {
+        font-size: 11px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: rgba(255, 255, 255, 0.35);
+        margin-bottom: 4px;
+        transition: color 0.25s ease;
+      }
 
-    .nav-item:hover .nav-label,
-    .nav-item.active .nav-label {
-      color: rgba(255,255,255,0.5);
-    }
+      /* The main nav text e.g. "游戏开发" */
+      .nav-title {
+        font-size: 15px;
+        font-weight: 400;
+        color: rgba(255, 255, 255, 0.55);
+        transition: color 0.25s ease;
+      }
 
-    .nav-item:hover .nav-title,
-    .nav-item.active .nav-title {
-      color: #fff;
-    }
+      /* Brighten both label and title on hover / active state */
+      .nav-item:hover .nav-label,
+      .nav-item.active .nav-label {
+        color: rgba(255, 255, 255, 0.5);
+      }
+      .nav-item:hover .nav-title,
+      .nav-item.active .nav-title {
+        color: #fff;
+      }
 
-    .main-visual {
-      flex: 1;
-      position: relative;
-      overflow: hidden;
-    }
+      /* ============================================================
+      MAIN VISUAL AREA
+      Takes up all remaining horizontal space (flex: 1).
+      All four slides are stacked on top of each other here using
+      position: absolute. Only the active one is visible.
+    ============================================================ */
+      .main-visual {
+        flex: 1;
+        position: relative;
+        overflow: hidden;
+      }
 
-    .slide {
-      position: absolute;
-      inset: 0;
-      opacity: 0;
-      transition: opacity 0.7s ease;
-      display: flex;
-      align-items: flex-end;
-    }
+      /* Base style for every slide.
+       All slides sit at position absolute covering the full area.
+       opacity: 0 = hidden. The .visible class sets opacity: 1.
+       transition: opacity 0.7s controls the crossfade speed —
+       increase the number (e.g. 1.2s) for a slower fade. */
+      .slide {
+        position: absolute;
+        inset: 0;
+        opacity: 0;
+        transition: opacity 0.7s ease;
+        display: flex;
+        align-items: flex-end; /* default: children align to bottom */
+      }
+      .slide.visible {
+        opacity: 1;
+      }
 
-    .slide.visible { opacity: 1; }
+      /* ============================================================
+      SLIDE 1 — GAME DEV (Y2K aesthetic)
+      Dark navy background with a purple grid, a radial glow in
+      the top-right corner, and a CRT scanline overlay.
+      Color palette: #0d0d1a (bg), #7c5eff (accent purple)
+      To change the accent color, replace #7c5eff everywhere below.
+    ============================================================ */
+      .slide-game {
+        background: #0d0d1a;
+      }
 
-    /* Slide 1 - Game / Y2K */
-    .slide-game { background: #0d0d1a; }
-    .slide-game .grid-bg {
-      position: absolute; inset: 0;
-      background-image:
-        linear-gradient(rgba(100,100,255,0.07) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(100,100,255,0.07) 1px, transparent 1px);
-      background-size: 40px 40px;
-    }
-    .slide-game .glow {
-      position: absolute;
-      width: 300px; height: 300px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(80,40,255,0.25) 0%, transparent 70%);
-      top: -80px; right: 80px;
-    }
-    .slide-game .pixel-text {
-      position: absolute;
-      top: 40px; left: 40px;
-      font-size: 52px;
-      font-weight: 600;
-      color: #fff;
-      letter-spacing: -2px;
-      line-height: 1;
-    }
-    .slide-game .pixel-text span { color: #7c5eff; }
-    .slide-game .scanlines {
-      position: absolute; inset: 0;
-      background: repeating-linear-gradient(
-        0deg, transparent, transparent 2px,
-        rgba(0,0,0,0.08) 2px, rgba(0,0,0,0.08) 4px
-      );
-      pointer-events: none;
-    }
-    .slide-game .tag {
-      position: absolute;
-      top: 120px; left: 40px;
-      font-size: 10px;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: #7c5eff;
-      border: 1px solid #7c5eff;
-      padding: 3px 8px;
-    }
-    .slide-game .project-pills {
-      position: absolute;
-      bottom: 80px; left: 40px;
-      display: flex; gap: 10px;
-    }
-    .slide-game .pill {
-      font-size: 11px;
-      color: rgba(255,255,255,0.6);
-      border: 0.5px solid rgba(255,255,255,0.2);
-      padding: 5px 12px;
-      letter-spacing: 0.05em;
-    }
+      /* The grid lines in the background.
+       background-size: 40px 40px controls grid cell size. */
+      .slide-game .grid-bg {
+        position: absolute;
+        inset: 0;
+        background-image:
+          linear-gradient(rgba(100, 100, 255, 0.07) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(100, 100, 255, 0.07) 1px, transparent 1px);
+        background-size: 40px 40px;
+      }
 
-    /* Slide 2 - Photography */
-    .slide-photo { background: #f5f3ee; }
-    .slide-photo .photo-grid {
-      position: absolute; inset: 0;
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap: 2px;
-    }
-    .photo-cell { background: #c8c4bc; position: relative; overflow: hidden; }
-    .photo-cell:nth-child(1) { background: #b5b0a8; grid-row: span 2; }
-    .photo-cell:nth-child(2) { background: #d4cfc8; }
-    .photo-cell:nth-child(3) { background: #c1bdb6; }
-    .photo-cell:nth-child(4) { background: #a8a39c; }
-    .photo-cell:nth-child(5) { background: #bfbab4; }
-    .slide-photo .overlay-text {
-      position: absolute;
-      bottom: 40px; left: 40px; right: 40px;
-      z-index: 2;
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-end;
-    }
-    .slide-photo .big-word {
-      font-family: 'Playfair Display', serif;
-      font-size: 48px;
-      font-weight: 400;
-      font-style: italic;
-      color: #1a1814;
-      line-height: 1;
-    }
-    .slide-photo .sub {
-      font-size: 11px;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: #6b6760;
-    }
+      /* The soft purple radial glow in the top-right area.
+       Adjust top/right to reposition it. */
+      .slide-game .glow {
+        position: absolute;
+        width: 300px;
+        height: 300px;
+        border-radius: 50%;
+        background: radial-gradient(
+          circle,
+          rgba(80, 40, 255, 0.25) 0%,
+          transparent 70%
+        );
+        top: -80px;
+        right: 80px;
+      }
 
-    /* Slide 3 - Research */
-    .slide-research { background: #f9f7f4; }
-    .slide-research .abstract-lines {
-      position: absolute;
-      top: 40px; right: 60px;
-      display: flex; flex-direction: column; gap: 8px;
-    }
-    .abstract-line { height: 1px; background: #c8c4bc; }
-    .slide-research .big-quote {
-      position: absolute;
-      top: 40px; left: 40px;
-      font-family: 'Playfair Display', serif;
-      font-size: 80px;
-      color: rgba(0,0,0,0.07);
-      line-height: 1;
-    }
-    .slide-research .research-content {
-      position: absolute;
-      top: 80px; left: 40px; right: 40px;
-    }
-    .slide-research .research-eyebrow {
-      font-size: 10px;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: #8a8680;
-      margin-bottom: 16px;
-    }
-    .slide-research .research-title {
-      font-family: 'Playfair Display', serif;
-      font-size: 28px;
-      color: #1a1814;
-      line-height: 1.3;
-      margin-bottom: 16px;
-      max-width: 380px;
-    }
-    .slide-research .research-desc {
-      font-size: 13px;
-      color: #6b6760;
-      line-height: 1.7;
-      max-width: 340px;
-    }
+      /* The big "GAME DEV" heading. "DEV" is wrapped in <span> in
+       the HTML to apply the purple color. */
+      .slide-game .pixel-text {
+        position: absolute;
+        top: 40px;
+        left: 40px;
+        font-size: 52px; /* change to make heading bigger/smaller */
+        font-weight: 600;
+        color: #fff;
+        letter-spacing: -2px;
+        line-height: 1;
+      }
+      .slide-game .pixel-text span {
+        color: #7c5eff;
+      } /* purple color for "DEV" */
 
-    /* Slide 4 - About */
-    .slide-about { background: #111; }
-    .slide-about .video-placeholder {
-      position: absolute; inset: 0;
-      display: flex; align-items: center; justify-content: center;
-    }
-    .video-frame {
-      width: 220px; height: 280px;
-      border: 1px solid rgba(255,255,255,0.15);
-      position: relative; overflow: hidden;
-      background: #1a1a1a;
-    }
-    .video-frame::before {
-      content: '';
-      position: absolute; inset: 0;
-      background: linear-gradient(135deg, rgba(255,255,255,0.03) 0%, transparent 60%);
-    }
-    .play-icon {
-      position: absolute;
-      top: 50%; left: 50%;
-      transform: translate(-50%, -50%);
-      width: 44px; height: 44px;
-      border: 1px solid rgba(255,255,255,0.3);
-      border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-    }
-    .play-triangle {
-      width: 0; height: 0;
-      border-top: 8px solid transparent;
-      border-bottom: 8px solid transparent;
-      border-left: 14px solid rgba(255,255,255,0.7);
-      margin-left: 3px;
-    }
-    .slide-about .about-text {
-      position: absolute;
-      bottom: 50px; left: 40px; right: 40px;
-      text-align: center;
-    }
-    .slide-about .name-big {
-      font-family: 'Playfair Display', serif;
-      font-size: 38px;
-      color: #fff;
-      font-weight: 400;
-      font-style: italic;
-      margin-bottom: 8px;
-    }
-    .slide-about .role-tags {
-      display: flex; gap: 8px; justify-content: center; flex-wrap: wrap;
-    }
-    .role-tag {
-      font-size: 10px;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: rgba(255,255,255,0.4);
-      padding: 3px 10px;
-      border: 0.5px solid rgba(255,255,255,0.15);
-    }
+      /* Horizontal scanlines layered over the whole slide.
+       Gives the CRT / old monitor feel. Remove this div in the
+       HTML to turn it off. */
+      .slide-game .scanlines {
+        position: absolute;
+        inset: 0;
+        background: repeating-linear-gradient(
+          0deg,
+          transparent,
+          transparent 2px,
+          rgba(0, 0, 0, 0.08) 2px,
+          rgba(0, 0, 0, 0.08) 4px
+        );
+        pointer-events: none;
+      }
 
-    /* Bottom bar */
-    .bottom-bar {
-      position: absolute;
-      bottom: 0; left: 0; right: 0;
-      height: 44px;
-      border-top: 0.5px solid rgba(255,255,255,0.08);
-      display: flex; align-items: center;
-      padding: 0 32px; gap: 20px;
-      z-index: 5;
-    }
-    .bottom-bar.light-mode { border-top: 0.5px solid rgba(0,0,0,0.08); }
+      /* The small "Y2K / INTERACTIVE" label below the heading */
+      .slide-game .tag {
+        position: absolute;
+        top: 120px;
+        left: 40px;
+        font-size: 10px;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: #7c5eff;
+        border: 1px solid #7c5eff;
+        padding: 3px 8px;
+      }
 
-    .progress-dots { display: flex; gap: 6px; align-items: center; }
-    .dot {
-      width: 5px; height: 5px;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.2);
-      transition: all 0.3s ease;
-      cursor: pointer;
-    }
-    .dot.active { background: rgba(255,255,255,0.8); width: 16px; border-radius: 3px; }
-    .dot.dark { background: rgba(0,0,0,0.15); }
-    .dot.dark.active { background: rgba(0,0,0,0.6); }
+      /* The three project name pills at the bottom.
+       Add/remove <div class="pill"> items in the HTML to change projects. */
+      .slide-game .project-pills {
+        position: absolute;
+        bottom: 80px;
+        left: 40px;
+        display: flex;
+        gap: 10px;
+      }
+      .slide-game .pill {
+        font-size: 11px;
+        color: rgba(255, 255, 255, 0.6);
+        border: 0.5px solid rgba(255, 255, 255, 0.2);
+        padding: 5px 12px;
+        letter-spacing: 0.05em;
+      }
 
-    .paused-label {
-      font-size: 10px;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: rgba(255,255,255,0.3);
-      opacity: 0;
-      transition: opacity 0.3s;
-    }
-    .paused-label.show { opacity: 1; }
-    .paused-label.dark-text { color: rgba(0,0,0,0.3); }
+      /* ============================================================
+      SLIDE 2 — PHOTOGRAPHY (minimal, light)
+      Off-white background with a 3-column photo grid placeholder.
+      The grey cells are placeholders — replace their background
+      with background-image: url('your-photo.jpg') to use real photos.
+      Color palette: #f5f3ee (warm white bg), #1a1814 (near-black text)
+    ============================================================ */
+      .slide-photo {
+        background: #f5f3ee;
+      }
 
-    .enter-arrow {
-      margin-left: auto;
-      font-size: 10px;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: rgba(255,255,255,0.3);
-      display: flex; align-items: center; gap: 6px;
-      cursor: pointer;
-      opacity: 0;
-      transition: opacity 0.3s, color 0.2s;
-    }
-    .enter-arrow.show { opacity: 1; }
-    .enter-arrow.dark-text { color: rgba(0,0,0,0.3); }
-    .enter-arrow:hover { color: rgba(255,255,255,0.7); }
+      /* 3-column CSS grid that fills the whole slide.
+       The first cell spans 2 rows (see nth-child rule below). */
+      .slide-photo .photo-grid {
+        position: absolute;
+        inset: 0;
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr; /* 3 equal columns */
+        gap: 2px; /* thin gap between photo cells */
+      }
 
-    .hover-msg {
-      position: absolute;
-      top: 20px; right: 32px;
-      font-size: 10px;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: rgba(255,255,255,0.2);
-      transition: color 0.3s;
-      pointer-events: none;
-    }
-    .hover-msg.dark-text { color: rgba(0,0,0,0.2); }
-  </style>
-</head>
-<body>
-  <div class="site" id="site">
-    <nav class="sidebar" id="sidebar">
-      <div class="site-name">Hanlin</div>
-      <div class="nav-items">
-        <div class="nav-item" data-index="0">
-          <div class="nav-label">01</div>
-          <div class="nav-title">游戏开发</div>
+      /* Individual photo placeholder cells. Replace background color
+       with background-image: url(...) for real photos.
+       background-size: cover; background-position: center; */
+      .photo-cell {
+        background: #c8c4bc;
+        position: relative;
+        overflow: hidden;
+      }
+      .photo-cell:nth-child(1) {
+        background: #b5b0a8;
+        grid-row: span 2;
+      } /* tall left cell */
+      .photo-cell:nth-child(2) {
+        background: #d4cfc8;
+      }
+      .photo-cell:nth-child(3) {
+        background: #c1bdb6;
+      }
+      .photo-cell:nth-child(4) {
+        background: #a8a39c;
+      }
+      .photo-cell:nth-child(5) {
+        background: #bfbab4;
+      }
+
+      /* Text overlay at the bottom of the photo slide */
+      .slide-photo .overlay-text {
+        position: absolute;
+        bottom: 40px;
+        left: 40px;
+        right: 40px;
+        z-index: 2;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+      }
+
+      /* The large italic word "Light" — change this in the HTML */
+      .slide-photo .big-word {
+        font-family: "Playfair Display", serif;
+        font-size: 48px;
+        font-weight: 400;
+        font-style: italic;
+        color: #1a1814;
+        line-height: 1;
+      }
+
+      /* The small "Photography" label on the right */
+      .slide-photo .sub {
+        font-size: 11px;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: #6b6760;
+      }
+
+      /* ============================================================
+      SLIDE 3 — RESEARCH (academic, clean)
+      Very light warm-white background. Decorative elements: a big
+      faint quotation mark and short abstract lines on the right
+      (like a paper preview). Text sits in the upper-left area.
+      Color palette: #f9f7f4 (bg), #1a1814 (heading), #6b6760 (body)
+    ============================================================ */
+      .slide-research {
+        background: #f9f7f4;
+      }
+
+      /* Decorative horizontal lines on the right side — meant to
+       suggest a paper / document. Change their widths in the HTML
+       (style="width:160px" etc.) to vary the rhythm. */
+      .slide-research .abstract-lines {
+        position: absolute;
+        top: 40px;
+        right: 60px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+      .abstract-line {
+        height: 1px;
+        background: #c8c4bc;
+      }
+
+      /* Giant faint quotation mark for visual texture.
+       opacity is controlled via rgba(0,0,0,0.07) — increase to make
+       it more visible, decrease to make it more subtle. */
+      .slide-research .big-quote {
+        position: absolute;
+        top: 40px;
+        left: 40px;
+        font-family: "Playfair Display", serif;
+        font-size: 80px;
+        color: rgba(0, 0, 0, 0.07);
+        line-height: 1;
+      }
+
+      /* Container for the text content */
+      .slide-research .research-content {
+        position: absolute;
+        top: 80px;
+        left: 40px;
+        right: 40px;
+      }
+
+      /* Small uppercase label above the title e.g. "Research — 2024" */
+      .slide-research .research-eyebrow {
+        font-size: 10px;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: #8a8680;
+        margin-bottom: 16px;
+      }
+
+      /* The main research title — change the text in the HTML */
+      .slide-research .research-title {
+        font-family: "Playfair Display", serif;
+        font-size: 28px;
+        color: #1a1814;
+        line-height: 1.3;
+        margin-bottom: 16px;
+        max-width: 380px;
+      }
+
+      /* One-line description / abstract — change the text in the HTML */
+      .slide-research .research-desc {
+        font-size: 13px;
+        color: #6b6760;
+        line-height: 1.7;
+        max-width: 340px;
+      }
+
+      /* ============================================================
+      SLIDE 4 — ABOUT (dark, personal)
+      Dark background with a centered video frame placeholder and
+      your name + role tags at the bottom.
+      To embed a real video: replace the .video-frame div with an
+      <iframe> or <video> tag pointing to your file.
+    ============================================================ */
+      .slide-about {
+        background: #111;
+      }
+
+      /* Centers the video frame in the slide */
+      .slide-about .video-placeholder {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      /* The video frame box. Replace with a real <video> or <iframe>
+       when you're ready. width/height control the frame size. */
+      .video-frame {
+        width: 220px;
+        height: 280px;
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        position: relative;
+        overflow: hidden;
+        background: #1a1a1a;
+      }
+
+      /* Subtle light reflection effect on the video frame */
+      .video-frame::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.03) 0%,
+          transparent 60%
+        );
+      }
+
+      /* The circular play button in the center of the video frame */
+      .play-icon {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 44px;
+        height: 44px;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      /* CSS-drawn triangle inside the play button */
+      .play-triangle {
+        width: 0;
+        height: 0;
+        border-top: 8px solid transparent;
+        border-bottom: 8px solid transparent;
+        border-left: 14px solid rgba(255, 255, 255, 0.7);
+        margin-left: 3px; /* slight offset to visually center the triangle */
+      }
+
+      /* Your name + role tags at the bottom of the About slide */
+      .slide-about .about-text {
+        position: absolute;
+        bottom: 50px;
+        left: 40px;
+        right: 40px;
+        text-align: center;
+      }
+
+      /* Your name in large italic serif */
+      .slide-about .name-big {
+        font-family: "Playfair Display", serif;
+        font-size: 38px;
+        color: #fff;
+        font-weight: 400;
+        font-style: italic;
+        margin-bottom: 8px;
+      }
+
+      /* Row of role tag pills e.g. "Developer", "Photographer"
+       Add/remove <div class="role-tag"> items in the HTML. */
+      .slide-about .role-tags {
+        display: flex;
+        gap: 8px;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+      .role-tag {
+        font-size: 10px;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: rgba(255, 255, 255, 0.4);
+        padding: 3px 10px;
+        border: 0.5px solid rgba(255, 255, 255, 0.15);
+      }
+
+      /* ============================================================
+      BOTTOM BAR
+      A thin bar fixed to the bottom of the main visual area.
+      Contains: progress dots (left), "已暂停" label (center),
+      and "进入 →" link (right).
+      The .light-mode class swaps border color for light slides.
+    ============================================================ */
+      .bottom-bar {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 44px;
+        border-top: 0.5px solid rgba(255, 255, 255, 0.08);
+        display: flex;
+        align-items: center;
+        padding: 0 32px;
+        gap: 20px;
+        z-index: 5;
+      }
+      /* When on a light slide (photo/research), use a dark border instead */
+      .bottom-bar.light-mode {
+        border-top: 0.5px solid rgba(0, 0, 0, 0.08);
+      }
+
+      /* The 4 progress indicator dots.
+       Each dot wrapper is always 16px wide so the container never shifts.
+       The inner fill animates from a small circle to a full pill. */
+      .progress-dots {
+        display: flex;
+        gap: 6px;
+        align-items: center;
+      }
+      .dot {
+        width: 16px;
+        height: 5px;
+        position: relative;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .dot::after {
+        content: "";
+        position: absolute;
+        height: 5px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.2);
+        width: 5px;
+        transition: width 0.3s ease, border-radius 0.3s ease, background 0.3s ease;
+      }
+      .dot.active::after {
+        background: rgba(255, 255, 255, 0.8);
+        width: 16px;
+        border-radius: 3px;
+      }
+      /* Dark variants used on light-background slides */
+      .dot.dark::after {
+        background: rgba(0, 0, 0, 0.15);
+      }
+      .dot.dark.active::after {
+        background: rgba(0, 0, 0, 0.6);
+      }
+      /* "已暂停" label — hidden by default, shown when hovering a nav item.
+       The JS adds/removes the .show class. */
+      .paused-label {
+        font-size: 10px;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: rgba(255, 255, 255, 0.3);
+        opacity: 0;
+        transition: opacity 0.3s;
+      }
+      .paused-label.show {
+        opacity: 1;
+      }
+      .paused-label.dark-text {
+        color: rgba(0, 0, 0, 0.3);
+      } /* for light slides */
+
+      /* "进入 →" link — hidden by default, shown on nav hover.
+       margin-left: auto pushes it to the far right. */
+      .enter-arrow {
+        margin-left: auto;
+        font-size: 10px;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: rgba(255, 255, 255, 0.3);
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        cursor: pointer;
+        opacity: 0;
+        transition:
+          opacity 0.3s,
+          color 0.2s;
+      }
+      .enter-arrow.show {
+        opacity: 1;
+      }
+      .enter-arrow.dark-text {
+        color: rgba(0, 0, 0, 0.3);
+      }
+      .enter-arrow:hover {
+        color: rgba(255, 255, 255, 0.7);
+      }
+
+      /* The tiny "hover 侧栏可暂停" hint in the top-right corner */
+      .hover-msg {
+        position: absolute;
+        top: 20px;
+        right: 32px;
+        font-size: 10px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: rgba(255, 255, 255, 0.2);
+        transition: color 0.3s;
+        pointer-events: none; /* doesn't intercept mouse events */
+      }
+      .hover-msg.dark-text {
+        color: rgba(0, 0, 0, 0.2);
+      }
+    </style>
+  </head>
+  <body>
+    <!-- ============================================================
+    SIDEBAR HTML
+    .site-name → your name/brand at the top
+    Each .nav-item has a data-index attribute (0–3) that the JS
+    uses to know which slide to show. The order here matches the
+    order of the slides below.
+  ============================================================ -->
+    <div class="site" id="site">
+      <nav class="sidebar" id="sidebar">
+        <div class="site-name">Hanlin</div>
+        <div class="nav-items">
+          <div class="nav-item" data-index="0">
+            <div class="nav-label">01</div>
+            <div class="nav-title">游戏开发</div>
+            <!-- change section names here -->
+          </div>
+
+          <div class="nav-item" data-index="1">
+            <div class="nav-label">02</div>
+            <div class="nav-title">摄影</div>
+          </div>
+
+          <div class="nav-item" data-index="2">
+            <div class="nav-label">03</div>
+            <div class="nav-title">研究</div>
+          </div>
+
+          <div class="nav-item" data-index="3">
+            <div class="nav-label">04</div>
+            <div class="nav-title">自我介绍</div>
+          </div>
         </div>
-        <div class="nav-item" data-index="1">
-          <div class="nav-label">02</div>
-          <div class="nav-title">摄影</div>
-        </div>
-        <div class="nav-item" data-index="2">
-          <div class="nav-label">03</div>
-          <div class="nav-title">研究</div>
-        </div>
-        <div class="nav-item" data-index="3">
-          <div class="nav-label">04</div>
-          <div class="nav-title">自我介绍</div>
-        </div>
-      </div>
-    </nav>
+      </nav>
 
-    <div class="main-visual" id="mainVisual">
-      <div class="slide slide-game visible" id="slide0">
-        <div class="grid-bg"></div>
-        <div class="glow"></div>
-        <div class="scanlines"></div>
-        <div class="pixel-text">GAME<br><span>DEV</span></div>
-        <div class="tag">Y2K / INTERACTIVE</div>
-        <div class="project-pills">
-          <div class="pill">Project_01</div>
-          <div class="pill">Project_02</div>
-          <div class="pill">Project_03</div>
-        </div>
-      </div>
+      <!-- ============================================================
+      MAIN VISUAL AREA
+      All 4 slides live here, stacked on top of each other.
+      The first slide has class "visible" so it shows on load.
+      The JS swaps "visible" between slides during autoplay/hover.
+    ============================================================ -->
+      <div class="main-visual" id="mainVisual">
+        <!-- SLIDE 1: GAME DEV ─────────────────────────────────── -->
+        <div class="slide slide-game visible" id="slide0">
+          <div class="grid-bg"></div>
+          <!-- background grid lines -->
+          <div class="glow"></div>
+          <!-- top-right purple glow -->
+          <div class="scanlines"></div>
+          <!-- CRT scanline overlay -->
 
-      <div class="slide slide-photo" id="slide1">
-        <div class="photo-grid">
-          <div class="photo-cell"></div>
-          <div class="photo-cell"></div>
-          <div class="photo-cell"></div>
-          <div class="photo-cell"></div>
-          <div class="photo-cell"></div>
-        </div>
-        <div class="overlay-text">
-          <div class="big-word">Light</div>
-          <div class="sub">Photography</div>
-        </div>
-      </div>
+          <!-- Main heading. "DEV" is in a <span> to apply purple color -->
+          <div class="pixel-text">GAME<br /><span>DEV</span></div>
 
-      <div class="slide slide-research" id="slide2">
-        <div class="big-quote">"</div>
-        <div class="abstract-lines">
-          <div class="abstract-line" style="width:160px"></div>
-          <div class="abstract-line" style="width:100px"></div>
-          <div class="abstract-line" style="width:140px"></div>
-          <div class="abstract-line" style="width:80px"></div>
-          <div class="abstract-line" style="width:120px"></div>
-        </div>
-        <div class="research-content">
-          <div class="research-eyebrow">Research — 2024</div>
-          <div class="research-title">在数字媒介与空间认知之间寻找答案</div>
-          <div class="research-desc">Exploring the intersection of human perception and digital environments through empirical methods.</div>
-        </div>
-      </div>
+          <!-- Genre/style label — change this text freely -->
+          <div class="tag">Y2K / INTERACTIVE</div>
 
-      <div class="slide slide-about" id="slide3">
-        <div class="video-placeholder">
-          <div class="video-frame">
-            <div class="play-icon">
-              <div class="play-triangle"></div>
+          <!-- Project name pills — add/remove/rename these -->
+          <div class="project-pills">
+            <div class="pill">Project_01</div>
+            <div class="pill">Project_02</div>
+            <div class="pill">Project_03</div>
+          </div>
+        </div>
+
+        <!-- SLIDE 2: PHOTOGRAPHY ──────────────────────────────── -->
+        <div class="slide slide-photo" id="slide1">
+          <!-- Photo grid: 5 cells, first one is taller (spans 2 rows).
+             Replace the background color of each .photo-cell with
+             background-image: url('photo.jpg') for real photos. -->
+          <div class="photo-grid">
+            <div class="photo-cell"></div>
+            <!-- tall left cell -->
+            <div class="photo-cell"></div>
+            <div class="photo-cell"></div>
+            <div class="photo-cell"></div>
+            <div class="photo-cell"></div>
+          </div>
+
+          <!-- Text overlay at the bottom -->
+          <div class="overlay-text">
+            <div class="big-word">Light</div>
+            <!-- change this word -->
+            <div class="sub">Photography</div>
+            <!-- section label -->
+          </div>
+        </div>
+
+        <!-- SLIDE 3: RESEARCH ─────────────────────────────────── -->
+        <div class="slide slide-research" id="slide2">
+          <div class="big-quote">"</div>
+          <!-- decorative large quote mark -->
+
+          <!-- Decorative lines on the right (like a document preview).
+             Change style="width:___px" to vary line lengths. -->
+          <div class="abstract-lines">
+            <div class="abstract-line" style="width: 160px"></div>
+            <div class="abstract-line" style="width: 100px"></div>
+            <div class="abstract-line" style="width: 140px"></div>
+            <div class="abstract-line" style="width: 80px"></div>
+            <div class="abstract-line" style="width: 120px"></div>
+          </div>
+
+          <div class="research-content">
+            <div class="research-eyebrow">Research — 2024</div>
+            <!-- change year/label -->
+            <div class="research-title">在数字媒介与空间认知之间寻找答案</div>
+            <!-- your paper/research title -->
+            <div class="research-desc">
+              Exploring the intersection of human perception and digital
+              environments through empirical methods.
+            </div>
+            <!-- one-line description -->
+          </div>
+        </div>
+
+        <!-- SLIDE 4: ABOUT ────────────────────────────────────── -->
+        <div class="slide slide-about" id="slide3">
+          <!-- Video placeholder. To use a real video, replace the
+             entire .video-placeholder div with:
+             <video autoplay muted loop playsinline src="your-video.mp4"
+               style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+             </video> -->
+          <div class="video-placeholder">
+            <div class="video-frame">
+              <div class="play-icon">
+                <div class="play-triangle"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Your name and role tags at the bottom -->
+          <div class="about-text">
+            <div class="name-big">Hanlin</div>
+            <!-- change your name here -->
+            <div class="role-tags">
+              <!-- Add/remove/rename these role tags freely -->
+              <div class="role-tag">Developer</div>
+              <div class="role-tag">Photographer</div>
+              <div class="role-tag">Researcher</div>
             </div>
           </div>
         </div>
-        <div class="about-text">
-          <div class="name-big">Hanlin</div>
-          <div class="role-tags">
-            <div class="role-tag">Developer</div>
-            <div class="role-tag">Photographer</div>
-            <div class="role-tag">Researcher</div>
+
+        <!-- BOTTOM BAR ────────────────────────────────────────── -->
+        <!-- Contains: progress dots | "已暂停" label | "进入 →" link -->
+        <div class="bottom-bar" id="bottomBar">
+          <div class="progress-dots" id="dots">
+            <!-- One dot per slide. JS adds .active to the current one. -->
+            <div class="dot active" data-index="0"></div>
+            <div class="dot" data-index="1"></div>
+            <div class="dot" data-index="2"></div>
+            <div class="dot" data-index="3"></div>
           </div>
+          <div class="paused-label" id="pausedLabel">已暂停</div>
+          <!-- shown on hover -->
+          <div class="enter-arrow" id="enterArrow">进入 →</div>
+          <!-- shown on hover -->
         </div>
-      </div>
 
-      <div class="bottom-bar" id="bottomBar">
-        <div class="progress-dots" id="dots">
-          <div class="dot active" data-index="0"></div>
-          <div class="dot" data-index="1"></div>
-          <div class="dot" data-index="2"></div>
-          <div class="dot" data-index="3"></div>
-        </div>
-        <div class="paused-label" id="pausedLabel">已暂停</div>
-        <div class="enter-arrow" id="enterArrow">进入 →</div>
+        <!-- Subtle hint text in the top-right corner -->
+        <div class="hover-msg" id="hoverMsg">hover 侧栏可暂停</div>
       </div>
-
-      <div class="hover-msg" id="hoverMsg">hover 侧栏可暂停</div>
+      <!-- end .main-visual -->
     </div>
-  </div>
+    <!-- end .site -->
 
-  <script>
-    const slides = document.querySelectorAll('.slide');
-    const dots = document.querySelectorAll('.dot');
-    const navItems = document.querySelectorAll('.nav-item');
-    const pausedLabel = document.getElementById('pausedLabel');
-    const enterArrow = document.getElementById('enterArrow');
-    const hoverMsg = document.getElementById('hoverMsg');
-    const bottomBar = document.getElementById('bottomBar');
+    <script>
+      // ============================================================
+      // ELEMENT REFERENCES
+      // Grab all the DOM elements we need to manipulate.
+      // ============================================================
+      const slides = document.querySelectorAll(".slide"); // all 4 slide divs
+      const dots = document.querySelectorAll(".dot"); // 4 progress dots
+      const navItems = document.querySelectorAll(".nav-item"); // 4 sidebar items
+      const pausedLabel = document.getElementById("pausedLabel"); // "已暂停" text
+      const enterArrow = document.getElementById("enterArrow"); // "进入 →" link
+      const hoverMsg = document.getElementById("hoverMsg"); // top-right hint
+      const bottomBar = document.getElementById("bottomBar"); // bottom strip
 
-    const lightSlides = [1, 2];
-    let current = 0;
-    let paused = false;
+      // ============================================================
+      // STATE
+      // lightSlides: indexes of slides with a light background.
+      //   Used to flip the dot/text colors so they remain readable.
+      //   Currently slides 1 (photo) and 2 (research) are light.
+      //   If you reorder slides, update this array accordingly.
+      // current: which slide is visible right now (0–3)
+      // paused:  true when the user is hovering a nav item
+      // ============================================================
+      const lightSlides = [1, 2];
+      let current = 0;
+      let paused = false;
 
-    function goTo(index) {
-      slides[current].classList.remove('visible');
-      dots[current].classList.remove('active');
-      navItems[current].classList.remove('active');
-      current = index;
-      slides[current].classList.add('visible');
-      dots[current].classList.add('active');
-      navItems[current].classList.add('active');
+      // ============================================================
+      // goTo(index)
+      // Switches the visible slide to the one at `index`.
+      // 1. Removes .visible / .active from the current slide + dot + nav
+      // 2. Adds them to the new ones
+      // 3. Toggles .dark on dots and .light-mode on the bottom bar
+      //    when switching to/from a light-background slide
+      // ============================================================
+      function goTo(index) {
+        // deactivate current
+        slides[current].classList.remove("visible");
+        dots[current].classList.remove("active");
+        navItems[current].classList.remove("active");
 
-      const isLight = lightSlides.includes(current);
-      dots.forEach(d => d.classList.toggle('dark', isLight));
-      bottomBar.classList.toggle('light-mode', isLight);
-      pausedLabel.classList.toggle('dark-text', isLight);
-      enterArrow.classList.toggle('dark-text', isLight);
-      hoverMsg.classList.toggle('dark-text', isLight);
-    }
+        // activate new
+        current = index;
+        slides[current].classList.add("visible");
+        dots[current].classList.add("active");
+        navItems[current].classList.add("active");
 
-    function next() {
-      if (!paused) goTo((current + 1) % 4);
-    }
+        // adjust colors for light vs dark slides
+        const isLight = lightSlides.includes(current);
+        dots.forEach((d) => d.classList.toggle("dark", isLight));
+        bottomBar.classList.toggle("light-mode", isLight);
+        pausedLabel.classList.toggle("dark-text", isLight);
+        enterArrow.classList.toggle("dark-text", isLight);
+        hoverMsg.classList.toggle("dark-text", isLight);
+      }
 
-    setInterval(next, 2800);
+      // ============================================================
+      // AUTOPLAY
+      // Advances to the next slide every 2800ms (2.8 seconds).
+      // Only fires when paused === false.
+      // To change the speed, edit the number in setInterval().
+      // ============================================================
+      function next() {
+        if (!paused) goTo((current + 1) % 4); // % 4 wraps back to 0 after slide 3
+      }
+      setInterval(next, 4000); // ← change this number to adjust autoplay speed (ms)
 
-    navItems.forEach(item => {
-      const idx = parseInt(item.dataset.index);
-      item.addEventListener('mouseenter', () => {
-        paused = true;
-        pausedLabel.classList.add('show');
-        enterArrow.classList.add('show');
-        goTo(idx);
+      // ============================================================
+      // NAV ITEM HOVER
+      // mouseenter → pause autoplay, show "已暂停" + "进入 →", jump to that slide
+      // mouseleave → resume autoplay, hide the labels
+      // ============================================================
+      navItems.forEach((item) => {
+        const idx = parseInt(item.dataset.index); // reads data-index="0" etc.
+        item.addEventListener("mouseenter", () => {
+          paused = true;
+          pausedLabel.classList.add("show");
+          enterArrow.classList.add("show");
+          goTo(idx);
+        });
+        item.addEventListener("mouseleave", () => {
+          paused = false;
+          pausedLabel.classList.remove("show");
+          enterArrow.classList.remove("show");
+        });
       });
-      item.addEventListener('mouseleave', () => {
-        paused = false;
-        pausedLabel.classList.remove('show');
-        enterArrow.classList.remove('show');
+
+      // ============================================================
+      // PROGRESS DOT CLICKS
+      // Clicking a dot jumps directly to that slide.
+      // ============================================================
+      dots.forEach((dot) => {
+        dot.addEventListener("click", () => goTo(parseInt(dot.dataset.index)));
       });
-    });
 
-    dots.forEach(dot => {
-      dot.addEventListener('click', () => goTo(parseInt(dot.dataset.index)));
-    });
-
-    goTo(0);
-  </script>
-</body>
+      // Initialize — show slide 0 on load
+      goTo(0);
+    </script>
+  </body>
 </html>
