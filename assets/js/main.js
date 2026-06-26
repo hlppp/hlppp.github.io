@@ -1,0 +1,166 @@
+// ── ELEMENT REFERENCES ────────────────────────────────────────────
+const slides      = document.querySelectorAll(".slide");
+const dots        = document.querySelectorAll(".dot");
+const navItems    = document.querySelectorAll(".nav-item");
+const pausedLabel = document.getElementById("pausedLabel");
+const enterArrow  = document.getElementById("enterArrow");
+const hoverMsg    = document.getElementById("hoverMsg");
+const bottomBar   = document.getElementById("bottomBar");
+const sidebar     = document.getElementById("sidebar");
+const sidebarToggle = document.getElementById("sidebarToggle");
+
+// ── STATE ─────────────────────────────────────────────────────────
+// lightSlides: slide indexes with a light background (photo, research).
+// locked: true while the sidebar is collapsed (user is in a section).
+const lightSlides = [1, 2];
+let current = 0;
+let paused  = false;
+let locked  = false;
+
+// ── SLIDE SWITCHER ────────────────────────────────────────────────
+function goTo(index) {
+  slides[current].classList.remove("visible");
+  dots[current].classList.remove("active");
+  navItems[current].classList.remove("active");
+
+  current = index;
+  slides[current].classList.add("visible");
+  dots[current].classList.add("active");
+  navItems[current].classList.add("active");
+
+  const isLight = lightSlides.includes(current);
+  dots.forEach((d) => d.classList.toggle("dark", isLight));
+  bottomBar.classList.toggle("light-mode", isLight);
+  pausedLabel.classList.toggle("dark-text", isLight);
+  enterArrow.classList.toggle("dark-text", isLight);
+  hoverMsg.classList.toggle("dark-text", isLight);
+}
+
+// ── AUTOPLAY ──────────────────────────────────────────────────────
+function next() {
+  if (!paused && !locked) goTo((current + 1) % slides.length);
+}
+setInterval(next, 4000);
+
+// ── SIDEBAR NAV ───────────────────────────────────────────────────
+navItems.forEach((item) => {
+  const idx = parseInt(item.dataset.index);
+
+  item.addEventListener("mouseenter", () => {
+    if (locked) return;
+    paused = true;
+    pausedLabel.classList.add("show");
+    enterArrow.classList.add("show");
+    goTo(idx);
+  });
+
+  item.addEventListener("mouseleave", () => {
+    if (locked) return;
+    paused = false;
+    pausedLabel.classList.remove("show");
+    enterArrow.classList.remove("show");
+  });
+
+  // Click → enter section, collapse sidebar
+  item.addEventListener("click", () => {
+    goTo(idx);
+    locked = true;
+    paused = false;
+    pausedLabel.classList.remove("show");
+    enterArrow.classList.remove("show");
+    sidebar.classList.add("collapsed");
+  });
+});
+
+// Click site-name header to expand sidebar
+sidebarToggle.addEventListener("click", () => {
+  if (!sidebar.classList.contains("collapsed")) return;
+  sidebar.classList.remove("collapsed");
+  locked = false;
+});
+
+// ── PROGRESS DOTS ─────────────────────────────────────────────────
+dots.forEach((dot) => {
+  dot.addEventListener("click", () => goTo(parseInt(dot.dataset.index)));
+});
+
+goTo(0);
+
+// ── PHOTOGRAPHY — TOKYO PROJECT ───────────────────────────────────
+const tokyoPhotos = [
+  "assets/images/photographs/tokyo/tokyo_0.jpg",
+  "assets/images/photographs/tokyo/tokyo_1.jpg",
+  "assets/images/photographs/tokyo/tokyo_2.jpg",
+  "assets/images/photographs/tokyo/tokyo_3.jpg",
+  "assets/images/photographs/tokyo/tokyo_4.JPG",
+  "assets/images/photographs/tokyo/tokyo_5.JPG",
+  "assets/images/photographs/tokyo/tokyo_6.JPG",
+  "assets/images/photographs/tokyo/tokyo_7.jpg",
+  "assets/images/photographs/tokyo/tokyo_8.jpg",
+  "assets/images/photographs/tokyo/tokyo_9.JPG",
+  "assets/images/photographs/tokyo/tokyo_10.JPG",
+  "assets/images/photographs/tokyo/tokyo_11.jpg",
+  "assets/images/photographs/tokyo/tokyo_12.jpg",
+  "assets/images/photographs/tokyo/tokyo_13.jpg",
+  "assets/images/photographs/tokyo/tokyo_14.jpg",
+];
+
+const projectOverlay = document.getElementById("projectOverlay");
+const projectClose   = document.getElementById("projectClose");
+const projectGrid    = document.getElementById("projectGrid");
+
+// Build masonry grid once on load
+tokyoPhotos.forEach((src, i) => {
+  const wrap = document.createElement("div");
+  wrap.className = "project-photo";
+  const img = document.createElement("img");
+  img.src = src;
+  img.loading = "lazy";
+  img.alt = "Tokyo " + i;
+  wrap.appendChild(img);
+  wrap.addEventListener("click", () => openLightbox(i));
+  projectGrid.appendChild(wrap);
+});
+
+function openProject()  { projectOverlay.classList.add("open"); }
+function closeProject() { projectOverlay.classList.remove("open"); }
+
+document.getElementById("photoGridThumb").addEventListener("click", openProject);
+projectClose.addEventListener("click", closeProject);
+
+// ── LIGHTBOX ──────────────────────────────────────────────────────
+const lightbox    = document.getElementById("lightbox");
+const lightboxImg = document.getElementById("lightboxImg");
+const lbCounter   = document.getElementById("lbCounter");
+let lbIndex = 0;
+
+function openLightbox(i) {
+  lbIndex = i;
+  lightboxImg.src = tokyoPhotos[i];
+  lbCounter.textContent = (i + 1) + " / " + tokyoPhotos.length;
+  lightbox.classList.add("open");
+}
+function closeLightbox() { lightbox.classList.remove("open"); }
+function lbStep(dir) {
+  lbIndex = (lbIndex + dir + tokyoPhotos.length) % tokyoPhotos.length;
+  lightboxImg.src = tokyoPhotos[lbIndex];
+  lbCounter.textContent = (lbIndex + 1) + " / " + tokyoPhotos.length;
+}
+
+document.getElementById("lbClose").addEventListener("click", closeLightbox);
+document.getElementById("lbPrev").addEventListener("click", () => lbStep(-1));
+document.getElementById("lbNext").addEventListener("click", () => lbStep(1));
+
+lightbox.addEventListener("click", (e) => {
+  if (e.target === lightbox) closeLightbox();
+});
+
+document.addEventListener("keydown", (e) => {
+  if (lightbox.classList.contains("open")) {
+    if (e.key === "Escape")     closeLightbox();
+    if (e.key === "ArrowRight") lbStep(1);
+    if (e.key === "ArrowLeft")  lbStep(-1);
+  } else if (projectOverlay.classList.contains("open")) {
+    if (e.key === "Escape") closeProject();
+  }
+});
