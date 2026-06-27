@@ -142,7 +142,11 @@ mainVisual.addEventListener("mouseover", (e) => {
   if (!locked && e.target.closest(CLICKABLE)) paused = true;
 });
 mainVisual.addEventListener("mouseout", (e) => {
-  if (!locked && e.target.closest(CLICKABLE) && !e.relatedTarget?.closest(CLICKABLE)) {
+  if (
+    !locked &&
+    e.target.closest(CLICKABLE) &&
+    !e.relatedTarget?.closest(CLICKABLE)
+  ) {
     paused = false;
     pausedLabel.classList.remove("show");
     enterArrow.classList.remove("show");
@@ -225,6 +229,40 @@ const photoProjects = [
       },
     ],
   },
+  {
+    title: "Messager 414",
+    cover: "assets/images/photographs/Messager 414/stellar_0.jpg",
+    sections: [
+      {
+        type: "row",
+        small: true,
+        photos: [
+          "assets/images/photographs/Messager 414/stellar_1.jpg",
+          "assets/images/photographs/Messager 414/stellar_0.jpg",
+        ],
+      },
+      {
+        type: "text",
+        content: ` In 1610, Galileo wrote Sidereus Nuncius (Starry Messenger), <br>
+        a letter to the Venetian Senate reporting his observations of Jupiter’s moons and the cratered surface of our own Moon.<br>
+        In the summer of 2024, I visited my cousin in Paris during the Olympic Games.<br>
+        Using a film camera and a double exposure, I layered La Vasque Olympique—the cauldron that carried the Olympic flame above the city—<br>
+        with Galileo’s drawing of the Moon from Sidereus Nuncius.<br>
+        A message from the sky to Earth. <br>
+        A message from the Earth back to the sky. <br>
+        Four hundred and fourteen years apart, <br>
+        sharing the same light. `,
+      },
+      {
+        type: "row",
+        photos: ["assets/images/photographs/Messager 414/ stellar_3.JPG"],
+      },
+      {
+        type: "row",
+        photos: ["assets/images/photographs/Messager 414/ stellar_2.jpg"],
+      },
+    ],
+  },
 ];
 
 // Build one thumbnail card per project on the photography slide
@@ -264,7 +302,7 @@ function openProject(project) {
     project.sections.forEach((section) => {
       if (section.type === "row") {
         const row = document.createElement("div");
-        row.className = "project-row";
+        row.className = "project-row" + (section.small ? " project-row--small" : "");
         section.photos.forEach((src) => {
           const wrap = document.createElement("div");
           wrap.className = "project-photo";
@@ -335,12 +373,12 @@ const gameProjects = [
   },
 ];
 
-const gameContent  = document.getElementById("gameContent");
-const gcMainImg    = document.getElementById("gcMainImg");
+const gameContent = document.getElementById("gameContent");
+const gcMainImg = document.getElementById("gcMainImg");
 const gcVideoFrame = document.getElementById("gcVideoFrame");
-const gcThumbs     = document.getElementById("gcThumbs");
-const gcRight      = document.getElementById("gcRight");
-const gameHint     = document.getElementById("gameHint");
+const gcThumbs = document.getElementById("gcThumbs");
+const gcRight = document.getElementById("gcRight");
+const gameHint = document.getElementById("gameHint");
 
 function showGcImage(src) {
   gcVideoFrame.src = "";
@@ -371,12 +409,15 @@ function openGameProject(project) {
   project.images.forEach((entry, i) => {
     const thumb = document.createElement("img");
     thumb.className = "gc-thumb" + (i === 0 ? " active" : "");
-    thumb.src = entry.type === "video"
-      ? `https://img.youtube.com/vi/${entry.id}/mqdefault.jpg`
-      : entry.src;
+    thumb.src =
+      entry.type === "video"
+        ? `https://img.youtube.com/vi/${entry.id}/mqdefault.jpg`
+        : entry.src;
     thumb.alt = project.title + " " + (i + 1);
     thumb.addEventListener("click", () => {
-      gcThumbs.querySelectorAll(".gc-thumb").forEach((t) => t.classList.remove("active"));
+      gcThumbs
+        .querySelectorAll(".gc-thumb")
+        .forEach((t) => t.classList.remove("active"));
       thumb.classList.add("active");
       showGcEntry(entry);
     });
@@ -393,12 +434,17 @@ document.querySelectorAll(".slide-game .pill[data-game]").forEach((pill) => {
   const project = gameProjects.find((p) => p.id === pill.dataset.game);
   if (!project) return;
   pill.addEventListener("click", () => {
-    if (gameContent.classList.contains("open") && pill.classList.contains("active-pill")) {
+    if (
+      gameContent.classList.contains("open") &&
+      pill.classList.contains("active-pill")
+    ) {
       gameContent.classList.remove("open");
       pill.classList.remove("active-pill");
       gameHint.classList.remove("hidden");
     } else {
-      document.querySelectorAll(".slide-game .pill").forEach((p) => p.classList.remove("active-pill"));
+      document
+        .querySelectorAll(".slide-game .pill")
+        .forEach((p) => p.classList.remove("active-pill"));
       pill.classList.add("active-pill");
       openGameProject(project);
     }
