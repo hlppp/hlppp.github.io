@@ -31,12 +31,8 @@
 
 // ── ELEMENT REFERENCES ────────────────────────────────────────────
 const slides = document.querySelectorAll(".slide");
-const dots = document.querySelectorAll(".dot");
 const navItems = document.querySelectorAll(".nav-item");
-const pausedLabel = document.getElementById("pausedLabel");
-const enterArrow = document.getElementById("enterArrow");
 const hoverMsg = document.getElementById("hoverMsg");
-const bottomBar = document.getElementById("bottomBar");
 const sidebar = document.getElementById("sidebar");
 const sidebarToggle = document.getElementById("sidebarToggle");
 
@@ -51,19 +47,13 @@ let locked = false;
 // ── SLIDE SWITCHER ────────────────────────────────────────────────
 function goTo(index) {
   slides[current].classList.remove("visible");
-  dots[current].classList.remove("active");
   navItems[current].classList.remove("active");
 
   current = index;
   slides[current].classList.add("visible");
-  dots[current].classList.add("active");
   navItems[current].classList.add("active");
 
   const isLight = lightSlides.includes(current);
-  dots.forEach((d) => d.classList.toggle("dark", isLight));
-  bottomBar.classList.toggle("light-mode", isLight);
-  pausedLabel.classList.toggle("dark-text", isLight);
-  enterArrow.classList.toggle("dark-text", isLight);
   hoverMsg.classList.toggle("dark-text", isLight);
 }
 
@@ -84,16 +74,12 @@ navItems.forEach((item) => {
   item.addEventListener("mouseenter", () => {
     if (locked || holding) return;
     paused = true;
-    pausedLabel.classList.add("show");
-    enterArrow.classList.add("show");
     goTo(idx);
   });
 
   item.addEventListener("mouseleave", () => {
     if (locked || holding) return;
     paused = false;
-    pausedLabel.classList.remove("show");
-    enterArrow.classList.remove("show");
   });
 
   // Click → enter section, collapse sidebar
@@ -104,8 +90,6 @@ navItems.forEach((item) => {
     goTo(idx);
     locked = true;
     paused = false;
-    pausedLabel.classList.remove("show");
-    enterArrow.classList.remove("show");
     sidebar.classList.add("collapsed");
   });
 });
@@ -131,13 +115,11 @@ sidebar.addEventListener("mouseleave", () => {
   sidebar.classList.add("collapsed");
   locked = true;
   paused = false;
-  pausedLabel.classList.remove("show");
-  enterArrow.classList.remove("show");
 });
 
 // ── MAIN VISUAL HOVER / CLICK ─────────────────────────────────────
 // Hovering a clickable element in the slide area pauses autoplay
-const CLICKABLE = ".pill, .project-card, .gc-thumb, .dot, button";
+const CLICKABLE = ".pill, .project-card, .gc-thumb, button";
 mainVisual.addEventListener("mouseover", (e) => {
   if (!locked && e.target.closest(CLICKABLE)) paused = true;
 });
@@ -148,8 +130,6 @@ mainVisual.addEventListener("mouseout", (e) => {
     !e.relatedTarget?.closest(CLICKABLE)
   ) {
     paused = false;
-    pausedLabel.classList.remove("show");
-    enterArrow.classList.remove("show");
   }
 });
 
@@ -162,15 +142,8 @@ mainVisual.addEventListener("click", (e) => {
     clearTimeout(holdTimeout);
     locked = true;
     paused = false;
-    pausedLabel.classList.remove("show");
-    enterArrow.classList.remove("show");
     sidebar.classList.add("collapsed");
   }
-});
-
-// ── PROGRESS DOTS ─────────────────────────────────────────────────
-dots.forEach((dot) => {
-  dot.addEventListener("click", () => goTo(parseInt(dot.dataset.index)));
 });
 
 goTo(0);
@@ -261,6 +234,45 @@ const photoProjects = [
         type: "row",
         photos: ["assets/images/photographs/Messager 414/ stellar_2.jpg"],
       },
+    ],
+  },
+  {
+    title: "Ong Ong",
+    cover: "assets/images/photographs/Ong Ong/Ong_0.JPG",
+    photos: [
+      "assets/images/photographs/Ong Ong/Ong_0.JPG",
+      "assets/images/photographs/Ong Ong/Ong_1.JPG",
+      "assets/images/photographs/Ong Ong/Ong_2.JPG",
+      "assets/images/photographs/Ong Ong/Ong_3.JPG",
+      "assets/images/photographs/Ong Ong/Ong_4.JPG",
+      "assets/images/photographs/Ong Ong/Ong_5.JPG",
+      "assets/images/photographs/Ong Ong/Ong_6.JPG",
+      "assets/images/photographs/Ong Ong/Ong_7.JPG",
+    ],
+  },
+  {
+    title: "Pound",
+    cover: "assets/images/photographs/pound/k_0.jpeg",
+    photos: [
+      "assets/images/photographs/pound/k_0.jpeg",
+      "assets/images/photographs/pound/k_1.jpeg",
+      "assets/images/photographs/pound/k_2.jpeg",
+      "assets/images/photographs/pound/k_3.jpeg",
+      "assets/images/photographs/pound/k_4.jpeg",
+      "assets/images/photographs/pound/k_5.jpeg",
+      "assets/images/photographs/pound/k_6.jpeg",
+      "assets/images/photographs/pound/k_7.jpeg",
+      "assets/images/photographs/pound/k_8.jpeg",
+      "assets/images/photographs/pound/k_9.jpeg",
+      "assets/images/photographs/pound/k_10.jpeg",
+      "assets/images/photographs/pound/k_11.jpeg",
+      "assets/images/photographs/pound/k_12.jpeg",
+      "assets/images/photographs/pound/k_13.jpeg",
+      "assets/images/photographs/pound/k_14.jpeg",
+      "assets/images/photographs/pound/k_15.jpeg",
+      "assets/images/photographs/pound/k_16.jpeg",
+      "assets/images/photographs/pound/k_17.jpeg",
+      "assets/images/photographs/pound/k_18.jpg",
     ],
   },
 ];

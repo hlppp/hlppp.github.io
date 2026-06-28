@@ -368,7 +368,7 @@ body {
   inset: 0 0 60px 0; /* leave room for the bottom overlay-text */
   padding: 32px;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   gap: 12px;
   align-content: start;
   overflow: hidden;
@@ -395,7 +395,7 @@ body {
 .project-card-label {
   font-family: "Bitter", serif;
   font-style: italic;
-  font-size: 13px;
+  font-size: 18px;
   color: #1a1814;
   letter-spacing: 0.02em;
 }
@@ -417,6 +417,11 @@ body {
   font-style: italic;
   color: #1a1814;
   line-height: 1;
+  transition: opacity 0.3s;
+}
+.sidebar.collapsed ~ .main-visual .slide-photo .big-word {
+  opacity: 0;
+  pointer-events: none;
 }
 .slide-photo .sub {
   font-size: 11px;
@@ -636,100 +641,6 @@ body {
 }
 
 /* ── BOTTOM BAR ───────────────────────────────────────────────── */
-.bottom-bar {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 44px;
-  border-top: 0.5px solid rgba(255, 255, 255, 0.08);
-  display: flex;
-  align-items: center;
-  padding: 0 32px;
-  gap: 20px;
-  z-index: 5;
-}
-.bottom-bar.light-mode {
-  border-top: 0.5px solid rgba(0, 0, 0, 0.08);
-}
-
-.progress-dots {
-  display: flex;
-  gap: 6px;
-  align-items: center;
-}
-.dot {
-  width: 16px;
-  height: 5px;
-  position: relative;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.dot::after {
-  content: "";
-  position: absolute;
-  height: 5px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.2);
-  width: 5px;
-  transition:
-    width 0.3s ease,
-    border-radius 0.3s ease,
-    background 0.3s ease;
-}
-.dot.active::after {
-  background: rgba(255, 255, 255, 0.8);
-  width: 16px;
-  border-radius: 3px;
-}
-.dot.dark::after {
-  background: rgba(0, 0, 0, 0.15);
-}
-.dot.dark.active::after {
-  background: rgba(0, 0, 0, 0.6);
-}
-
-.paused-label {
-  font-size: 10px;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.3);
-  opacity: 0;
-  transition: opacity 0.3s;
-}
-.paused-label.show {
-  opacity: 1;
-}
-.paused-label.dark-text {
-  color: rgba(0, 0, 0, 0.3);
-}
-
-.enter-arrow {
-  margin-left: auto;
-  font-size: 10px;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.3);
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  cursor: pointer;
-  opacity: 0;
-  transition:
-    opacity 0.3s,
-    color 0.2s;
-}
-.enter-arrow.show {
-  opacity: 1;
-}
-.enter-arrow.dark-text {
-  color: rgba(0, 0, 0, 0.3);
-}
-.enter-arrow:hover {
-  color: rgba(255, 255, 255, 0.7);
-}
 
 .hover-msg {
   position: absolute;
@@ -774,10 +685,10 @@ body {
 
 .project-back {
   font-family: "Bitter", serif;
-  font-size: 10px;
+  font-size: 22px;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.28);
+  color: rgba(255, 255, 255, 0.6);
   background: none;
   border: none;
   cursor: pointer;
@@ -799,7 +710,7 @@ body {
   flex: 1;
   text-align: center;
   font-family: "Bitter", serif;
-  font-size: 15px;
+  font-size: 24px;
   font-style: italic;
   color: rgba(255, 255, 255, 0.55);
   letter-spacing: 0.04em;
