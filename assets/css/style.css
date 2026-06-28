@@ -120,7 +120,7 @@ body {
 }
 
 .nav-label {
-  font-size: 11px;
+  font-size: 15px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: rgba(255, 255, 255, 0.35);
@@ -1020,6 +1020,24 @@ body {
 }
 .game-desc-text p:last-child {
   margin-bottom: 0;
+}
+.game-desc-links {
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
+}
+.game-desc-link {
+  font-family: "Press Start 2P", monospace;
+  font-size: 9px;
+  color: #00c878;
+  text-decoration: none;
+  border: 0.5px solid rgba(0, 200, 120, 0.45);
+  padding: 8px 14px;
+  transition: background 0.2s, color 0.2s;
+}
+.game-desc-link:hover {
+  background: rgba(0, 200, 120, 0.1);
+  color: #00ff9a;
 }
 
 /* ── LIGHTBOX ─────────────────────────────────────────────────── */

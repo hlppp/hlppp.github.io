@@ -364,11 +364,19 @@ const gameProjects = [
       <div class="game-desc-title">Project Bon</div>
       <div class="game-desc-tags">
         <span class="game-desc-tag">Unity</span>
-        <span class="game-desc-tag">2024</span>
       </div>
       <div class="game-desc-text">
-        <p>Write your project description here.</p>
-        <p>More details about gameplay, mechanics, or the story go here.</p>
+        <p> A digital game based on a real student dormitory in Kyoto.<br>
+        Yoshida Dormitory is a self-governing student dorm with a history of more than one hundred years.<br>
+        Bon, the main character of the game, was a real cat who lived in the dorm (p2).<br>
+       Today, the dormitory is facing the threat of demolition after being sued by the university.<br>
+        Through this project, Project Bon aims to preserve the architecture, culture, and memories of the dormitory in the digital realm,<br>
+        by telling real stories through a fictional game.</p>
+        <p> Project Bon is a collective formed by a few former residents and people connected to Yoshida Dormitory.</p>
+      </div>
+      <div class="game-desc-links">
+        <a href="https://store.steampowered.com/app/3870060/I_Am_a_Dorm_Resident_but_Cat/?l=english" target="_blank" rel="noopener" class="game-desc-link">Steam ↗</a>
+        <a href="https://x.com/ysdbon" target="_blank" rel="noopener" class="game-desc-link">Twitter ↗</a>
       </div>
     `,
   },
