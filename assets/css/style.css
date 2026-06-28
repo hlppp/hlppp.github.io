@@ -365,13 +365,17 @@ body {
 /* Grid of project-cover thumbnails — one card per photo series */
 .photo-projects-grid {
   position: absolute;
-  inset: 0 0 60px 0; /* leave room for the bottom overlay-text */
+  inset: 0;
   padding: 32px;
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 12px;
   align-content: start;
-  overflow: hidden;
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+.photo-projects-grid::-webkit-scrollbar {
+  display: none;
 }
 
 .project-card {
@@ -379,6 +383,42 @@ body {
   display: flex;
   flex-direction: column;
   gap: 8px;
+}
+.slide-photo .overlay-text {
+  position: absolute;
+  bottom: 40px;
+  left: 40px;
+  right: 40px;
+  z-index: 2;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  pointer-events: none;
+}
+.slide-photo .big-word {
+  font-family: "Bitter", serif;
+  font-size: 48px;
+  font-weight: 400;
+  font-style: italic;
+  color: #ffffff;
+  line-height: 1;
+}
+.sidebar.collapsed ~ .main-visual .slide-photo .overlay-text {
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.sidebar.collapsed ~ .main-visual .photo-projects-grid {
+  inset: 0;
+}
+.slide-photo .sub {
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #6b6760;
+}
+
+.project-card--wide .project-card-img {
+  aspect-ratio: 3 / 2;
 }
 .project-card-img {
   aspect-ratio: 3 / 4;
@@ -400,35 +440,6 @@ body {
   letter-spacing: 0.02em;
 }
 
-.slide-photo .overlay-text {
-  position: absolute;
-  bottom: 40px;
-  left: 40px;
-  right: 40px;
-  z-index: 2;
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-}
-.slide-photo .big-word {
-  font-family: "Bitter", serif;
-  font-size: 48px;
-  font-weight: 400;
-  font-style: italic;
-  color: #1a1814;
-  line-height: 1;
-  transition: opacity 0.3s;
-}
-.sidebar.collapsed ~ .main-visual .slide-photo .big-word {
-  opacity: 0;
-  pointer-events: none;
-}
-.slide-photo .sub {
-  font-size: 11px;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: #6b6760;
-}
 
 /* ── SLIDE 3 — RESEARCH ───────────────────────────────────────── */
 .slide-research {

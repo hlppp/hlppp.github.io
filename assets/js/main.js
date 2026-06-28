@@ -279,9 +279,10 @@ const photoProjects = [
 
 // Build one thumbnail card per project on the photography slide
 const photoProjectsGrid = document.getElementById("photoProjectsGrid");
-photoProjects.forEach((project) => {
+photoProjects.forEach((project, i) => {
   const card = document.createElement("div");
   card.className = "project-card";
+  if (i === 4) { card.style.gridColumn = "span 2"; card.classList.add("project-card--wide"); }
   card.innerHTML = `
     <div class="project-card-img" style="background-image:url('${project.cover}')"></div>
     <div class="project-card-label">${project.title}</div>
@@ -289,6 +290,37 @@ photoProjects.forEach((project) => {
   card.addEventListener("click", () => openProject(project));
   photoProjectsGrid.appendChild(card);
 });
+
+// Match wide card (Pound) image height to portrait cards
+(function () {
+  const imgs = photoProjectsGrid.querySelectorAll(".project-card-img");
+  const wideImg = imgs[4];
+  if (!wideImg) return;
+  wideImg.style.aspectRatio = "unset";
+  function sync() {
+    if (imgs[0].offsetHeight > 0) wideImg.style.height = imgs[0].offsetHeight + "px";
+  }
+  new ResizeObserver(sync).observe(photoProjectsGrid);
+  sync();
+})();
+
+// Auto-scroll grid when hovering second-row cards
+(function () {
+  const COLS = 3;
+  const cards = photoProjectsGrid.querySelectorAll(".project-card");
+  cards.forEach((card, i) => {
+    card.addEventListener("mouseenter", () => {
+      if (i >= COLS) {
+        photoProjectsGrid.scrollTo({ top: photoProjectsGrid.scrollHeight, behavior: "smooth" });
+      } else {
+        photoProjectsGrid.scrollTo({ top: 0, behavior: "smooth" });
+      }
+    });
+  });
+  photoProjectsGrid.addEventListener("mouseleave", () => {
+    photoProjectsGrid.scrollTo({ top: 0, behavior: "smooth" });
+  });
+})();
 
 // ── PROJECT OVERLAY ───────────────────────────────────────────────
 const projectOverlay = document.getElementById("projectOverlay");
