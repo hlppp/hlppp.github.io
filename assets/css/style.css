@@ -651,6 +651,16 @@ body {
   line-height: 1.7;
 }
 
+.about-corner-photo {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 130px;
+  height: auto;
+  object-fit: cover;
+  display: block;
+}
+
 /* ── BOTTOM BAR ───────────────────────────────────────────────── */
 
 .hover-msg {
