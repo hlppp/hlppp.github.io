@@ -246,12 +246,12 @@ const photoProjects = [
         content: ` In 1610, Galileo wrote Sidereus Nuncius (Starry Messenger), <br>
         a letter to the Venetian Senate reporting his observations of Jupiter’s moons and the cratered surface of our own Moon.<br>
         In the summer of 2024, I visited my cousin in Paris during the Olympic Games.<br>
-        Using a film camera and a double exposure, I layered La Vasque Olympique—the cauldron that carried the Olympic flame above the city—<br>
-        with Galileo’s drawing of the Moon from Sidereus Nuncius.<br>
+        Using a film camera and double exposure, I put La Vasque Olympique—the cauldron that carried the Olympic flame above the city—<br>
+        with Galileo’s drawing of the Moon from the letter on the same film.<br>
         A message from the sky to Earth. <br>
         A message from the Earth back to the sky. <br>
-        Four hundred and fourteen years apart, <br>
-        sharing the same light. `,
+        Four hundred and fourteen years back and forth, <br>
+        now saved in the same light. `,
       },
       {
         type: "row",
@@ -302,7 +302,8 @@ function openProject(project) {
     project.sections.forEach((section) => {
       if (section.type === "row") {
         const row = document.createElement("div");
-        row.className = "project-row" + (section.small ? " project-row--small" : "");
+        row.className =
+          "project-row" + (section.small ? " project-row--small" : "");
         section.photos.forEach((src) => {
           const wrap = document.createElement("div");
           wrap.className = "project-photo";
