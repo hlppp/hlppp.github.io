@@ -380,6 +380,40 @@ const gameProjects = [
       </div>
     `,
   },
+  {
+    id: "hz",
+    title: "Project Hz",
+    images: [{ type: "video", id: "O9chBqPwl_Y" }],
+    description: `
+      <div class="game-desc-title">Project Hz</div>
+      <div class="game-desc-tags">
+        <span class="game-desc-tag">2023</span>
+      </div>
+      <div class="game-desc-text">
+        <p>A layered metaverse space created by Hanlin Wang, Takeru Tokoro, Kondo Kenshin. </p>
+
+        <p>In this world, every entity has a frequency. <br>
+        When the player’s frequency is close to an object’s frequency, that object becomes visible and accessible;<br>
+        when the frequencies drift apart, it gradually fades away. <br>
+        By tuning their own frequency, players can travel through different layers of virtual spaces and meanings.</p>
+      </div>
+    `,
+  },
+  {
+    id: "otosu",
+    title: "音す (Drop the Word)",
+    images: [{ type: "video", id: "GzdeOURKe9A" }],
+    description: `
+      <div class="game-desc-title">音す (Drop the Word)</div>
+      <div class="game-desc-tags">
+        <span class="game-desc-tag">2023</span>
+      </div>
+      <div class="game-desc-text">
+        <p>In a group exhibition, we made a participatory installation where participants are invited to drop words into a shared digital space, <br>
+        engaging with other exhibiting art works and creating a involving collective narrative. <br>
+      </div>
+    `,
+  },
 ];
 
 const gameContent = document.getElementById("gameContent");
