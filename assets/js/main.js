@@ -64,29 +64,22 @@ function next() {
 setInterval(next, 4000);
 
 // ── SIDEBAR NAV ───────────────────────────────────────────────────
-let expandedByHover = false;
-let holding = false; // true for 3s after hover-expand, slide stays put
-let holdTimeout = null;
-
 navItems.forEach((item) => {
   const idx = parseInt(item.dataset.index);
 
   item.addEventListener("mouseenter", () => {
-    if (locked || holding) return;
+    if (locked) return;
     paused = true;
     goTo(idx);
   });
 
   item.addEventListener("mouseleave", () => {
-    if (locked || holding) return;
+    if (locked) return;
     paused = false;
   });
 
   // Click → enter section, collapse sidebar
   item.addEventListener("click", () => {
-    expandedByHover = false;
-    holding = false;
-    clearTimeout(holdTimeout);
     goTo(idx);
     locked = true;
     paused = false;
@@ -94,27 +87,11 @@ navItems.forEach((item) => {
   });
 });
 
-// Hover collapsed sidebar → expand; hold current slide for 3s before
-// allowing hover-previews so the user isn't disoriented by a quick change
+// Hover collapsed sidebar → fully restore to initial unlocked state
 sidebar.addEventListener("mouseenter", () => {
   if (!locked) return;
   sidebar.classList.remove("collapsed");
   locked = false;
-  expandedByHover = true;
-  holding = true;
-  holdTimeout = setTimeout(() => {
-    holding = false;
-  }, 3000);
-});
-
-sidebar.addEventListener("mouseleave", () => {
-  if (!expandedByHover) return;
-  expandedByHover = false;
-  holding = false;
-  clearTimeout(holdTimeout);
-  sidebar.classList.add("collapsed");
-  locked = true;
-  paused = false;
 });
 
 // ── MAIN VISUAL HOVER / CLICK ─────────────────────────────────────
@@ -137,9 +114,6 @@ mainVisual.addEventListener("mouseout", (e) => {
 mainVisual.addEventListener("click", (e) => {
   if (locked) return;
   if (e.target.closest(".pill, .project-card, .gc-thumb, button")) {
-    expandedByHover = false;
-    holding = false;
-    clearTimeout(holdTimeout);
     locked = true;
     paused = false;
     sidebar.classList.add("collapsed");
