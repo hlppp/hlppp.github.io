@@ -128,56 +128,6 @@ goTo(0);
 // photos: full list shown inside the project page.
 const photoProjects = [
   {
-    title: "Tokyo",
-    cover: "assets/images/photographs/tokyo/tokyo_0.jpg",
-    smallPhotos: true,
-    photos: [
-      "assets/images/photographs/tokyo/tokyo_0.jpg",
-      "assets/images/photographs/tokyo/tokyo_1.jpg",
-      "assets/images/photographs/tokyo/tokyo_2.jpg",
-      "assets/images/photographs/tokyo/tokyo_3.jpg",
-      "assets/images/photographs/tokyo/tokyo_4.JPG",
-      "assets/images/photographs/tokyo/tokyo_5.JPG",
-      "assets/images/photographs/tokyo/tokyo_6.JPG",
-      "assets/images/photographs/tokyo/tokyo_7.jpg",
-      "assets/images/photographs/tokyo/tokyo_8.jpg",
-      "assets/images/photographs/tokyo/tokyo_9.JPG",
-      "assets/images/photographs/tokyo/tokyo_10.JPG",
-      "assets/images/photographs/tokyo/tokyo_11.jpg",
-      "assets/images/photographs/tokyo/tokyo_12.jpg",
-      "assets/images/photographs/tokyo/tokyo_13.jpg",
-      "assets/images/photographs/tokyo/tokyo_14.jpg",
-    ],
-  },
-  {
-    title: "Comet Kiss",
-    cover: "assets/images/photographs/comet kiss/comet_0.jpeg",
-    sections: [
-      {
-        type: "row",
-        photos: [
-          "assets/images/photographs/comet kiss/comet_0.jpeg",
-          "assets/images/photographs/comet kiss/comet_00.jpeg",
-        ],
-      },
-      {
-        type: "text",
-        content: `In an astronomy lecture, the professor brought his collection of cometary sample.<br>
-                  I looked through the microscope,<br>
-                  and I saw  The Kiss by Gustav Klimt.<br>
-                  The Kiss written in stardust.`,
-      },
-      {
-        type: "row",
-        photos: [
-          "assets/images/photographs/comet kiss/comet_1.jpeg",
-          "assets/images/photographs/comet kiss/comet_2.jpeg",
-          "assets/images/photographs/comet kiss/comet_3.jpeg",
-        ],
-      },
-    ],
-  },
-  {
     title: "Messager 414",
     cover: "assets/images/photographs/Messager 414/stellar_0.jpg",
     sections: [
@@ -212,18 +162,66 @@ const photoProjects = [
     ],
   },
   {
-    title: "Ong Ong",
-    cover: "assets/images/photographs/Ong Ong/Ong_0.JPG",
+    title: "Comet Kiss",
+    cover: "assets/images/photographs/comet kiss/comet_0.jpeg",
+    sections: [
+      {
+        type: "row",
+        photos: [
+          "assets/images/photographs/comet kiss/comet_0.jpeg",
+          "assets/images/photographs/comet kiss/comet_00.jpeg",
+        ],
+      },
+      {
+        type: "text",
+        content: `In an astronomy lecture, the professor brought his collection of cometary sample.<br>
+                  I looked through the microscope,<br>
+                  and I saw  The Kiss by Gustav Klimt.<br>
+                  The Kiss written in stardust.`,
+      },
+      {
+        type: "row",
+        photos: [
+          "assets/images/photographs/comet kiss/comet_1.jpeg",
+          "assets/images/photographs/comet kiss/comet_2.jpeg",
+          "assets/images/photographs/comet kiss/comet_3.jpeg",
+        ],
+      },
+    ],
+  },
+  {
+    title: "Mirror Mirror",
+    cover: "assets/images/photographs/mirror/mirror_0.jpeg",
+    horizontalStrip: true,
+    photos: Array.from(
+      { length: 51 },
+      (_, i) => `assets/images/photographs/mirror/mirror_${i}.jpeg`,
+    ),
+  },
+  {
+    title: "the city",
+    cover: "assets/images/photographs/tokyo/tokyo_0.jpg",
     smallPhotos: true,
     photos: [
-      "assets/images/photographs/Ong Ong/Ong_0.JPG",
-      "assets/images/photographs/Ong Ong/Ong_1.JPG",
-      "assets/images/photographs/Ong Ong/Ong_2.JPG",
-      "assets/images/photographs/Ong Ong/Ong_3.JPG",
-      "assets/images/photographs/Ong Ong/Ong_4.JPG",
-      "assets/images/photographs/Ong Ong/Ong_5.JPG",
-      "assets/images/photographs/Ong Ong/Ong_6.JPG",
-      "assets/images/photographs/Ong Ong/Ong_7.JPG",
+      "assets/images/photographs/tokyo/tokyo_0.jpg",
+      "assets/images/photographs/tokyo/tokyo_1.jpg",
+      "assets/images/photographs/tokyo/tokyo_2.jpg",
+      "assets/images/photographs/tokyo/tokyo_3.jpg",
+      "assets/images/photographs/tokyo/tokyo_4.JPG",
+      "assets/images/photographs/tokyo/tokyo_5.JPG",
+      "assets/images/photographs/tokyo/tokyo_6.JPG",
+      "assets/images/photographs/tokyo/tokyo_7.jpg",
+      "assets/images/photographs/tokyo/tokyo_8.jpg",
+      "assets/images/photographs/tokyo/tokyo_9.JPG",
+      "assets/images/photographs/tokyo/tokyo_10.JPG",
+      "assets/images/photographs/tokyo/tokyo_11.jpg",
+      "assets/images/photographs/tokyo/tokyo_12.jpg",
+      "assets/images/photographs/tokyo/tokyo_13.jpg",
+      "assets/images/photographs/tokyo/tokyo_14.jpg",
+      "assets/images/photographs/tokyo/tokyo_15.jpg",
+      "assets/images/photographs/tokyo/tokyo_16.jpg",
+      "assets/images/photographs/tokyo/tokyo_17.jpg",
+      "assets/images/photographs/tokyo/tokyo_18.jpg",
     ],
   },
   {
@@ -250,6 +248,68 @@ const photoProjects = [
       "assets/images/photographs/pound/k_16.jpeg",
       "assets/images/photographs/pound/k_17.jpeg",
       "assets/images/photographs/pound/k_18.jpg",
+    ],
+  },
+  {
+    title: "the town",
+    cover: "assets/images/photographs/the town/town_0.JPG",
+    smallPhotos: true,
+    photos: [
+      "assets/images/photographs/the town/town_0.JPG",
+      "assets/images/photographs/the town/town_1.JPG",
+      "assets/images/photographs/the town/town_2.JPG",
+      "assets/images/photographs/the town/town_3.JPG",
+      "assets/images/photographs/the town/town_4.jpg",
+      "assets/images/photographs/the town/town_5.jpg",
+      "assets/images/photographs/the town/town_6.JPG",
+      "assets/images/photographs/the town/town_7.JPG",
+      "assets/images/photographs/the town/town_8.jpeg",
+      "assets/images/photographs/the town/town_9.jpeg",
+      "assets/images/photographs/the town/town_10.jpeg",
+      "assets/images/photographs/the town/town_11.jpeg",
+      "assets/images/photographs/the town/town_12.jpeg",
+      "assets/images/photographs/the town/town_13.JPG",
+      "assets/images/photographs/the town/town_14.jpeg",
+      "assets/images/photographs/the town/town_15.JPG",
+      "assets/images/photographs/the town/town_16.JPG",
+      "assets/images/photographs/the town/town_17.JPG",
+    ],
+  },
+  {
+    title: "Ong Ong",
+    cover: "assets/images/photographs/Ong Ong/Ong_0.JPG",
+    smallPhotos: true,
+    photos: [
+      "assets/images/photographs/Ong Ong/Ong_0.JPG",
+      "assets/images/photographs/Ong Ong/Ong_1.JPG",
+      "assets/images/photographs/Ong Ong/Ong_2.JPG",
+      "assets/images/photographs/Ong Ong/Ong_3.JPG",
+      "assets/images/photographs/Ong Ong/Ong_4.JPG",
+      "assets/images/photographs/Ong Ong/Ong_5.JPG",
+      "assets/images/photographs/Ong Ong/Ong_6.JPG",
+      "assets/images/photographs/Ong Ong/Ong_7.JPG",
+    ],
+  },
+  {
+    title: "grand summer",
+    cover: "assets/images/photographs/grand summer/paris_0.jpg",
+    smallPhotos: true,
+    photos: [
+      "assets/images/photographs/grand summer/paris_0.jpg",
+      "assets/images/photographs/grand summer/paris_1.JPG",
+      "assets/images/photographs/grand summer/paris_2.JPG",
+      "assets/images/photographs/grand summer/paris_3.JPG",
+      "assets/images/photographs/grand summer/paris_4.JPG",
+      "assets/images/photographs/grand summer/paris_5.JPG",
+      "assets/images/photographs/grand summer/paris_6.JPG",
+      "assets/images/photographs/grand summer/paris_7.jpg",
+      "assets/images/photographs/grand summer/paris_8.JPG",
+      "assets/images/photographs/grand summer/paris_9.JPG",
+      "assets/images/photographs/grand summer/paris_10.JPG",
+      "assets/images/photographs/grand summer/paris_11.JPG",
+      "assets/images/photographs/grand summer/paris_12.JPG",
+      "assets/images/photographs/grand summer/paris_13.JPG",
+      "assets/images/photographs/grand summer/paris_14.jpeg",
     ],
   },
 ];
@@ -317,7 +377,33 @@ function openProject(project) {
   projectTitle.textContent = project.title;
   projectGrid.innerHTML = "";
 
-  if (project.sections) {
+  if (project.horizontalStrip) {
+    // Single-row horizontal scroll strip — all photos same height
+    projectGrid.classList.add("project-grid--strip");
+    activeProjectPhotos = project.photos;
+    project.photos.forEach((src, i) => {
+      const wrap = document.createElement("div");
+      wrap.className = "project-photo";
+      const img = document.createElement("img");
+      img.src = src;
+      img.loading = "lazy";
+      img.alt = project.title + " " + i;
+      wrap.appendChild(img);
+      wrap.addEventListener("click", () => openLightbox(i));
+      wrap.addEventListener("mouseenter", () => {
+        const gridRect = projectGrid.getBoundingClientRect();
+        const wrapRect = wrap.getBoundingClientRect();
+        if (wrapRect.right > gridRect.right - 8 || wrapRect.left < gridRect.left + 8) {
+          const targetScroll =
+            projectGrid.scrollLeft +
+            (wrapRect.left - gridRect.left) -
+            (gridRect.width - wrapRect.width) / 2;
+          projectGrid.scrollTo({ left: targetScroll, behavior: "smooth" });
+        }
+      });
+      projectGrid.appendChild(wrap);
+    });
+  } else if (project.sections) {
     // Sections layout: rows of photos + text blocks
     projectGrid.classList.add("project-grid--sections");
 
@@ -367,12 +453,16 @@ function openProject(project) {
         wrap.addEventListener("mouseenter", () => {
           const gridRect = projectGrid.getBoundingClientRect();
           const wrapRect = wrap.getBoundingClientRect();
-          if (wrapRect.bottom > gridRect.bottom - 8 || wrapRect.top < gridRect.top + 8) {
+          const threshold = wrapRect.height * 0.5;
+          if (
+            wrapRect.bottom > gridRect.bottom - threshold ||
+            wrapRect.top < gridRect.top + threshold
+          ) {
             const targetScroll =
               projectGrid.scrollTop +
               (wrapRect.top - gridRect.top) -
               (gridRect.height - wrapRect.height) / 2;
-            projectGrid.scrollTo({ top: targetScroll, behavior: "smooth" });
+            projectGrid.scrollTo({ top: Math.max(0, targetScroll), behavior: "smooth" });
           }
         });
       }
@@ -385,7 +475,7 @@ function openProject(project) {
 
 function closeProject() {
   projectOverlay.classList.remove("open");
-  projectGrid.classList.remove("project-grid--sections", "project-grid--small");
+  projectGrid.classList.remove("project-grid--sections", "project-grid--small", "project-grid--strip");
 }
 
 projectClose.addEventListener("click", closeProject);

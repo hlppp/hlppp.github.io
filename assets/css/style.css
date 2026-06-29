@@ -440,7 +440,6 @@ body {
   letter-spacing: 0.02em;
 }
 
-
 /* ── SLIDE 3 — RESEARCH ───────────────────────────────────────── */
 .slide-research {
   background: #f9f7f4;
@@ -767,7 +766,7 @@ body {
   flex-wrap: wrap;
   gap: 6px;
   align-content: flex-start;
-  width: 66.67%;
+  width: 70%;
   margin-left: auto;
   margin-right: auto;
 }
@@ -997,6 +996,37 @@ body {
 .game-desc-link:hover {
   background: rgba(0, 200, 120, 0.1);
   color: #00ff9a;
+}
+
+/* Horizontal-strip layout (Mirror Mirror) — single scrollable row */
+.project-grid--strip {
+  columns: unset;
+  column-gap: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 4px;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+}
+.project-grid--strip::-webkit-scrollbar {
+  display: none;
+}
+.project-grid--strip .project-photo {
+  flex-shrink: 0;
+  height: 33vh;
+  width: auto;
+  margin-bottom: 0;
+  break-inside: unset;
+}
+.project-grid--strip .project-photo img {
+  width: auto;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
 /* ── LIGHTBOX ─────────────────────────────────────────────────── */
