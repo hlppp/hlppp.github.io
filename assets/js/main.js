@@ -352,10 +352,13 @@ photoProjects.forEach((project, i) => {
   cards.forEach((card, i) => {
     card.addEventListener("mouseenter", () => {
       if (i >= COLS) {
-        photoProjectsGrid.scrollTo({
-          top: photoProjectsGrid.scrollHeight,
-          behavior: "smooth",
-        });
+        const gridRect = photoProjectsGrid.getBoundingClientRect();
+        const cardRect = card.getBoundingClientRect();
+        const targetScroll =
+          photoProjectsGrid.scrollTop +
+          (cardRect.top - gridRect.top) -
+          (gridRect.height - cardRect.height) / 2;
+        photoProjectsGrid.scrollTo({ top: Math.max(0, targetScroll), behavior: "smooth" });
       } else {
         photoProjectsGrid.scrollTo({ top: 0, behavior: "smooth" });
       }
