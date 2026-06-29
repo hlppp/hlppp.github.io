@@ -759,6 +759,24 @@ body {
   display: none;
 }
 
+/* Small-photo grid (e.g. Tokyo) — photos at 2/3 of normal size, rows wrap */
+.project-grid--small {
+  columns: unset;
+  column-gap: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-content: flex-start;
+  width: 66.67%;
+  margin-left: auto;
+  margin-right: auto;
+}
+.project-grid--small .project-photo {
+  width: calc(33.333% - 4px);
+  break-inside: unset;
+  margin-bottom: 0;
+}
+
 /* Sections-based layout (e.g. Comet Kiss) — overrides the masonry columns */
 .project-grid--sections {
   columns: unset;
@@ -828,6 +846,12 @@ body {
 .project-photo:hover img {
   opacity: 0.82;
   transform: scale(1.015);
+}
+
+/* Tokyo-style grid: no dim/scale on hover */
+.project-grid--small .project-photo:hover img {
+  opacity: 1;
+  transform: none;
 }
 
 /* ── GAME CONTENT PANEL (middle of the game slide) ────────────── */

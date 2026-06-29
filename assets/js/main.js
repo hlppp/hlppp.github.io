@@ -130,6 +130,7 @@ const photoProjects = [
   {
     title: "Tokyo",
     cover: "assets/images/photographs/tokyo/tokyo_0.jpg",
+    smallPhotos: true,
     photos: [
       "assets/images/photographs/tokyo/tokyo_0.jpg",
       "assets/images/photographs/tokyo/tokyo_1.jpg",
@@ -193,7 +194,7 @@ const photoProjects = [
         content: ` In 1610, Galileo wrote Sidereus Nuncius (Starry Messenger), <br>
         a letter to the Venetian Senate reporting his observations of Jupiter’s moons and the cratered surface of our own Moon.<br>
         In the summer of 2024, I visited my cousin in Paris during the Olympic Games.<br>
-        Using a film camera and double exposure, I put La Vasque Olympique—the cauldron that carried the Olympic flame above the city—<br>
+        Using double exposure on a film camera, I put La Vasque Olympique—the cauldron that carried the Olympic flame above the city—<br>
         with Galileo’s drawing of the Moon from the letter on the same film.<br>
         A message from the sky to Earth. <br>
         A message from the Earth back to the sky. <br>
@@ -213,6 +214,7 @@ const photoProjects = [
   {
     title: "Ong Ong",
     cover: "assets/images/photographs/Ong Ong/Ong_0.JPG",
+    smallPhotos: true,
     photos: [
       "assets/images/photographs/Ong Ong/Ong_0.JPG",
       "assets/images/photographs/Ong Ong/Ong_1.JPG",
@@ -227,6 +229,7 @@ const photoProjects = [
   {
     title: "Pound",
     cover: "assets/images/photographs/pound/k_0.jpeg",
+    smallPhotos: true,
     photos: [
       "assets/images/photographs/pound/k_0.jpeg",
       "assets/images/photographs/pound/k_1.jpeg",
@@ -256,7 +259,10 @@ const photoProjectsGrid = document.getElementById("photoProjectsGrid");
 photoProjects.forEach((project, i) => {
   const card = document.createElement("div");
   card.className = "project-card";
-  if (i === 4) { card.style.gridColumn = "span 2"; card.classList.add("project-card--wide"); }
+  if (i === 4) {
+    card.style.gridColumn = "span 2";
+    card.classList.add("project-card--wide");
+  }
   card.innerHTML = `
     <div class="project-card-img" style="background-image:url('${project.cover}')"></div>
     <div class="project-card-label">${project.title}</div>
@@ -272,7 +278,8 @@ photoProjects.forEach((project, i) => {
   if (!wideImg) return;
   wideImg.style.aspectRatio = "unset";
   function sync() {
-    if (imgs[0].offsetHeight > 0) wideImg.style.height = imgs[0].offsetHeight + "px";
+    if (imgs[0].offsetHeight > 0)
+      wideImg.style.height = imgs[0].offsetHeight + "px";
   }
   new ResizeObserver(sync).observe(photoProjectsGrid);
   sync();
@@ -285,7 +292,10 @@ photoProjects.forEach((project, i) => {
   cards.forEach((card, i) => {
     card.addEventListener("mouseenter", () => {
       if (i >= COLS) {
-        photoProjectsGrid.scrollTo({ top: photoProjectsGrid.scrollHeight, behavior: "smooth" });
+        photoProjectsGrid.scrollTo({
+          top: photoProjectsGrid.scrollHeight,
+          behavior: "smooth",
+        });
       } else {
         photoProjectsGrid.scrollTo({ top: 0, behavior: "smooth" });
       }
@@ -342,6 +352,7 @@ function openProject(project) {
   } else {
     // Default masonry grid (Tokyo-style)
     projectGrid.classList.remove("project-grid--sections");
+    projectGrid.classList.toggle("project-grid--small", !!project.smallPhotos);
     activeProjectPhotos = project.photos;
     project.photos.forEach((src, i) => {
       const wrap = document.createElement("div");
@@ -352,6 +363,19 @@ function openProject(project) {
       img.alt = project.title + " " + i;
       wrap.appendChild(img);
       wrap.addEventListener("click", () => openLightbox(i));
+      if (project.smallPhotos) {
+        wrap.addEventListener("mouseenter", () => {
+          const gridRect = projectGrid.getBoundingClientRect();
+          const wrapRect = wrap.getBoundingClientRect();
+          if (wrapRect.bottom > gridRect.bottom - 8 || wrapRect.top < gridRect.top + 8) {
+            const targetScroll =
+              projectGrid.scrollTop +
+              (wrapRect.top - gridRect.top) -
+              (gridRect.height - wrapRect.height) / 2;
+            projectGrid.scrollTo({ top: targetScroll, behavior: "smooth" });
+          }
+        });
+      }
       projectGrid.appendChild(wrap);
     });
   }
@@ -361,7 +385,7 @@ function openProject(project) {
 
 function closeProject() {
   projectOverlay.classList.remove("open");
-  projectGrid.classList.remove("project-grid--sections");
+  projectGrid.classList.remove("project-grid--sections", "project-grid--small");
 }
 
 projectClose.addEventListener("click", closeProject);
