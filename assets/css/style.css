@@ -39,10 +39,9 @@ body {
 }
 
 .site-name {
-  font-size: 11px;
-  letter-spacing: 0.18em;
-  color: rgba(255, 255, 255, 0.3);
-  text-transform: uppercase;
+  font-size: 15px;
+  letter-spacing: 0.08em;
+  color: rgba(255, 255, 255, 1);
   padding: 0 24px 28px;
   border-bottom: 0.5px solid rgba(255, 255, 255, 0.07);
   margin-bottom: 24px;
@@ -51,6 +50,10 @@ body {
 }
 .site-name-text {
   transition: opacity 0.15s ease;
+}
+.site-name-chinese {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.55);
 }
 .sidebar.collapsed .site-name {
   cursor: pointer;
@@ -622,12 +625,38 @@ body {
   color: #fff;
   margin-bottom: 12px;
 }
+.char-tip {
+  position: relative;
+  cursor: default;
+}
+.char-tip::after {
+  content: attr(data-tip);
+  position: absolute;
+  bottom: calc(100% - 4px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(20, 20, 20, 0.92);
+  color: rgba(255, 255, 255, 0.85);
+  font-family: "Bitter", serif;
+  font-size: 13px;
+  font-weight: 400;
+  white-space: nowrap;
+  padding: 5px 10px;
+  border-radius: 4px;
+  border: 0.5px solid rgba(255, 255, 255, 0.12);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+.char-tip:hover::after {
+  opacity: 1;
+}
 .slide-about .name-big {
   font-family: "Bitter", serif;
   font-size: 38px;
   color: #fff;
   font-weight: 400;
-  margin-bottom: 4px;
+  margin-bottom: 8px;
 }
 .slide-about .role-tags {
   display: flex;
@@ -695,7 +724,7 @@ body {
 }
 
 .project-header {
-  height: 52px;
+  height: 76px;
   flex-shrink: 0;
   border-bottom: 0.5px solid rgba(255, 255, 255, 0.07);
   display: flex;
@@ -726,14 +755,28 @@ body {
   outline: none;
 }
 
-.project-title {
+.project-title-group {
   flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+.project-title {
   text-align: center;
   font-family: "Bitter", serif;
   font-size: 24px;
   font-style: italic;
   color: rgba(255, 255, 255, 0.55);
   letter-spacing: 0.04em;
+}
+.project-subtitle {
+  font-family: "Bitter", serif;
+  font-size: 14px;
+  font-style: italic;
+  color: rgba(255, 255, 255, 0.3);
+  letter-spacing: 0.06em;
+  white-space: nowrap;
 }
 
 .project-esc-hint {

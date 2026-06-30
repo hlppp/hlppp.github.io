@@ -129,6 +129,7 @@ goTo(0);
 const photoProjects = [
   {
     title: "Messager 414",
+    subtitle: "Nikon F3, Kodak 5207",
     cover: "assets/images/photographs/Messager 414/stellar_0.jpg",
     sections: [
       {
@@ -163,6 +164,7 @@ const photoProjects = [
   },
   {
     title: "Comet Kiss",
+    subtitle: "iPhone & Microscope",
     cover: "assets/images/photographs/comet kiss/comet_0.jpeg",
     sections: [
       {
@@ -191,6 +193,7 @@ const photoProjects = [
   },
   {
     title: "Mirror Mirror",
+    subtitle: "iPhone, Olympus digital camera & mirror from vienna flea market",
     cover: "assets/images/photographs/mirror/mirror_0.jpeg",
     horizontalStrip: true,
     photos: Array.from(
@@ -200,6 +203,7 @@ const photoProjects = [
   },
   {
     title: "the city",
+    subtitle: "Nikon F3, Lomography Babylon & Berlin",
     cover: "assets/images/photographs/tokyo/tokyo_0.jpeg",
     smallPhotos: true,
     photos: [
@@ -226,6 +230,7 @@ const photoProjects = [
   },
   {
     title: "Pound",
+    subtitle: "Nikon F3 & disposable camera, different films",
     cover: "assets/images/photographs/pound/k_0.jpeg",
     smallPhotos: true,
     photos: [
@@ -252,6 +257,7 @@ const photoProjects = [
   },
   {
     title: "the town",
+    subtitle: "Nikon F80, Kodak 5207",
     cover: "assets/images/photographs/the town/town_0.jpeg",
     smallPhotos: true,
     photos: [
@@ -277,6 +283,7 @@ const photoProjects = [
   },
   {
     title: "Ong Ong",
+    subtitle: "Nikon F80, Kodak 5207",
     cover: "assets/images/photographs/Ong Ong/Ong_0.jpeg",
     smallPhotos: true,
     photos: [
@@ -292,6 +299,7 @@ const photoProjects = [
   },
   {
     title: "grand summer",
+    subtitle: "Nikon F3, Kodak 5207 & disposable camera",
     cover: "assets/images/photographs/grand summer/paris_0.jpeg",
     smallPhotos: true,
     photos: [
@@ -358,7 +366,10 @@ photoProjects.forEach((project, i) => {
           photoProjectsGrid.scrollTop +
           (cardRect.top - gridRect.top) -
           (gridRect.height - cardRect.height) / 2;
-        photoProjectsGrid.scrollTo({ top: Math.max(0, targetScroll), behavior: "smooth" });
+        photoProjectsGrid.scrollTo({
+          top: Math.max(0, targetScroll),
+          behavior: "smooth",
+        });
       } else {
         photoProjectsGrid.scrollTo({ top: 0, behavior: "smooth" });
       }
@@ -372,12 +383,15 @@ photoProjects.forEach((project, i) => {
 // ── PROJECT OVERLAY ───────────────────────────────────────────────
 const projectOverlay = document.getElementById("projectOverlay");
 const projectTitle = document.getElementById("projectTitle");
+const projectSubtitle = document.getElementById("projectSubtitle");
 const projectClose = document.getElementById("projectClose");
 const projectGrid = document.getElementById("projectGrid");
 let activeProjectPhotos = [];
 
 function openProject(project) {
   projectTitle.textContent = project.title;
+  projectSubtitle.textContent = project.subtitle || "";
+  projectSubtitle.style.display = project.subtitle ? "" : "none";
   projectGrid.innerHTML = "";
 
   if (project.horizontalStrip) {
@@ -396,7 +410,10 @@ function openProject(project) {
       wrap.addEventListener("mouseenter", () => {
         const gridRect = projectGrid.getBoundingClientRect();
         const wrapRect = wrap.getBoundingClientRect();
-        if (wrapRect.right > gridRect.right - 8 || wrapRect.left < gridRect.left + 8) {
+        if (
+          wrapRect.right > gridRect.right - 8 ||
+          wrapRect.left < gridRect.left + 8
+        ) {
           const targetScroll =
             projectGrid.scrollLeft +
             (wrapRect.left - gridRect.left) -
@@ -465,7 +482,10 @@ function openProject(project) {
               projectGrid.scrollTop +
               (wrapRect.top - gridRect.top) -
               (gridRect.height - wrapRect.height) / 2;
-            projectGrid.scrollTo({ top: Math.max(0, targetScroll), behavior: "smooth" });
+            projectGrid.scrollTo({
+              top: Math.max(0, targetScroll),
+              behavior: "smooth",
+            });
           }
         });
       }
@@ -478,7 +498,11 @@ function openProject(project) {
 
 function closeProject() {
   projectOverlay.classList.remove("open");
-  projectGrid.classList.remove("project-grid--sections", "project-grid--small", "project-grid--strip");
+  projectGrid.classList.remove(
+    "project-grid--sections",
+    "project-grid--small",
+    "project-grid--strip",
+  );
 }
 
 projectClose.addEventListener("click", closeProject);
