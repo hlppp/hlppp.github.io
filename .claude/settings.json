@@ -1,7 +1,10 @@
 {
   "permissions": {
     "allow": [
-      "Bash(python3 -c ' *)"
+      "Bash(python3 -c ' *)",
+      "Bash(git -C /Users/hanlin/Documents/GitHub/hlppp.github.io status)",
+      "Bash(git -C /Users/hanlin/Documents/GitHub/hlppp.github.io log --oneline -5)",
+      "Bash(git -C /Users/hanlin/Documents/GitHub/hlppp.github.io show 4749768 -- assets/css/style.css)"
     ]
   }
 }
