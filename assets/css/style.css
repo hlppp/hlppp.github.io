@@ -1257,6 +1257,7 @@ body {
   }
   .about-corner-photo {
     width: 80px;
+    z-index: 1;
   }
 
   /* PROJECT OVERLAY — 2-column grid, full-width on small layouts */
