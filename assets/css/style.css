@@ -1146,3 +1146,172 @@ body {
   font-family: "Bitter", serif;
   user-select: none;
 }
+
+/* ── MOBILE (≤ 768 px) ─────────────────────────────────────────── */
+@media (max-width: 768px) {
+
+  /* SIDEBAR — always collapsed, icons only */
+  .sidebar {
+    width: 48px;
+  }
+  .sidebar .site-name-text {
+    opacity: 0;
+  }
+  .sidebar .site-expand-hint {
+    opacity: 0;
+  }
+  .sidebar .nav-title {
+    opacity: 0;
+    pointer-events: none;
+  }
+  .sidebar .nav-item {
+    padding: 14px 0;
+    align-items: center;
+  }
+
+  /* GAME SLIDE — shrink heading, make pills wrap, stack content */
+  .slide-game .pixel-text {
+    font-size: 22px;
+    top: 28px;
+    left: 16px;
+  }
+  .game-hint {
+    bottom: auto;
+    top: 72px;
+    left: 16px;
+    font-size: 9px;
+  }
+  .slide-game .project-pills {
+    bottom: 16px;
+    left: 16px;
+    right: 16px;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .slide-game .pill {
+    font-size: 9px;
+    padding: 8px 14px;
+  }
+  .game-content {
+    top: 104px;
+    bottom: 100px;
+    left: 16px;
+    right: 16px;
+    flex-direction: column;
+  }
+  .gc-left {
+    flex: 0 0 55%;
+    padding-right: 0;
+    padding-bottom: 10px;
+    border-right: none;
+    border-bottom: 0.5px solid rgba(255, 255, 255, 0.07);
+  }
+  .gc-right {
+    flex: 1;
+    min-height: 0;
+    padding-left: 0;
+    padding-top: 10px;
+  }
+
+  /* PHOTOGRAPHY SLIDE — 2-column grid */
+  .photo-projects-grid {
+    grid-template-columns: repeat(2, 1fr);
+    padding: 16px;
+    gap: 8px;
+  }
+  .slide-photo .big-word {
+    font-size: 30px;
+  }
+  .slide-photo .overlay-text {
+    bottom: 20px;
+    left: 16px;
+    right: 16px;
+  }
+
+  /* RESEARCH SLIDE — tighter padding */
+  .research-wrap {
+    padding: 20px 20px 28px;
+  }
+  .rs-title-big {
+    font-size: 26px;
+  }
+  .rs-subtitle {
+    font-size: 12px;
+  }
+
+  /* ABOUT SLIDE — video on top, description below */
+  .slide-about {
+    flex-direction: column;
+  }
+  .about-video {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    flex-shrink: 0;
+  }
+  .about-text {
+    flex: 1;
+    border-left: none;
+    border-top: 0.5px solid rgba(255, 255, 255, 0.08);
+    padding: 20px;
+    overflow-y: auto;
+    justify-content: flex-start;
+  }
+  .slide-about .name-big {
+    font-size: 28px;
+    margin-bottom: 4px;
+  }
+  .name-chinese {
+    font-size: 28px;
+    margin-bottom: 8px;
+  }
+  .about-corner-photo {
+    display: none;
+  }
+
+  /* PROJECT OVERLAY — 2-column grid, full-width on small layouts */
+  .project-header {
+    height: 56px;
+    padding: 0 16px;
+  }
+  .project-title {
+    font-size: 18px;
+  }
+  .project-subtitle {
+    font-size: 12px;
+    white-space: normal;
+  }
+  .project-esc-hint {
+    display: none;
+  }
+  .project-grid {
+    columns: 2;
+    padding: 12px 12px 24px;
+  }
+  .project-grid--small {
+    width: 100%;
+  }
+  .project-grid--small .project-photo {
+    width: calc(50% - 3px);
+  }
+  .project-description {
+    font-size: 15px;
+    padding: 20px 4px 16px;
+    line-height: 1.65;
+  }
+
+  /* LIGHTBOX — bigger tap targets */
+  .lb-close {
+    top: 12px;
+    right: 12px;
+    font-size: 20px;
+    padding: 10px 14px;
+  }
+  .lb-prev {
+    left: 4px;
+    padding: 20px 14px;
+  }
+  .lb-next {
+    right: 4px;
+    padding: 20px 14px;
+  }
+}

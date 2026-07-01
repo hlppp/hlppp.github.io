@@ -94,6 +94,14 @@ sidebar.addEventListener("mouseenter", () => {
   locked = false;
 });
 
+// Tap/click the header › area to expand (works on touch where hover doesn't fire)
+sidebarToggle.addEventListener("click", () => {
+  if (sidebar.classList.contains("collapsed")) {
+    sidebar.classList.remove("collapsed");
+    locked = false;
+  }
+});
+
 // ── MAIN VISUAL HOVER / CLICK ─────────────────────────────────────
 // Hovering a clickable element in the slide area pauses autoplay
 const CLICKABLE = ".pill, .project-card, .gc-thumb, button";
