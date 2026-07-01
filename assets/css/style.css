@@ -1298,7 +1298,7 @@ body {
 
   /* MIRROR MIRROR — shorter strip photos on mobile */
   .project-grid--strip .project-photo {
-    height: 25vh;
+    height: 22vh;
   }
 
   /* MESSAGER 414 — first two small-row photos larger on mobile */
