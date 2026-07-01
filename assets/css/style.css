@@ -1207,7 +1207,6 @@ body {
     gap: 8px;
   }
   .sidebar:not(.collapsed) ~ .main-visual .photo-projects-grid {
-    grid-template-columns: repeat(3, 1fr);
     padding: 8px;
     gap: 4px;
   }
@@ -1257,7 +1256,7 @@ body {
     margin-bottom: 8px;
   }
   .about-corner-photo {
-    display: none;
+    width: 80px;
   }
 
   /* PROJECT OVERLAY — 2-column grid, full-width on small layouts */
