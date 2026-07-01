@@ -633,8 +633,8 @@ body {
   content: attr(data-tip);
   position: absolute;
   bottom: calc(100% - 4px);
-  left: 50%;
-  transform: translateX(-50%);
+  left: 0;
+  transform: none;
   background: rgba(20, 20, 20, 0.92);
   color: rgba(255, 255, 255, 0.85);
   font-family: "Bitter", serif;
@@ -1200,11 +1200,16 @@ body {
     padding-top: 10px;
   }
 
-  /* PHOTOGRAPHY SLIDE — 2-column grid */
+  /* PHOTOGRAPHY SLIDE — 2-column grid (sidebar closed); 3-column when open */
   .photo-projects-grid {
     grid-template-columns: repeat(2, 1fr);
     padding: 16px;
     gap: 8px;
+  }
+  .sidebar:not(.collapsed) ~ .main-visual .photo-projects-grid {
+    grid-template-columns: repeat(3, 1fr);
+    padding: 8px;
+    gap: 4px;
   }
   .slide-photo .big-word {
     font-size: 30px;
@@ -1302,9 +1307,5 @@ body {
     padding: 20px 14px;
   }
 
-  /* CHARACTER TOOLTIPS — left-align so they don't slide behind the sidebar */
-  .char-tip::after {
-    left: 0;
-    transform: none;
-  }
+
 }
