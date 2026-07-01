@@ -1149,7 +1149,6 @@ body {
 
 /* ── MOBILE (≤ 768 px) ─────────────────────────────────────────── */
 @media (max-width: 768px) {
-
   /* SIDEBAR — starts collapsed via JS; expanded width smaller for mobile */
   .sidebar {
     width: 160px;
@@ -1297,6 +1296,16 @@ body {
     line-height: 1.65;
   }
 
+  /* MIRROR MIRROR — shorter strip photos on mobile */
+  .project-grid--strip .project-photo {
+    height: 25vh;
+  }
+
+  /* MESSAGER 414 — first two small-row photos larger on mobile */
+  .project-row--small .project-photo img {
+    max-width: 90%;
+  }
+
   /* LIGHTBOX — bigger tap targets */
   .lb-close {
     top: 12px;
@@ -1312,6 +1321,4 @@ body {
     right: 4px;
     padding: 20px 14px;
   }
-
-
 }
