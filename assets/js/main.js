@@ -44,6 +44,12 @@ let current = 0;
 let paused = false;
 let locked = false;
 
+// On mobile, start with the sidebar collapsed so it doesn't eat half the screen.
+// The tap handler on sidebarToggle (added below) lets the user expand it.
+if (window.innerWidth <= 768) {
+  sidebar.classList.add("collapsed");
+}
+
 // ── SLIDE SWITCHER ────────────────────────────────────────────────
 function goTo(index) {
   slides[current].classList.remove("visible");

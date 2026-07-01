@@ -1150,26 +1150,12 @@ body {
 /* ── MOBILE (≤ 768 px) ─────────────────────────────────────────── */
 @media (max-width: 768px) {
 
-  /* SIDEBAR — always collapsed, icons only */
+  /* SIDEBAR — starts collapsed via JS; expanded width smaller for mobile */
   .sidebar {
-    width: 48px;
-  }
-  .sidebar .site-name-text {
-    opacity: 0;
-  }
-  .sidebar .site-expand-hint {
-    opacity: 0;
-  }
-  .sidebar .nav-title {
-    opacity: 0;
-    pointer-events: none;
-  }
-  .sidebar .nav-item {
-    padding: 14px 0;
-    align-items: center;
+    width: 160px;
   }
 
-  /* GAME SLIDE — shrink heading, make pills wrap, stack content */
+  /* GAME SLIDE — shrink heading, pin pills just below hint text, stack content */
   .slide-game .pixel-text {
     font-size: 22px;
     top: 28px;
@@ -1182,7 +1168,8 @@ body {
     font-size: 9px;
   }
   .slide-game .project-pills {
-    bottom: 16px;
+    bottom: auto;
+    top: 96px;
     left: 16px;
     right: 16px;
     flex-wrap: wrap;
@@ -1193,8 +1180,8 @@ body {
     padding: 8px 14px;
   }
   .game-content {
-    top: 104px;
-    bottom: 100px;
+    top: 134px;
+    bottom: 24px;
     left: 16px;
     right: 16px;
     flex-direction: column;
@@ -1313,5 +1300,11 @@ body {
   .lb-next {
     right: 4px;
     padding: 20px 14px;
+  }
+
+  /* CHARACTER TOOLTIPS — left-align so they don't slide behind the sidebar */
+  .char-tip::after {
+    left: 0;
+    transform: none;
   }
 }
