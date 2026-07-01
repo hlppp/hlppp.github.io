@@ -619,7 +619,7 @@ body {
   border-left: 0.5px solid rgba(255, 255, 255, 0.08);
 }
 .name-chinese {
-  font-family: "Bitter", serif;
+  font-family: "Noto Serif SC", "Bitter", serif;
   font-size: 38px;
   font-weight: 400;
   color: #fff;
@@ -1153,6 +1153,12 @@ body {
   /* SIDEBAR — starts collapsed via JS; expanded width smaller for mobile */
   .sidebar {
     width: 160px;
+  }
+  .sidebar.collapsed .site-expand-hint {
+    font-size: 22px;
+    color: rgba(255, 255, 255, 0.6);
+    top: 50%;
+    transform: translate(-50%, -50%);
   }
 
   /* GAME SLIDE — shrink heading, pin pills just below hint text, stack content */
