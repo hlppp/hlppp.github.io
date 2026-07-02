@@ -539,7 +539,7 @@ const gameProjects = [
        Today, the dormitory is facing the threat of demolition after being sued by the university.<br>
         Through this project, Project Bon aims to preserve the architecture, culture, and memories of the dormitory in the digital realm,<br>
         by telling real stories through a fictional game.</p>
-        <p> Project Bon is a collective formed by a few former residents and people connected to Yoshida Dormitory.</p>
+        <p> Project Bon is a collective formed by few former residents and people connected to Yoshida Dormitory.</p>
       </div>
       <div class="game-desc-links">
         <a href="https://store.steampowered.com/app/3870060/I_Am_a_Dorm_Resident_but_Cat/?l=english" target="_blank" rel="noopener" class="game-desc-link">Steam ↗</a>
@@ -700,3 +700,14 @@ document.addEventListener("keydown", (e) => {
     if (e.key === "Escape") closeProject();
   }
 });
+
+// ── ABOUT PHOTO HOVER SWAP ───────────────────────────────────────
+const aboutCornerPhoto = document.querySelector(".about-corner-photo");
+if (aboutCornerPhoto) {
+  aboutCornerPhoto.addEventListener("mouseenter", () => {
+    aboutCornerPhoto.src = aboutCornerPhoto.dataset.hoverSrc;
+  });
+  aboutCornerPhoto.addEventListener("mouseleave", () => {
+    aboutCornerPhoto.src = aboutCornerPhoto.dataset.defaultSrc;
+  });
+}
