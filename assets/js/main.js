@@ -702,12 +702,28 @@ document.addEventListener("keydown", (e) => {
 });
 
 // ── ABOUT PHOTO HOVER SWAP ───────────────────────────────────────
+// Mouse: swap on hover. Touch (mobile Safari doesn't fire mouseenter/
+// mouseleave): swap while pressed, revert on release. preventDefault
+// on the touch events stops browsers from also firing synthetic mouse
+// events afterward, which would otherwise re-trigger the swap.
 const aboutCornerPhoto = document.querySelector(".about-corner-photo");
 if (aboutCornerPhoto) {
   aboutCornerPhoto.addEventListener("mouseenter", () => {
     aboutCornerPhoto.src = aboutCornerPhoto.dataset.hoverSrc;
   });
   aboutCornerPhoto.addEventListener("mouseleave", () => {
+    aboutCornerPhoto.src = aboutCornerPhoto.dataset.defaultSrc;
+  });
+  aboutCornerPhoto.addEventListener("touchstart", (e) => {
+    e.preventDefault();
+    aboutCornerPhoto.src = aboutCornerPhoto.dataset.hoverSrc;
+  });
+  aboutCornerPhoto.addEventListener("touchend", (e) => {
+    e.preventDefault();
+    aboutCornerPhoto.src = aboutCornerPhoto.dataset.defaultSrc;
+  });
+  aboutCornerPhoto.addEventListener("touchcancel", (e) => {
+    e.preventDefault();
     aboutCornerPhoto.src = aboutCornerPhoto.dataset.defaultSrc;
   });
 }
