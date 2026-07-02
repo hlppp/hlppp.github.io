@@ -703,21 +703,28 @@ document.addEventListener("keydown", (e) => {
 
 // ── ABOUT PHOTO HOVER SWAP ───────────────────────────────────────
 // Mouse: swap on hover. Touch (mobile Safari doesn't fire mouseenter/
-// mouseleave): swap while pressed, revert on release. preventDefault
-// on the touch events stops browsers from also firing synthetic mouse
-// events afterward, which would otherwise re-trigger the swap.
+// mouseleave): swap while pressed, revert on release/cancel.
+// touchstart is left un-prevented so it doesn't block page scrolling
+// when a scroll gesture happens to start on the photo; only touchend/
+// touchcancel call preventDefault, which is enough to stop the
+// synthetic mouse events iOS fires afterward from re-triggering the swap.
 const aboutCornerPhoto = document.querySelector(".about-corner-photo");
 if (aboutCornerPhoto) {
+  new Image().src = aboutCornerPhoto.dataset.hoverSrc;
+
   aboutCornerPhoto.addEventListener("mouseenter", () => {
     aboutCornerPhoto.src = aboutCornerPhoto.dataset.hoverSrc;
   });
   aboutCornerPhoto.addEventListener("mouseleave", () => {
     aboutCornerPhoto.src = aboutCornerPhoto.dataset.defaultSrc;
   });
-  aboutCornerPhoto.addEventListener("touchstart", (e) => {
-    e.preventDefault();
-    aboutCornerPhoto.src = aboutCornerPhoto.dataset.hoverSrc;
-  });
+  aboutCornerPhoto.addEventListener(
+    "touchstart",
+    () => {
+      aboutCornerPhoto.src = aboutCornerPhoto.dataset.hoverSrc;
+    },
+    { passive: true },
+  );
   aboutCornerPhoto.addEventListener("touchend", (e) => {
     e.preventDefault();
     aboutCornerPhoto.src = aboutCornerPhoto.dataset.defaultSrc;
