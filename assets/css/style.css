@@ -659,11 +659,23 @@ body {
   font-weight: 400;
   margin-bottom: 8px;
 }
+.about-email {
+  display: inline-block;
+  font-family: "Bitter", serif;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.4);
+  text-decoration: none;
+  margin-bottom: 20px;
+  transition: color 0.2s;
+}
+.about-email:hover {
+  color: rgba(255, 255, 255, 0.75);
+}
 .slide-about .role-tags {
   display: flex;
   gap: 8px;
   flex-wrap: wrap;
-  margin-bottom: 24px;
+  margin-bottom: 15px;
 }
 .role-tag {
   font-size: 10px;
