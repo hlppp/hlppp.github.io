@@ -205,7 +205,7 @@ const photoProjects = [
     cover: "assets/images/photographs/mirror/mirror_0.jpeg",
     horizontalStrip: true,
     photos: Array.from(
-      { length: 51 },
+      { length: 58 },
       (_, i) => `assets/images/photographs/mirror/mirror_${i}.jpeg`,
     ),
   },
