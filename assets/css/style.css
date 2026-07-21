@@ -659,16 +659,29 @@ body {
   font-weight: 400;
   margin-bottom: 8px;
 }
+.about-contact {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
 .about-email {
   display: inline-block;
   font-family: "Bitter", serif;
   font-size: 13px;
   color: rgba(255, 255, 255, 0.4);
   text-decoration: none;
-  margin-bottom: 20px;
   transition: color 0.2s;
 }
 .about-email:hover {
+  color: rgba(255, 255, 255, 0.75);
+}
+.about-social {
+  display: inline-flex;
+  color: rgba(255, 255, 255, 0.4);
+  transition: color 0.2s;
+}
+.about-social:hover {
   color: rgba(255, 255, 255, 0.75);
 }
 .slide-about .role-tags {
