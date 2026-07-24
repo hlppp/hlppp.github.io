@@ -538,12 +538,19 @@ const gameProjects = [
         Bon, the main character of the game, was a real cat who lived in the dorm (p2).<br>
        Today, the dormitory is facing the threat of demolition after being sued by the university.<br>
         Through this project, Project Bon aims to preserve the architecture, culture, and memories of the dormitory in the digital realm,<br>
-        by telling real stories through a fictional game.</p>
+        by telling real stories through a half-fictional game.</p>
         <p> Project Bon is a collective formed by few former residents and people connected to Yoshida Dormitory.</p>
       </div>
       <div class="game-desc-links">
         <a href="https://store.steampowered.com/app/3870060/I_Am_a_Dorm_Resident_but_Cat/?l=english" target="_blank" rel="noopener" class="game-desc-link">Steam ↗</a>
         <a href="https://x.com/ysdbon" target="_blank" rel="noopener" class="game-desc-link">Twitter ↗</a>
+        <div class="game-desc-press">
+          <button type="button" class="game-desc-link game-desc-press-btn">Press</button>
+          <div class="game-desc-press-menu">
+            <a href="https://www.famitsu.com/article/202507/47699" target="_blank" rel="noopener">Famitsu ↗</a>
+            <a href="https://gamemakers.jp/article/2025_07_24_112296/" target="_blank" rel="noopener">Game Makers ↗</a>
+          </div>
+        </div>
       </div>
     `,
   },
@@ -638,6 +645,19 @@ function openGameProject(project) {
   gameContent.classList.add("open");
   gameHint.classList.add("hidden");
 }
+
+// Press dropdown — toggle open on button click, close on outside click
+gcRight.addEventListener("click", (e) => {
+  const btn = e.target.closest(".game-desc-press-btn");
+  if (!btn) return;
+  btn.nextElementSibling.classList.toggle("open");
+});
+document.addEventListener("click", (e) => {
+  if (e.target.closest(".game-desc-press")) return;
+  gcRight
+    .querySelectorAll(".game-desc-press-menu.open")
+    .forEach((menu) => menu.classList.remove("open"));
+});
 
 // Wire pills — click to open, click active pill again to close
 document.querySelectorAll(".slide-game .pill[data-game]").forEach((pill) => {
