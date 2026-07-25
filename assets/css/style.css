@@ -1046,6 +1046,9 @@ body {
 .game-desc-text p:last-child {
   margin-bottom: 0;
 }
+.game-desc-highlight {
+  color: #e03c3c;
+}
 .game-desc-links {
   display: flex;
   gap: 12px;

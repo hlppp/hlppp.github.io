@@ -530,18 +530,6 @@ const gameProjects = [
     description: `
       <div class="game-desc-title">Project Bon</div>
       <div class="game-desc-tags">
-        <span class="game-desc-tag">Unity</span>
-      </div>
-      <div class="game-desc-text">
-        <p> A digital game based on a real student dormitory in Kyoto.<br>
-        Yoshida Dormitory is a self-governing student dorm with a history of more than one hundred years.<br>
-        Bon, the main character of the game, was a real cat who lived in the dorm (p2).<br>
-       Today, the dormitory is facing the threat of demolition after being sued by the university.<br>
-        Through this project, Project Bon aims to preserve the architecture, culture, and memories of the dormitory in the digital realm,<br>
-        by telling real stories through a virtual game.</p>
-        <p> Project Bon is a collective formed by few former residents and people connected to Yoshida Dormitory.</p>
-      </div>
-      <div class="game-desc-links">
         <a href="https://store.steampowered.com/app/3870060/I_Am_a_Dorm_Resident_but_Cat/?l=english" target="_blank" rel="noopener" class="game-desc-link">Steam ↗</a>
         <a href="https://x.com/ysdbon" target="_blank" rel="noopener" class="game-desc-link">Twitter ↗</a>
         <div class="game-desc-press">
@@ -551,6 +539,16 @@ const gameProjects = [
             <a href="https://gamemakers.jp/article/2025_07_24_112296/" target="_blank" rel="noopener">Game Makers ↗</a>
           </div>
         </div>
+      </div>
+      <div class="game-desc-text">
+        <p> A digital game based on a real student dormitory in Kyoto.<br>
+        Yoshida Dormitory is a self-governing student dorm with a history of more than one hundred years.<br>
+        Bon, the main character of the game, was a real cat who lived in the dorm (p2).<br>
+        Today, the dormitory is facing the threat of demolition after being sued by the university.<br>
+        Through this project, Project Bon aims to preserve the architecture, culture, and memories of the dormitory in the digital realm, by telling real on-going stories through a virtual game.</p>
+        <p class="game-desc-highlight">The project is not only an act of documentation, but also a form of protest and negotiation through media.</p>
+        <p>We combine 2D pixel art, 3D models, and footage of the actual space to recreate the dormitory’s architecture and construct a virtual world that exists in parallel with the physical site, gradually moves from a digital world toward the physical reality of Yoshida Dormitory and the events surrounding it.</p>
+        <p> Project Bon is a collective formed by few former residents and people connected to Yoshida Dormitory.</p>
       </div>
     `,
   },
