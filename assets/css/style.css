@@ -1024,7 +1024,11 @@ body {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
-  margin-bottom: 28px;
+  margin-bottom: 14px;
+}
+.game-desc-tags .game-desc-link {
+  font-size: 7px;
+  padding: 5px 9px;
 }
 .game-desc-tag {
   font-family: monospace;
@@ -1061,6 +1065,11 @@ body {
 .game-desc-press-btn {
   cursor: pointer;
   background: none;
+  appearance: none;
+  -webkit-appearance: none;
+  outline: none;
+  margin: 0;
+  line-height: normal;
 }
 .game-desc-press-menu {
   display: none;
