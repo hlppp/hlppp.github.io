@@ -40,7 +40,7 @@ const sidebarToggle = document.getElementById("sidebarToggle");
 // lightSlides: slide indexes with a light background (photo, research).
 // locked: true while the sidebar is collapsed (user is in a section).
 const lightSlides = [1, 2];
-let current = 0;
+let current = 1;
 let paused = false;
 let locked = false;
 
@@ -128,7 +128,7 @@ mainVisual.addEventListener("click", (e) => {
   }
 });
 
-goTo(0);
+goTo(1);
 
 // ── PHOTO PROJECTS ────────────────────────────────────────────────
 // Each entry = one photo series. Add new series here as you shoot.
@@ -538,7 +538,7 @@ const gameProjects = [
         Bon, the main character of the game, was a real cat who lived in the dorm (p2).<br>
        Today, the dormitory is facing the threat of demolition after being sued by the university.<br>
         Through this project, Project Bon aims to preserve the architecture, culture, and memories of the dormitory in the digital realm,<br>
-        by telling real stories through a half-fictional game.</p>
+        by telling real stories through a virtual game.</p>
         <p> Project Bon is a collective formed by few former residents and people connected to Yoshida Dormitory.</p>
       </div>
       <div class="game-desc-links">
