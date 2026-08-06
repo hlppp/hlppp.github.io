@@ -43,6 +43,7 @@ const lightSlides = [1, 2];
 let current = 1;
 let paused = false;
 let locked = false;
+let suppressHistory = false;
 
 // ── SLIDE SWITCHER ────────────────────────────────────────────────
 function goTo(index) {
@@ -137,6 +138,7 @@ goTo(1);
 const photoProjects = [
   {
     title: "Messager 414",
+    slug: "messager-414",
     subtitle: "Nikon F3, Kodak 5207",
     cover: "assets/images/photographs/Messager 414/stellar_0.jpg",
     sections: [
@@ -172,6 +174,7 @@ const photoProjects = [
   },
   {
     title: "Comet Kiss",
+    slug: "comet-kiss",
     subtitle: "iPhone & Microscope",
     cover: "assets/images/photographs/comet kiss/comet_0.jpeg",
     sections: [
@@ -201,6 +204,7 @@ const photoProjects = [
   },
   {
     title: "Mirror Mirror",
+    slug: "mirror-mirror",
     subtitle: "iPhone, Olympus digital camera & mirror from vienna flea market",
     cover: "assets/images/photographs/mirror/mirror_0.jpeg",
     horizontalStrip: true,
@@ -211,6 +215,7 @@ const photoProjects = [
   },
   {
     title: "the city",
+    slug: "the-city",
     subtitle: "Nikon F3, Lomography Babylon & Berlin",
     cover: "assets/images/photographs/tokyo/tokyo_0.jpeg",
     smallPhotos: true,
@@ -238,6 +243,7 @@ const photoProjects = [
   },
   {
     title: "Pound",
+    slug: "pound",
     subtitle: "Nikon F3 & disposable camera, different films",
     cover: "assets/images/photographs/pound/k_0.jpeg",
     smallPhotos: true,
@@ -265,6 +271,7 @@ const photoProjects = [
   },
   {
     title: "the town",
+    slug: "the-town",
     subtitle: "Nikon F80, Kodak 5207",
     cover: "assets/images/photographs/the town/town_0.jpeg",
     smallPhotos: true,
@@ -291,6 +298,7 @@ const photoProjects = [
   },
   {
     title: "Ong Ong",
+    slug: "ong-ong",
     subtitle: "Nikon F80, Kodak 5207",
     cover: "assets/images/photographs/Ong Ong/Ong_0.jpeg",
     smallPhotos: true,
@@ -307,6 +315,7 @@ const photoProjects = [
   },
   {
     title: "grand summer",
+    slug: "grand-summer",
     subtitle: "Nikon F3, Kodak 5207 & disposable camera",
     cover: "assets/images/photographs/grand summer/paris_0.jpeg",
     smallPhotos: true,
@@ -326,6 +335,45 @@ const photoProjects = [
       "assets/images/photographs/grand summer/paris_12.jpeg",
       "assets/images/photographs/grand summer/paris_13.jpeg",
       "assets/images/photographs/grand summer/paris_14.jpeg",
+    ],
+  },
+  {
+    title: "the apple",
+    slug: "apple",
+    subtitle: "Nikon F80, Lomography Berlin",
+    cover: "assets/images/photographs/Apple/ny_1.JPG",
+    smallPhotos: true,
+    photos: [
+      "assets/images/photographs/Apple/ny_1.JPG",
+      "assets/images/photographs/Apple/ny_2.JPG",
+      "assets/images/photographs/Apple/ny_3.JPG",
+      "assets/images/photographs/Apple/ny_4.JPG",
+      "assets/images/photographs/Apple/ny_5.JPG",
+      "assets/images/photographs/Apple/ny_6.JPG",
+      "assets/images/photographs/Apple/ny_7.JPG",
+      "assets/images/photographs/Apple/ny_8.JPG",
+      "assets/images/photographs/Apple/ny_9.jpg",
+      "assets/images/photographs/Apple/ny_10.JPG",
+      "assets/images/photographs/Apple/ny_11.JPG",
+      "assets/images/photographs/Apple/ny_12.JPG",
+      "assets/images/photographs/Apple/ny_13.JPG",
+      "assets/images/photographs/Apple/ny_14.JPG",
+      "assets/images/photographs/Apple/ny_15.JPG",
+      "assets/images/photographs/Apple/ny_16.JPG",
+      "assets/images/photographs/Apple/ny_17.JPG",
+      "assets/images/photographs/Apple/ny_18.JPG",
+      "assets/images/photographs/Apple/ny_19.JPG",
+      "assets/images/photographs/Apple/ny_20.JPG",
+      "assets/images/photographs/Apple/ny_21.JPG",
+      "assets/images/photographs/Apple/ny_22.JPG",
+      "assets/images/photographs/Apple/ny_23.JPG",
+      "assets/images/photographs/Apple/ny_24.JPG",
+      "assets/images/photographs/Apple/ny_25.JPG",
+      "assets/images/photographs/Apple/ny_26.JPG",
+      "assets/images/photographs/Apple/ny_27.JPG",
+      "assets/images/photographs/Apple/ny_28.JPG",
+      "assets/images/photographs/Apple/ny_29.JPG",
+      "assets/images/photographs/Apple/ny_30.JPG",
     ],
   },
 ];
@@ -502,6 +550,9 @@ function openProject(project) {
   }
 
   projectOverlay.classList.add("open");
+  if (!suppressHistory) {
+    history.pushState(null, "", "#photography/" + project.slug);
+  }
 }
 
 function closeProject() {
@@ -511,6 +562,9 @@ function closeProject() {
     "project-grid--small",
     "project-grid--strip",
   );
+  if (!suppressHistory) {
+    history.pushState(null, "", location.pathname + location.search);
+  }
 }
 
 projectClose.addEventListener("click", closeProject);
@@ -752,3 +806,31 @@ if (aboutCornerPhoto) {
     aboutCornerPhoto.src = aboutCornerPhoto.dataset.defaultSrc;
   });
 }
+
+// ── SHAREABLE PROJECT LINKS ──────────────────────────────────────
+// Syncs #photography/<slug> with the open project overlay so a link
+// can be copied straight from the address bar.
+function applyProjectHash() {
+  suppressHistory = true;
+  const match = location.hash.match(/^#photography\/([^/]+)$/);
+  const project = match && photoProjects.find((p) => p.slug === match[1]);
+
+  if (project) {
+    if (current !== 1) goTo(1);
+    if (!locked) {
+      locked = true;
+      paused = false;
+      sidebar.classList.add("collapsed");
+    }
+    openProject(project);
+  } else if (projectOverlay.classList.contains("open")) {
+    closeProject();
+  }
+  suppressHistory = false;
+}
+
+window.addEventListener("popstate", applyProjectHash);
+
+// Defer two frames so the initial paint happens before the overlay's
+// opacity transition kicks in, instead of snapping straight to "open".
+requestAnimationFrame(() => requestAnimationFrame(applyProjectHash));
