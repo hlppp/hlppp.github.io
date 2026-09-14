@@ -40,7 +40,7 @@ const sidebarToggle = document.getElementById("sidebarToggle");
 // lightSlides: slide indexes with a light background (photo, research).
 // locked: true while the sidebar is collapsed (user is in a section).
 const lightSlides = [1, 2];
-let current = 1;
+let current = 0;
 let paused = false;
 let locked = false;
 let suppressHistory = false;
@@ -129,7 +129,7 @@ mainVisual.addEventListener("click", (e) => {
   }
 });
 
-goTo(1);
+goTo(current);
 
 // ── PHOTO PROJECTS ────────────────────────────────────────────────
 // Each entry = one photo series. Add new series here as you shoot.
