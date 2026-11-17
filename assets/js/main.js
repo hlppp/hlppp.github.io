@@ -373,15 +373,15 @@ function enableHoverReveal(container, selector, getAxis) {
     const size = horizontal ? container.clientWidth : container.clientHeight;
     const itemStart = horizontal ? item.left : item.top;
     const itemEnd = horizontal ? item.right : item.bottom;
-    // Leave a glimpse of neighboring rows as a cue that more photos follow.
-    // Limit the space so the hovered item itself still fits in the viewport.
-    const rowPeek = horizontal
-      ? 0
-      : Math.min(64, size * 0.15, Math.max(0, size - (itemEnd - itemStart)));
-    const before = itemStart - (start + rowPeek);
-    const after = itemEnd - (start + size - rowPeek);
+    const before = itemStart - start;
+    const after = itemEnd - (start + size);
+    // Center vertical rows to leave room for neighboring rows on both sides,
+    // regardless of scroll direction. Keep horizontal strips minimally revealed.
+    const fitsVertically = !horizontal && itemEnd - itemStart < size;
     // An oversized item spanning both edges is already as visible as possible.
-    const delta = before < 0 && after > 0 ? 0 : before < 0 ? before : after > 0 ? after : 0;
+    const delta = fitsVertically
+      ? (itemStart + itemEnd) / 2 - (start + size / 2)
+      : before < 0 && after > 0 ? 0 : before < 0 ? before : after > 0 ? after : 0;
     const current = horizontal ? container.scrollLeft : container.scrollTop;
     const max = horizontal
       ? container.scrollWidth - container.clientWidth
