@@ -145,10 +145,9 @@ const photoProjects = [
       {
         type: "row",
         small: true,
-        photos: [
-          "assets/images/photographs/Messager 414/stellar_1.jpg",
-          "assets/images/photographs/Messager 414/stellar_0.jpg",
-        ],
+        photos: [1, 0].map(
+          (i) => `assets/images/photographs/Messager 414/stellar_${i}.jpg`,
+        ),
       },
       {
         type: "text",
@@ -164,11 +163,15 @@ const photoProjects = [
       },
       {
         type: "row",
-        photos: ["assets/images/photographs/Messager 414/ stellar_3.JPG"],
+        photos: [3].map(
+          (i) => `assets/images/photographs/Messager 414/ stellar_${i}.JPG`,
+        ),
       },
       {
         type: "row",
-        photos: ["assets/images/photographs/Messager 414/ stellar_2.jpg"],
+        photos: [2].map(
+          (i) => `assets/images/photographs/Messager 414/ stellar_${i}.jpg`,
+        ),
       },
     ],
   },
@@ -180,10 +183,9 @@ const photoProjects = [
     sections: [
       {
         type: "row",
-        photos: [
-          "assets/images/photographs/comet kiss/comet_0.jpeg",
-          "assets/images/photographs/comet kiss/comet_00.jpeg",
-        ],
+        photos: [0, "00"].map(
+          (i) => `assets/images/photographs/comet kiss/comet_${i}.jpeg`,
+        ),
       },
       {
         type: "text",
@@ -194,11 +196,10 @@ const photoProjects = [
       },
       {
         type: "row",
-        photos: [
-          "assets/images/photographs/comet kiss/comet_1.jpeg",
-          "assets/images/photographs/comet kiss/comet_2.jpeg",
-          "assets/images/photographs/comet kiss/comet_3.jpeg",
-        ],
+        photos: Array.from(
+          { length: 3 },
+          (_, i) => `assets/images/photographs/comet kiss/comet_${i + 1}.jpeg`,
+        ),
       },
     ],
   },
@@ -219,27 +220,10 @@ const photoProjects = [
     subtitle: "Nikon F3, Lomography Babylon & Berlin",
     cover: "assets/images/photographs/tokyo/tokyo_0.jpeg",
     smallPhotos: true,
-    photos: [
-      "assets/images/photographs/tokyo/tokyo_0.jpeg",
-      "assets/images/photographs/tokyo/tokyo_1.jpeg",
-      "assets/images/photographs/tokyo/tokyo_2.jpeg",
-      "assets/images/photographs/tokyo/tokyo_3.jpeg",
-      "assets/images/photographs/tokyo/tokyo_4.jpeg",
-      "assets/images/photographs/tokyo/tokyo_5.jpeg",
-      "assets/images/photographs/tokyo/tokyo_6.jpeg",
-      "assets/images/photographs/tokyo/tokyo_7.jpeg",
-      "assets/images/photographs/tokyo/tokyo_8.jpeg",
-      "assets/images/photographs/tokyo/tokyo_9.jpeg",
-      "assets/images/photographs/tokyo/tokyo_10.jpeg",
-      "assets/images/photographs/tokyo/tokyo_11.jpeg",
-      "assets/images/photographs/tokyo/tokyo_12.jpeg",
-      "assets/images/photographs/tokyo/tokyo_13.jpeg",
-      "assets/images/photographs/tokyo/tokyo_14.jpeg",
-      "assets/images/photographs/tokyo/tokyo_15.jpeg",
-      "assets/images/photographs/tokyo/tokyo_16.jpeg",
-      "assets/images/photographs/tokyo/tokyo_17.jpeg",
-      "assets/images/photographs/tokyo/tokyo_18.jpeg",
-    ],
+    photos: Array.from(
+      { length: 19 },
+      (_, i) => `assets/images/photographs/tokyo/tokyo_${i}.jpeg`,
+    ),
   },
   {
     title: "Pound",
@@ -247,54 +231,21 @@ const photoProjects = [
     subtitle: "Nikon F3 & disposable camera, different films",
     cover: "assets/images/photographs/pound/k_0.jpeg",
     smallPhotos: true,
-    photos: [
-      "assets/images/photographs/pound/k_0.jpeg",
-      "assets/images/photographs/pound/k_1.jpeg",
-      "assets/images/photographs/pound/k_2.jpeg",
-      "assets/images/photographs/pound/k_3.jpeg",
-      "assets/images/photographs/pound/k_4.jpeg",
-      "assets/images/photographs/pound/k_5.jpeg",
-      "assets/images/photographs/pound/k_6.jpeg",
-      "assets/images/photographs/pound/k_7.jpeg",
-      "assets/images/photographs/pound/k_8.jpeg",
-      "assets/images/photographs/pound/k_9.jpeg",
-      "assets/images/photographs/pound/k_10.jpeg",
-      "assets/images/photographs/pound/k_11.jpeg",
-      "assets/images/photographs/pound/k_12.jpeg",
-      "assets/images/photographs/pound/k_13.jpeg",
-      "assets/images/photographs/pound/k_14.jpeg",
-      "assets/images/photographs/pound/k_15.jpeg",
-      "assets/images/photographs/pound/k_16.jpeg",
-      "assets/images/photographs/pound/k_17.jpeg",
-      "assets/images/photographs/pound/k_18.jpeg",
-    ],
+    photos: Array.from(
+      { length: 19 },
+      (_, i) => `assets/images/photographs/pound/k_${i}.jpeg`,
+    ),
   },
   {
     title: "the town",
     slug: "the-town",
-    subtitle: "Nikon F80, Kodak 5207",
+    subtitle: "Nikon F80 & Nikon F3, Kodak 5207 +",
     cover: "assets/images/photographs/the town/town_0.jpeg",
     smallPhotos: true,
-    photos: [
-      "assets/images/photographs/the town/town_0.jpeg",
-      "assets/images/photographs/the town/town_1.jpeg",
-      "assets/images/photographs/the town/town_2.jpeg",
-      "assets/images/photographs/the town/town_3.jpeg",
-      "assets/images/photographs/the town/town_4.jpeg",
-      "assets/images/photographs/the town/town_5.jpeg",
-      "assets/images/photographs/the town/town_6.jpeg",
-      "assets/images/photographs/the town/town_7.jpeg",
-      "assets/images/photographs/the town/town_8.jpeg",
-      "assets/images/photographs/the town/town_9.jpeg",
-      "assets/images/photographs/the town/town_10.jpeg",
-      "assets/images/photographs/the town/town_11.jpeg",
-      "assets/images/photographs/the town/town_12.jpeg",
-      "assets/images/photographs/the town/town_13.jpeg",
-      "assets/images/photographs/the town/town_14.jpeg",
-      "assets/images/photographs/the town/town_15.jpeg",
-      "assets/images/photographs/the town/town_16.jpeg",
-      "assets/images/photographs/the town/town_17.jpeg",
-    ],
+    photos: Array.from(
+      { length: 18 },
+      (_, i) => `assets/images/photographs/the town/town_${i}.jpeg`,
+    ),
   },
   {
     title: "Ong Ong",
@@ -302,16 +253,10 @@ const photoProjects = [
     subtitle: "Nikon F80, Kodak 5207",
     cover: "assets/images/photographs/Ong Ong/Ong_0.jpeg",
     smallPhotos: true,
-    photos: [
-      "assets/images/photographs/Ong Ong/Ong_0.jpeg",
-      "assets/images/photographs/Ong Ong/Ong_1.jpeg",
-      "assets/images/photographs/Ong Ong/Ong_2.jpeg",
-      "assets/images/photographs/Ong Ong/Ong_3.jpeg",
-      "assets/images/photographs/Ong Ong/Ong_4.jpeg",
-      "assets/images/photographs/Ong Ong/Ong_5.jpeg",
-      "assets/images/photographs/Ong Ong/Ong_6.jpeg",
-      "assets/images/photographs/Ong Ong/Ong_7.jpeg",
-    ],
+    photos: Array.from(
+      { length: 8 },
+      (_, i) => `assets/images/photographs/Ong Ong/Ong_${i}.jpeg`,
+    ),
   },
   {
     title: "grand summer",
@@ -319,23 +264,10 @@ const photoProjects = [
     subtitle: "Nikon F3, Kodak 5207 & disposable camera",
     cover: "assets/images/photographs/grand summer/paris_0.jpeg",
     smallPhotos: true,
-    photos: [
-      "assets/images/photographs/grand summer/paris_0.jpeg",
-      "assets/images/photographs/grand summer/paris_1.jpeg",
-      "assets/images/photographs/grand summer/paris_2.jpeg",
-      "assets/images/photographs/grand summer/paris_3.jpeg",
-      "assets/images/photographs/grand summer/paris_4.jpeg",
-      "assets/images/photographs/grand summer/paris_5.jpeg",
-      "assets/images/photographs/grand summer/paris_6.jpeg",
-      "assets/images/photographs/grand summer/paris_7.jpeg",
-      "assets/images/photographs/grand summer/paris_8.jpeg",
-      "assets/images/photographs/grand summer/paris_9.jpeg",
-      "assets/images/photographs/grand summer/paris_10.jpeg",
-      "assets/images/photographs/grand summer/paris_11.jpeg",
-      "assets/images/photographs/grand summer/paris_12.jpeg",
-      "assets/images/photographs/grand summer/paris_13.jpeg",
-      "assets/images/photographs/grand summer/paris_14.jpeg",
-    ],
+    photos: Array.from(
+      { length: 15 },
+      (_, i) => `assets/images/photographs/grand summer/paris_${i}.jpeg`,
+    ),
   },
   {
     title: "the apple",
@@ -343,38 +275,33 @@ const photoProjects = [
     subtitle: "Nikon F80, Lomography Berlin",
     cover: "assets/images/photographs/Apple/ny_1.JPG",
     smallPhotos: true,
-    photos: [
-      "assets/images/photographs/Apple/ny_1.JPG",
-      "assets/images/photographs/Apple/ny_2.JPG",
-      "assets/images/photographs/Apple/ny_3.JPG",
-      "assets/images/photographs/Apple/ny_4.JPG",
-      "assets/images/photographs/Apple/ny_5.JPG",
-      "assets/images/photographs/Apple/ny_6.JPG",
-      "assets/images/photographs/Apple/ny_7.JPG",
-      "assets/images/photographs/Apple/ny_8.JPG",
-      "assets/images/photographs/Apple/ny_9.jpg",
-      "assets/images/photographs/Apple/ny_10.JPG",
-      "assets/images/photographs/Apple/ny_11.JPG",
-      "assets/images/photographs/Apple/ny_12.JPG",
-      "assets/images/photographs/Apple/ny_13.JPG",
-      "assets/images/photographs/Apple/ny_14.JPG",
-      "assets/images/photographs/Apple/ny_15.JPG",
-      "assets/images/photographs/Apple/ny_16.JPG",
-      "assets/images/photographs/Apple/ny_17.JPG",
-      "assets/images/photographs/Apple/ny_18.JPG",
-      "assets/images/photographs/Apple/ny_19.JPG",
-      "assets/images/photographs/Apple/ny_20.JPG",
-      "assets/images/photographs/Apple/ny_21.JPG",
-      "assets/images/photographs/Apple/ny_22.JPG",
-      "assets/images/photographs/Apple/ny_23.JPG",
-      "assets/images/photographs/Apple/ny_24.JPG",
-      "assets/images/photographs/Apple/ny_25.JPG",
-      "assets/images/photographs/Apple/ny_26.JPG",
-      "assets/images/photographs/Apple/ny_27.JPG",
-      "assets/images/photographs/Apple/ny_28.JPG",
-      "assets/images/photographs/Apple/ny_29.JPG",
-      "assets/images/photographs/Apple/ny_30.JPG",
-    ],
+    photos: Array.from(
+      { length: 30 },
+      (_, i) =>
+        `assets/images/photographs/Apple/ny_${i + 1}.${i === 8 ? "jpg" : "JPG"}`,
+    ),
+  },
+  {
+    title: "Denver, Denver",
+    slug: "denver",
+    subtitle: "Nikon F80, Kodak 5207",
+    cover: "assets/images/photographs/Denver/Denver_0.jpeg",
+    smallPhotos: true,
+    photos: Array.from(
+      { length: 23 },
+      (_, i) => `assets/images/photographs/Denver/Denver_${i}.jpeg`,
+    ),
+  },
+  {
+    title: "Zypher",
+    slug: "zypher",
+    subtitle: "Nikon F80, Lomography Babylon",
+    cover: "assets/images/photographs/Zypher/Zypher_0.jpeg",
+    smallPhotos: true,
+    photos: Array.from(
+      { length: 22 },
+      (_, i) => `assets/images/photographs/Zypher/Zypher_${i}.jpeg`,
+    ),
   },
 ];
 
@@ -409,32 +336,86 @@ photoProjects.forEach((project, i) => {
   sync();
 })();
 
-// Auto-scroll grid when hovering second-row cards
-(function () {
-  const COLS = 3;
-  const cards = photoProjectsGrid.querySelectorAll(".project-card");
-  cards.forEach((card, i) => {
-    card.addEventListener("mouseenter", () => {
-      if (i >= COLS) {
-        const gridRect = photoProjectsGrid.getBoundingClientRect();
-        const cardRect = card.getBoundingClientRect();
-        const targetScroll =
-          photoProjectsGrid.scrollTop +
-          (cardRect.top - gridRect.top) -
-          (gridRect.height - cardRect.height) / 2;
-        photoProjectsGrid.scrollTo({
-          top: Math.max(0, targetScroll),
-          behavior: "smooth",
-        });
-      } else {
-        photoProjectsGrid.scrollTo({ top: 0, behavior: "smooth" });
-      }
+// Hover scrolling reacts only to mouse movement, never to items moving
+// underneath a stationary pointer. Each grid finishes one scroll at a time.
+function enableHoverReveal(container, selector, getAxis) {
+  let scrolling = false;
+  let lastTarget = null;
+  let pointerX = null;
+  let pointerY = null;
+
+  container.addEventListener("pointerleave", () => {
+    lastTarget = null;
+    pointerX = pointerY = null;
+  });
+
+  container.addEventListener("pointermove", (event) => {
+    if (event.pointerType !== "mouse") return;
+    if (event.clientX === pointerX && event.clientY === pointerY) return;
+    pointerX = event.clientX;
+    pointerY = event.clientY;
+    if (scrolling) return;
+
+    const target = event.target.closest(selector);
+    if (!target || !container.contains(target)) {
+      lastTarget = null;
+      return;
+    }
+    if (target === lastTarget) return;
+    lastTarget = target;
+
+    const axis = getAxis();
+    if (!axis) return;
+    const horizontal = axis === "horizontal";
+    const rect = container.getBoundingClientRect();
+    const item = target.getBoundingClientRect();
+    const start = horizontal ? rect.left + container.clientLeft : rect.top + container.clientTop;
+    const size = horizontal ? container.clientWidth : container.clientHeight;
+    const itemStart = horizontal ? item.left : item.top;
+    const itemEnd = horizontal ? item.right : item.bottom;
+    // Leave a glimpse of neighboring rows as a cue that more photos follow.
+    // Limit the space so the hovered item itself still fits in the viewport.
+    const rowPeek = horizontal
+      ? 0
+      : Math.min(64, size * 0.15, Math.max(0, size - (itemEnd - itemStart)));
+    const before = itemStart - (start + rowPeek);
+    const after = itemEnd - (start + size - rowPeek);
+    // An oversized item spanning both edges is already as visible as possible.
+    const delta = before < 0 && after > 0 ? 0 : before < 0 ? before : after > 0 ? after : 0;
+    const current = horizontal ? container.scrollLeft : container.scrollTop;
+    const max = horizontal
+      ? container.scrollWidth - container.clientWidth
+      : container.scrollHeight - container.clientHeight;
+    const destination = Math.max(0, Math.min(max, current + delta));
+    if (Math.abs(destination - current) < 1) return;
+
+    scrolling = true;
+    container.scrollTo({
+      [horizontal ? "left" : "top"]: destination,
+      behavior: "smooth",
     });
+
+    // Wait for scrolling to settle, including interrupted/clamped scrolls.
+    const started = performance.now();
+    let previous = current;
+    let lastChange = started;
+    function waitForScroll(now) {
+      const position = horizontal ? container.scrollLeft : container.scrollTop;
+      if (Math.abs(position - previous) > 0.1) {
+        previous = position;
+        lastChange = now;
+      }
+      if ((now - started >= 200 && now - lastChange >= 120) || now - started >= 2000) {
+        scrolling = false;
+        return;
+      }
+      requestAnimationFrame(waitForScroll);
+    }
+    requestAnimationFrame(waitForScroll);
   });
-  photoProjectsGrid.addEventListener("mouseleave", () => {
-    photoProjectsGrid.scrollTo({ top: 0, behavior: "smooth" });
-  });
-})();
+}
+
+enableHoverReveal(photoProjectsGrid, ".project-card", () => "vertical");
 
 // ── PROJECT OVERLAY ───────────────────────────────────────────────
 const projectOverlay = document.getElementById("projectOverlay");
@@ -443,6 +424,12 @@ const projectSubtitle = document.getElementById("projectSubtitle");
 const projectClose = document.getElementById("projectClose");
 const projectGrid = document.getElementById("projectGrid");
 let activeProjectPhotos = [];
+
+enableHoverReveal(projectGrid, ".project-photo", () => {
+  if (projectGrid.classList.contains("project-grid--strip")) return "horizontal";
+  if (projectGrid.classList.contains("project-grid--small")) return "vertical";
+  return null;
+});
 
 function openProject(project) {
   projectTitle.textContent = project.title;
@@ -463,20 +450,6 @@ function openProject(project) {
       img.alt = project.title + " " + i;
       wrap.appendChild(img);
       wrap.addEventListener("click", () => openLightbox(i));
-      wrap.addEventListener("mouseenter", () => {
-        const gridRect = projectGrid.getBoundingClientRect();
-        const wrapRect = wrap.getBoundingClientRect();
-        if (
-          wrapRect.right > gridRect.right - 8 ||
-          wrapRect.left < gridRect.left + 8
-        ) {
-          const targetScroll =
-            projectGrid.scrollLeft +
-            (wrapRect.left - gridRect.left) -
-            (gridRect.width - wrapRect.width) / 2;
-          projectGrid.scrollTo({ left: targetScroll, behavior: "smooth" });
-        }
-      });
       projectGrid.appendChild(wrap);
     });
   } else if (project.sections) {
@@ -525,26 +498,6 @@ function openProject(project) {
       img.alt = project.title + " " + i;
       wrap.appendChild(img);
       wrap.addEventListener("click", () => openLightbox(i));
-      if (project.smallPhotos) {
-        wrap.addEventListener("mouseenter", () => {
-          const gridRect = projectGrid.getBoundingClientRect();
-          const wrapRect = wrap.getBoundingClientRect();
-          const threshold = wrapRect.height * 0.5;
-          if (
-            wrapRect.bottom > gridRect.bottom - threshold ||
-            wrapRect.top < gridRect.top + threshold
-          ) {
-            const targetScroll =
-              projectGrid.scrollTop +
-              (wrapRect.top - gridRect.top) -
-              (gridRect.height - wrapRect.height) / 2;
-            projectGrid.scrollTo({
-              top: Math.max(0, targetScroll),
-              behavior: "smooth",
-            });
-          }
-        });
-      }
       projectGrid.appendChild(wrap);
     });
   }
