@@ -376,7 +376,7 @@ function enableHoverReveal(container, selector, getAxis) {
     const before = itemStart - start;
     const after = itemEnd - (start + size);
     // Center vertical rows to leave room for neighboring rows on both sides,
-    // regardless of scroll direction. Keep horizontal strips minimally revealed.
+    // regardless of scroll direction.
     const fitsVertically = !horizontal && itemEnd - itemStart < size;
     // An oversized item spanning both edges is already as visible as possible.
     const delta = fitsVertically
@@ -426,10 +426,66 @@ const projectGrid = document.getElementById("projectGrid");
 let activeProjectPhotos = [];
 
 enableHoverReveal(projectGrid, ".project-photo", () => {
-  if (projectGrid.classList.contains("project-grid--strip")) return "horizontal";
   if (projectGrid.classList.contains("project-grid--small")) return "vertical";
   return null;
 });
+
+// Mirror Mirror keeps moving while the mouse rests near either strip edge.
+function enableContinuousStripHover(container, isEnabled) {
+  let frame = null;
+  let pointerX = null;
+  let pointerY = null;
+  let previousTime = 0;
+
+  function stop() {
+    if (frame !== null) cancelAnimationFrame(frame);
+    frame = null;
+  }
+
+  function tick(now) {
+    frame = null;
+    if (!isEnabled()) return;
+    const rect = container.getBoundingClientRect();
+    const photo = container.querySelector(".project-photo");
+    if (!photo) return;
+    const photoRect = photo.getBoundingClientRect();
+    if (pointerY < photoRect.top || pointerY > photoRect.bottom) return;
+    const start = rect.left + container.clientLeft;
+    const end = start + container.clientWidth;
+    const edge = Math.min(160, container.clientWidth * 0.2);
+    if (pointerX < start || pointerX > end) return;
+    const direction = pointerX < start + edge ? -1 : pointerX > end - edge ? 1 : 0;
+    if (!direction) return;
+
+    const elapsed = Math.min(now - previousTime, 32);
+    previousTime = now;
+    const current = container.scrollLeft;
+    const max = Math.max(0, container.scrollWidth - container.clientWidth);
+    container.scrollLeft = Math.max(0, Math.min(max, current + direction * 180 * elapsed / 1000));
+    if ((direction < 0 && container.scrollLeft <= 0) ||
+        (direction > 0 && container.scrollLeft >= max)) return;
+    frame = requestAnimationFrame(tick);
+  }
+
+  container.addEventListener("pointermove", (event) => {
+    if (event.pointerType !== "mouse" || !isEnabled()) return;
+    pointerX = event.clientX;
+    pointerY = event.clientY;
+    if (frame === null) {
+      previousTime = performance.now();
+      frame = requestAnimationFrame(tick);
+    }
+  });
+  container.addEventListener("pointerleave", stop);
+  container.addEventListener("pointercancel", stop);
+  window.addEventListener("blur", stop);
+}
+
+enableContinuousStripHover(projectGrid, () =>
+  projectGrid.classList.contains("project-grid--strip") &&
+  projectOverlay.classList.contains("open") &&
+  !document.getElementById("lightbox").classList.contains("open")
+);
 
 function openProject(project) {
   projectTitle.textContent = project.title;
